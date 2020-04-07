@@ -14,3 +14,19 @@ class Solution:
         return ans
 # Time: 5%
 # Space: 30%
+
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dictionary = {}
+        for word in strs:
+
+            # 和 list() 类似，将一个字符串变成每个字符组成的一个tuple
+            key = tuple(sorted(word))
+
+            # 返回当前key的value（一个list），如果不存在，返回 []，并加上[word]
+            dictionary[key] = dictionary.get(key, []) + [word]
+
+        return list(dictionary.values())
+# Time: 72%
+# Space: 30%
