@@ -9,5 +9,4 @@ class Solution:
             # 右移
             else:
                 s = s[len(s)-step[1]:] + s[0:len(s)-step[1]]
-
         return s
