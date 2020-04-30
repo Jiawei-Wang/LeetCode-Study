@@ -20,6 +20,7 @@ class Solution:
             return dfs(node.left, depth + 1) or dfs(node.right, depth + 1)
         return dfs(root, 0)
 
+
     # BFS
     def isValidSequence(self, root: TreeNode, arr: List[int]) -> bool:
         # 先判断当前这两个node是否和arr中对应元素相等
