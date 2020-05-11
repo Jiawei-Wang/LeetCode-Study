@@ -23,7 +23,7 @@ class Solution:
         # 初始化
         results = []
         dfs(root, None, 0)
-
+        
         # 如果二者parent不同但depth相同，返回true
         return results[0][0] != results[1][0] and results[0][1] == results[1][1]
 
