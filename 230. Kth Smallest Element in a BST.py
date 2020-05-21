@@ -6,10 +6,8 @@
 #         self.right = right
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-
         # 思路：BST中每个元素的位置均固定，所以DFS就可以找到第K个元素
         def inorder(r):
             # 将每个元素的值放进一个list中
             return inorder(r.left) + [r.val] + inorder(r.right) if r else []
-
         return inorder(root)[k - 1]
