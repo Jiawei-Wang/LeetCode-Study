@@ -5,6 +5,7 @@ class Solution:
                 nums[i] += nums[i-1]
         return max(nums)
 
+
 """
 理解：
 我们需要返回subarray的值，所以不需要保留index的信息，记录值并找到max值即可
