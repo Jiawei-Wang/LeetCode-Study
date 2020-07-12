@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+# 以Person table作为基础，将两张table连接起来
+
+# 想要获得哪些元素
+select FirstName, LastName, City, State
+
+# 从哪里获得
+from Person
+left join Address
+
+# 连接条件
+on Person.PersonId = Address.PersonId;
+
+# https://www.w3schools.com/sql/sql_join_left.asp
