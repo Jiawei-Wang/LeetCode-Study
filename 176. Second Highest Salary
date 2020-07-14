@@ -19,6 +19,7 @@ SELECT
         ORDER BY Salary DESC
         LIMIT 1 OFFSET 1) AS SecondHighestSalary;
 
+
 # solution 2
 # ifnull: return an alternative value if an expression is NULL
 SELECT
