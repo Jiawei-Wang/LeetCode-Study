@@ -1,0 +1,19 @@
+# Write your MySQL query statement below
+
+# Solution 1:
+select Email from
+(
+# 内层：从Person表中将Email进行同value归类，然后返回每个Email的名字和其出现次数
+  select Email, count(Email) as num
+  from Person
+  group by Email
+) as TemporaryTable
+where num > 1
+;
+
+# Solution 2:
+select Email
+from Person
+group by Email
+having count(Email) > 1;
+# The difference between the having and where clause in SQL is that the where clause cannot be used with aggregates, but the having clause can
