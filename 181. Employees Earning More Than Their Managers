@@ -1,0 +1,17 @@
+# Write your MySQL query statement below
+
+# solution 1:
+# 从新表中将a部分的Name，以新的title返回
+select a.Name as 'Employee'
+# 将原表进行笛卡尔乘积
+from Employee as a, Employee as b
+# 筛选条件是新表中找到员工对应的经理，并且员工salary高于经理
+where a.ManagerId = b.Id and a.Salary > b.Salary;
+
+# solution 2: use join
+SELECT
+     a.NAME AS Employee
+FROM Employee AS a JOIN Employee AS b
+     ON a.ManagerId = b.Id
+     AND a.Salary > b.Salary
+;
