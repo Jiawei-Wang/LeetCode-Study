@@ -26,4 +26,20 @@ class Solution:
                 Map[num] = 1
             else: Map[num] += 1
 
+        return count
+
+
+# solution 3: sorting
+# Time: nlogn
+class Solution:
+    def numIdenticalPairs(self, nums: List[int]) -> int:
+        # sorted() and sort(): https://discuss.codecademy.com/t/what-is-the-difference-between-sort-and-sorted/349679
+        nums.sort()
+        count = 0
+        i = 0
+        for j in range(1, len(nums)):
+            if nums[j] == nums[i]:
+                count += j-i
+            else:
+                i = j
         return count    

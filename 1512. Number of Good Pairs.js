@@ -47,3 +47,20 @@ var numIdenticalPairs = function(nums) {
     // 返回count
     return count
 };
+
+
+// solution 3: sorting
+// Time: nlogn
+var numIdenticalPairs = function(nums) {
+    nums.sort();
+    var count = 0;
+    var i = 0;
+    for (var j = 1; j < nums.length; j++) {
+        if (nums[j] == nums[i]) {
+            count += j-i;
+        } else {
+            i = j;
+        }
+    }
+    return count
+};

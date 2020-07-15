@@ -49,3 +49,26 @@ class Solution {
         return count;
     }
 }
+
+
+// solution 3: sorting
+// Time: nlogn
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        // https://www.geeksforgeeks.org/arrays-sort-in-java-with-examples/
+        Arrays.sort(nums);
+
+        int count = 0;
+        int i = 0;
+
+        // 从第二个元素开始遍历数组
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j] == nums[i])
+                // 找出下标为j的这个元素前面和它相同的元素的个数
+                count += j - i;
+            // 如果不相同则将i设置为该新的元素
+            else i = j;
+        }
+        return count;
+    }
+}
