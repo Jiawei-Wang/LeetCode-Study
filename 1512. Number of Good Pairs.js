@@ -21,3 +21,29 @@ var numIdenticalPairs = function(nums) {
     // 返回ans
     return ans;
 };
+
+
+// solution2: hashmap，遍历数组，在每个位置上时寻找已经出现同值的次数
+// Time: n
+var numIdenticalPairs = function(nums) {
+    // 创建一个hashmap: https://pietschsoft.com/post/2015/09/05/javascript-basics-how-to-create-a-dictionary-with-keyvalue-pairs
+    var dict = {};
+
+    // 使用count计数
+    var count = 0;
+
+    // 遍历nums
+    // for of and for in: https://www.typescriptlang.org/docs/handbook/iterators-and-generators.html
+    for (var num of nums) {
+        // 检查value是否存在
+        if (dict[num]) {
+            count += dict[num];
+            dict[num] += 1;
+        } else {
+            dict[num] = 1;
+        }
+    }
+
+    // 返回count
+    return count
+};

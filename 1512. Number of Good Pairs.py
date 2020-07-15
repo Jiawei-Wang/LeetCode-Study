@@ -9,4 +9,21 @@ class Solution:
                 if nums[i] == nums[j]:
                     ans += 1
         return ans
-        
+
+
+# solution2: hashmap，遍历数组，在每个位置上时寻找已经出现同值的次数
+# Time: n
+class Solution:
+    def numIdenticalPairs(self, nums: List[int]) -> int:
+        # 使用dictionary来实现java中map的功能
+        Map = {}
+        count = 0
+        for num in nums:
+            # get() method: https://www.tutorialspoint.com/python/dictionary_get.htm
+            count += Map.get(num, 0)
+            # 如果没有value，放入0+1，如果已有value，+1
+            if num not in Map:
+                Map[num] = 1
+            else: Map[num] += 1
+
+        return count    
