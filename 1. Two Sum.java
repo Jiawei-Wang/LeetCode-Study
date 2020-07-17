@@ -39,3 +39,20 @@ class Solution {
     throw new IllegalArgumentException("No two sum solution");
     }
 }
+
+
+// solution 3: one pass hashing，遍历所有元素，如果hashmap中有complement，立刻返回，如果没有，将这个元素放入然后前进至下一个元素
+// Time: n
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[] { map.get(complement), i };
+            }
+            map.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+}
