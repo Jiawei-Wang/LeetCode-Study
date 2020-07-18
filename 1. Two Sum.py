@@ -26,3 +26,13 @@ class Solution:
 
 
 # solution 3: hashmap one pass
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        Map = {}
+        for i in range(len(nums)):
+            complement = target - nums[i]
+            if complement in Map and Map[complement] != i:
+                return [i, Map[complement]]
+            else:
+                Map[nums[i]] = i
+        return None
