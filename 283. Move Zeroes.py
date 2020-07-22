@@ -1,3 +1,42 @@
+# 解法1：使用新的array
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # 创建一个新array
+        newArray = [-1] * len(nums)
+        # 遍历nums，如果元素非0，放进新array，同时统计0的总数
+        totalZero = 0;
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                totalZero += 1
+            else:
+                newArray[i-totalZero] = nums[i]
+        # 把新array的尾部填充满0
+        for j in range(len(nums)-totalZero, len(nums)):
+            newArray[j] = 0
+        # 把新array的值给nums
+        for i in range(len(nums)):
+            nums[i] = newArray[i]
+
+
+# 解法2：非0元素往前放，尾部用0填充
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        last_zero = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[last_zero] = nums[i]
+                last_zero += 1
+        for i in range(last_zero, len(nums)):
+            nums[i] = 0
+
+
+# 解法3：
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         """
