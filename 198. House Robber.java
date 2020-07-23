@@ -52,3 +52,35 @@ class Solution {
         return result;
     }
 }
+
+
+// Iterative + memo (bottom-up)
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length == 0) return 0;
+        int[] memo = new int[nums.length + 1];
+        memo[0] = 0;
+        memo[1] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int val = nums[i];
+            memo[i+1] = Math.max(memo[i], memo[i-1] + val);
+        }
+        return memo[nums.length];
+    }
+}
+
+
+// Iterative + 2 variables (bottom-up)
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length == 0) return 0;
+        int prev1 = 0;
+        int prev2 = 0;
+        for (int num : nums) {
+            int tmp = prev1;
+            prev1 = Math.max(prev2 + num, prev1);
+            prev2 = tmp;
+        }
+        return prev1;
+    }
+}
