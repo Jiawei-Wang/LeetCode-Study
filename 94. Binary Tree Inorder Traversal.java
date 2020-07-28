@@ -40,3 +40,30 @@ class Solution {
         }
     }
 }
+
+
+// 解法2：Iterating method using Stack
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        // 注意 arraylist 是 list 的 interface，但是 stack 不是
+        // res保存答案
+        List<Integer> res = new ArrayList<>();
+        // stack保存遍历node时的暂存状态
+        Stack<TreeNode> stack = new Stack<>();
+        // 指向root
+        TreeNode curr = root;
+
+        while (curr != null || !stack.isEmpty()) {
+            // 先走到左下角
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            // 然后获得最后一个访问的node
+            curr = stack.pop();
+            res.add(curr.val);
+            curr = curr.right;
+        }
+        return res;
+    }
+}
