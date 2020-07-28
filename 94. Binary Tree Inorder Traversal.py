@@ -5,42 +5,35 @@
 #         self.left = None
 #         self.right = None
 
+# recurstion
 class Solution:
+    # inorder：左中右
+    # 对于每一个node而言，返回顺序是它的左子树，自身，右子树
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        # inorder：左中右
+        ans = []
+        self.helper(root, ans)
+        return ans
 
-        # recursion
-        # 对于每一个node而言，返回顺序是它的左子树，自身，右子树
-        res = []
-        self.helper(root, res)
-        return res
-
-    def helper(self, root, res):
+    def helper(self,root,ans):
         if root:
             if root.left:
-                self.helper(root.left, res)
-            res.append(root.val)
+                self.helper(root.left,ans)
+            ans.append(root.val)
             if root.right:
-                self.helper(root.right, res)
+                self.helper(root.right,ans)
 
 
+# iteration
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        # inorder：左中右
-
-        # iterating method using Stack
         res = []
         stack = []
         curr = root
         while curr or stack:
-            # 一直走到最左下角
             while curr:
                 stack.append(curr)
                 curr = curr.left
-            # 逐个加入res中
             curr = stack.pop()
             res.append(curr.val)
-            # 再把右边加进去
             curr = curr.right
-
         return res
