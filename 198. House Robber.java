@@ -1,19 +1,16 @@
-// 解法1：recursive / top-down
+// 解法1：pure recursion
 class Solution {
     // 两个method拥有相同的名字被称为overload
 
-    // 输入：array；输出：int
+    // 主函数调用helper并传递相应参数
     public int rob(int[] nums) {
         return rob(nums, nums.length - 1);
     }
 
-    // 输入：array，int；输出：int
-    private int rob(int[] nums, int i) {
-        if (i < 0) {
-            return 0;
-        }
-        // 此句最重要
-        return Math.max(rob(nums, i - 2) + nums[i], rob(nums, i - 1));
+    // helper做两件事：1.base case，2.recursion form
+    private int rob(int[] nums, int index) {
+        if (index < 0) return 0;
+        return Math.max(rob(nums, index - 2) + nums[index], rob(nums, index - 1));
     }
 }
 
@@ -33,32 +30,29 @@ class Solution {
     // 不能在method里申明变量，另一个method无法使用
     int[] memo;
 
+    // 主函数做两件事：1.初始化存储结构，2.调用helper
     public int rob(int[] nums) {
-        memo = new int[nums.length + 1];
+        memo = new int[nums.length];
         // 先给默认值
         Arrays.fill(memo, -1);
         return rob(nums, nums.length - 1);
     }
 
+    // helper的任务：1.base case，2.如果存储结构中已经有该答案，返回，3.如果没有，计算并存入
     private int rob(int[] nums, int i) {
-        if (i < 0) {
-            return 0;
-        }
-        if (memo[i] >= 0) {
-            return memo[i];
-        }
-        int result = Math.max(rob(nums, i - 2) + nums[i], rob(nums, i - 1));
-        memo[i] = result;
-        return result;
+        if (i < 0) return 0;
+        if (memo[i] != -1) return memo[i];
+        return memo[i] = Math.max(rob(nums, i - 2) + nums[i], rob(nums, i - 1));
     }
 }
 
 
-// Iterative + memo (bottom-up)
+// 解法3：Iterative + memo (bottom-up)
 class Solution {
     public int rob(int[] nums) {
         if (nums.length == 0) return 0;
-        int[] memo = new int[nums.length + 1];
+        // 这里使用比nums长1位的memo可以防止index越界
+        int[] memo = new int[nums.length+1];
         memo[0] = 0;
         memo[1] = nums[0];
         for (int i = 1; i < nums.length; i++) {
