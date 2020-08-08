@@ -57,3 +57,16 @@ class Solution:
         else:
             ans[N] = self.fib(N-1)+self.fib(N-2)
         return ans[N]
+
+
+# Bottom up
+class Solution:
+    def fib(self, N: int) -> int:
+        ans = [0] * 31
+        ans[1] = 1
+
+        i = 2
+        while i <= N:
+            ans[i] = ans[i-1] + ans[i-2]
+            i += 1
+        return ans[N]

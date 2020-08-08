@@ -80,3 +80,18 @@ class Solution {
             return fib_cache[N] = fib(N - 1) + fib(N - 2);
     }
 }
+
+
+// Bottom up
+class Solution {
+    public int fib(int N) {
+        int[] fib_cache = new int[31];
+        fib_cache[0] = 0;
+        fib_cache[1] = 1;
+
+		for(int i = 2; i <= N; i++) {
+			fib_cache[i] = fib_cache[i - 1] + fib_cache[i - 2];
+		}
+		return fib_cache[N];
+    }
+}
