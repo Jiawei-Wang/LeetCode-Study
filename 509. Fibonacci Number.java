@@ -44,3 +44,22 @@ class Solution {
         return fib(N-1)+fib(N-2);
     }
 }
+
+
+// pure iteration: 学习将recursion改写成iteration
+class Solution {
+    public int fib(int N) {
+        if (N ==0) return 0;
+        if (N ==1) return 1;
+        int first = 0;
+        int second = 1;
+        int i = 2;
+        while (i <= N) {
+            int temp = second;
+            second = first + second;
+            first = temp;
+            i++;
+        }
+        return second;
+    }
+}
