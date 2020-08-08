@@ -63,3 +63,20 @@ class Solution {
         return second;
     }
 }
+
+
+// Recursion + Memoization (Top Down)
+class Solution {
+    public int fib(int N) {
+        // initialize a lookup array
+        int[] fib_cache = new int[31];
+
+        // search the result before computing
+        if (N <= 1) return fib_cache[N] = N;
+        else if(fib_cache[N] != 0) return fib_cache[N];
+
+        // if no result, compute and store result
+		else
+            return fib_cache[N] = fib(N - 1) + fib(N - 2);
+    }
+}

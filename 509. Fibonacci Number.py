@@ -40,3 +40,20 @@ class Solution:
             first, second = second, first+second
             i+=1
         return second
+
+
+# Recursion + Memoization (Top Down)
+# initialize a lookup array
+# search the result before computing
+# if no result, compute and store result
+class Solution:
+    def fib(self, N: int) -> int:
+        ans = [0] * 31
+        if N <= 1:
+            ans[N] = N
+            return ans[N]
+        if ans[N] != 0:
+            return ans[N]
+        else:
+            ans[N] = self.fib(N-1)+self.fib(N-2)
+        return ans[N]
