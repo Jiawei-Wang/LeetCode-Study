@@ -1,5 +1,5 @@
 # 解法1：Priority Queue
-# 基本逻辑：从src开始，每次选择最近的一个点，然后更新它所有的邻居，直到所有点都被遍历完
+# 基本逻辑：从src开始，每次选择最近的一个点，然后更新它所有的邻居，直到找到答案或者步数被用完
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
         # 使用defaultdict的意义在于：当key不存在的时候，会返回一个默认值，而非KeyError
@@ -20,16 +20,21 @@ class Solution:
             if i == dst:
                 return p
             if k > 0:
-                #对于f中i这个key，把它的alue取出来（它的alue是它所有邻居以及邻边的权重）
+                #对于f中i这个key，把它的value取出来（它的value是它所有邻居以及邻边的权重）
                 for j in f[i]:
                     # 更新j这个点的信息
+                    """
+                    下面这句话是这道题针对dijkstra的改变：dijkstra在这里对比获得的新权重和原有权重，如果新的更低，则
+                    覆盖原有权重，而这里不进行比较，直接heappush进去，然后在heappop时，可以保证得到的是j这个点的所有
+                    符合步数要求的权重中最低的那一个
+                    """
                     heapq.heappush(heap, (p + f[i][j], j, k - 1))
         return -1
 
 """
 对于整个程序的理解：
-1. 算法部分是标准的dijkstra：每次取一个点，然后更新其邻居的总权重
-2. 因为dijkstra每次取总权重最小的点，所以可以保证每个点只被遍历一次，而且获得的值即为最小值，无需再次更新
+1. 算法部分是标准的dijkstra：每次取一个点，然后计算其邻居的总权重
+2. 因为dijkstra每次取总权重最小的点，所以可以保证每个点只被遍历一次，而且遍历完成后一定可以获得最小值，无需再次更新
 3. 针对这道题进行的修改是：记住已走步数，如果在k步内找到答案，返回，如果超过k步，则停止
 4. 程序分成两个部分：
     1）先把array转换成dict，这样做的意义是可以快速找到某个点的所有邻居
