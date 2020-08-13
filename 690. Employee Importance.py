@@ -20,3 +20,22 @@ class Solution:
             return employee.importance + sum(dfs(eid) for eid in employee.subordinates)
 
         return dfs(query_id)
+
+
+# 此答案应该是对的，没有编译错误，但是提示超时
+# BFS
+from queue import Queue
+class Solution:
+    def getImportance(self, employees: List['Employee'], query_id: int) -> int:
+        emap = {e.id: e for e in employees}
+        queue = Queue()
+        queue.put(emap[query_id])
+        total = 0
+
+        while queue:
+            current = queue.get()
+            total += current.importance
+            for subordinate in current.subordinates:
+                queue.put(emap[subordinate])
+
+        return total
