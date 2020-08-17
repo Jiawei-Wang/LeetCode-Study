@@ -8,6 +8,7 @@ class Solution {
         for(int j=0; i<g.length && j<s.length; j++) {
             if(g[i]<=s[j]) i++;
         }
+        
         // 虽然i是下标，但是因为它指向的是最后一个符合要求的元素的下一个元素，所以值正好等于符合要求的元素的总和
         return i;
     }
