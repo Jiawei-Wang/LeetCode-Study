@@ -12,7 +12,6 @@ class Solution:
         # 获得set中唯一一个元素
         return next(iter(city))
 
-
 # 解法2：python语法
 class Solution:
     def destCity(self, paths: List[List[str]]) -> str:
