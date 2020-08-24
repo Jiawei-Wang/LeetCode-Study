@@ -18,7 +18,6 @@ class Solution {
             result += nums[i];
         }
         return result;
-
     }
 }
 // 两个关注点：1. Array.sort()；2. i+=2
