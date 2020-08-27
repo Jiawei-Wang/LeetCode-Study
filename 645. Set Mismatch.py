@@ -18,7 +18,6 @@ class Solution:
         ans[1] = missing.pop()
         return ans
 
-
 # 解法2：sorting
 # Time: nlogn (sorting使用logn)
 # Space: logn (sorting使用logn)
