@@ -128,3 +128,32 @@ class Solution:
             elif arr[j] == 2:
                 dup = j
         return [dup,missing]
+
+
+# 解法6：constant spcae
+# Time n
+# space 1
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        dup = -1
+        missing = -1
+
+        # 将nums中每个元素，与它的值相同的下标的元素给变成负数，这样第二次遇到该值时就可以直接输出该值为dup
+        # 举例：5,5：第一次遇到5时将第4号元素 *-1，第二次遇到5时查看第4号元素，发现为负，则直接输出5
+        for n in nums:
+            if nums[abs(n)-1] < 0:
+                dup = abs(n)
+            else:
+                nums[abs(n)-1] *= -1
+
+        # 在上一次循环结束后，nums是一个所有出现过的元素的值相同下标的元素均为负的array
+        # 举例：[1,2,2,4]，那么在上一次循环后第0，1，3号元素为负，只有2号元素为正
+        for i in range(0, len(nums)):
+            if nums[i] > 0:
+                missing = i + 1
+
+        return [dup,missing]
+
+
+# 解法7：XOR
+TODO
