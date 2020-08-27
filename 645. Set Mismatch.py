@@ -18,4 +18,19 @@ class Solution:
         ans[1] = missing.pop()
         return ans
 
-            
+
+# 解法2：sorting
+# Time: nlogn (sorting使用logn)
+# Space: logn (sorting使用logn)
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        nums.sort()
+        dup = -1
+        missing = 1
+        for i in range(1, len(nums)):
+            if nums[i] == nums[i-1]:
+                dup = nums[i]
+            elif nums[i] > nums[i-1]+1:
+                missing = nums[i-1]+1
+        # 因为无法检测缺失的是否为最后一个元素，所以使用这个句式
+        return [dup, len(nums) if nums[-1]!= len(nums) else missing]
