@@ -154,5 +154,6 @@ class Solution:
 
         return [dup,missing]
 
+
 # 解法7：XOR
 TODO
