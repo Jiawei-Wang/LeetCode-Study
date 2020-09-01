@@ -44,4 +44,12 @@ class Solution:
 
         # 如果遍历完也没找到答案的话，答案是最后一个元素的值 + k所剩的值
         return arr[-1]+k
-        
+
+
+# 解法3：反向遍历
+class Solution:
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        for index in range(len(arr)-1, -1, -1):
+            if k + index + 1 > arr[index]:
+                return k + index + 1
+        return k
