@@ -53,3 +53,9 @@ class Solution:
             if k + index + 1 > arr[index]:
                 return k + index + 1
         return k
+
+
+# 解法4: 二分查找
+# Time: logn
+# Space: 1
+TODO
