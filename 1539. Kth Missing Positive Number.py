@@ -18,3 +18,30 @@ class Solution:
             current += 1
 
         return current + k - count - 1
+
+
+# 解法2：找出arr中可以穿插进多少元素
+# Time: n
+# Space: 1
+class Solution:
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+
+        # start记录的是当前所在元素的值，初始为0
+        start = 0
+
+        # 遍历所有元素
+        for i in range(len(arr)):
+
+            # 如果这个元素和start之间能插入的元素个数小于当前所剩 k 的话，k 减去对应个数
+            if k > (arr[i] - start - 1):
+                k -= (arr[i] - start - 1)
+            # 如果个数大于等于所剩 k 的话，答案就是 start + k
+            else:
+                return start + k
+
+            # 每次更新start的值
+            start = arr[i]
+
+        # 如果遍历完也没找到答案的话，答案是最后一个元素的值 + k所剩的值
+        return arr[-1]+k
+        
