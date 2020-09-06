@@ -43,3 +43,30 @@ class Solution:
 
         # 返回2d array
         return mat
+
+
+# 解法2：改良
+class Solution:
+    def diagonalSort(self, A):
+        # n 是 row 数，m 是 column 数
+        n, m = len(A), len(A[0])
+
+        # defaultdict(function): 如果给的key不存在,使用function返回一个默认的value
+        # 如果d中没有对应的key,初始化key,value为一个空的list
+        d = collections.defaultdict(list)
+
+        for i in range(n):
+            for j in range(m):
+                # d中的每个key代表的是一条斜线,它的value是线上所有元素的值的集合
+                d[i - j].append(A[i][j])
+
+        for k in d:
+            # 使得value变成递减的array
+            d[k].sort(reverse=1)
+
+        # 对于A中的每个元素,找到它对应的那条斜线,将array中末尾的值填入
+        for i in range(n):
+            for j in range(m):
+                A[i][j] = d[i - j].pop()
+
+        return A
