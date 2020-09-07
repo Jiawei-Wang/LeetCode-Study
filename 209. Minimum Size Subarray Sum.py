@@ -72,3 +72,19 @@ class Solution:
             else:
                 right = mid
         return left
+
+
+# 解法4: 双指针/滑动窗口
+# Time: n
+class Solution:
+    def minSubArrayLen(self, s, nums):
+        total = left = 0
+        result = len(nums) + 1
+        # right每前进一步, left就走到对应位置, 记录result的最小值
+        for right, n in enumerate(nums):
+            total += n
+            while total >= s:
+                result = min(result, right - left + 1)
+                total -= nums[left]
+                left += 1
+        return result if result <= len(nums) else 0
