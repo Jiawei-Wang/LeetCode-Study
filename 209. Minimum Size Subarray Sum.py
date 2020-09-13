@@ -73,7 +73,6 @@ class Solution:
                 right = mid
         return left
 
-
 # 解法4: 双指针/滑动窗口
 # Time: n
 class Solution:
