@@ -74,6 +74,7 @@ class Solution:
         return left
 
 
+
 # 解法4: 双指针/滑动窗口
 # Time: n
 class Solution:
@@ -87,5 +88,5 @@ class Solution:
                 result = min(result, right - left + 1)
                 total -= nums[left]
                 left += 1
-                
+
         return result if result <= len(nums) else 0
