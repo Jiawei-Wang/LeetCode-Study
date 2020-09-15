@@ -11,6 +11,7 @@ class Solution {
             if (dx * (y - y1) != dy * (x - x1))
                 return false;
         }
+        
         return true;
     }
 }
