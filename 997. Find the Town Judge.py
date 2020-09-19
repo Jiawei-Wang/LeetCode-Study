@@ -8,4 +8,3 @@ class Solution:
             if count[i] == N - 1:
                 return i
         return -1
-        
