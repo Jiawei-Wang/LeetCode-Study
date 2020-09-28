@@ -1,3 +1,5 @@
+# Greedy
+# 这个解法最终答案肯定符合要求(所有上升subarray的总和), 但是思考的过程不符合(同时进行买和卖)
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         ans = 0
