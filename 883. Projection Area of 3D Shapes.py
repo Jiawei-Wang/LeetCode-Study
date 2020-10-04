@@ -15,5 +15,4 @@ class Solution:
                     top += 1
                 if grid[i][j] > column_max[j]:
                     column_max[j] = grid[i][j]
-
         return top+front+sum(column_max)        
