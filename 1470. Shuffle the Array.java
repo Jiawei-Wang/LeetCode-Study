@@ -25,6 +25,7 @@ class Solution {
         for(int i = 0; i < nums.length; i++)
             // 对前一个解法进行了改良：学习这个表达式
             ans[i] = i % 2 == 0 ? nums[i/2] : nums[n + i/2];
+            
         return ans;
     }
 }
