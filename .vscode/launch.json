@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - mazeNavigationsWithCoins",
+            "request": "launch",
+            "mainClass": "mazeNavigationsWithCoins",
+            "projectName": "leetcode-study_1e85ff3e"
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
