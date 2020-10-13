@@ -1,4 +1,13 @@
 // Lucid OA 2020 Oct
+/*
+原题结构(in Python):
+1. 定义一个函数: def minMoves(maze, x, y), 输入2d list和终点坐标, 返回最少步数
+2. 主函数: 1) 读取文件
+          2) 获得文件中的输入: row, col, maze(2d list), x, y
+          3) 调用minMoves获得return值
+          4) 将该值写入文件
+3. 主函数已经写好, 只需要写出minMoves的主体即可
+*/
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,10 +17,10 @@ import java.util.Queue;
 class mazeNavigationsWithCoins {
     int[][][] dist;
     int[][] dp;
-    List<int[]> coins;
-    int R;
-    int C;
-    int allOnes, numCoins;
+    List<int[]> coins; // 2d list with all available coins on map
+    int R; // maze rows
+    int C; // maze columns
+    int allOnes, numCoins; // numCoins: number of all coins
     int MAXDIST = 1000 * 1000;
 
 
@@ -19,8 +28,8 @@ class mazeNavigationsWithCoins {
         return r >= 0 && r < R && c >= 0 && c < C;
     }
 
-
-    void extractCoins(int[][] arr, List<int[]> coins) {
+    // Put every coin on the map into 2d list: coins
+    void extractCoins(int[][] arr, List<int[]> coins) { // arr: 2d maze; coins: 2d list initialized with [[0, 0]]
         for (int r = 0; r < R; r++) {
             for (int c = 0; c < C; c++) {
                 if (arr[r][c] == 2) {
@@ -98,17 +107,17 @@ class mazeNavigationsWithCoins {
 
     }
 
-    int minMoves1(int[][] arr, int Ra, int Ca) {
-        R = arr.length;
-        C = arr[0].length;
+    int minMoves1(int[][] arr, int Ra, int Ca) { // arr: 2d maze; [Ra, Ca]: Target position
+        R = arr.length; // R: maze rows
+        C = arr[0].length; // C: maze columns
         int[] startPoint = {0, 0};
 
         // initialise coins
         coins = new ArrayList<>();
         coins.add(startPoint);
-        extractCoins(arr, coins);
+        extractCoins(arr, coins); // arr: 2d maze; coins: 2d list initialized with [[0, 0]] 
         numCoins = coins.size();
-        allOnes = (1 << numCoins) - 1;
+        allOnes = (1 << numCoins) - 1; // 1 * 2^numCoins - 1
 //        System.out.println("allOnes = " + allOnes);
 
         // initialise dp

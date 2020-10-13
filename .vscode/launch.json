@@ -9,6 +9,13 @@
             "name": "CodeLens (Launch) - mazeNavigationsWithCoins",
             "request": "launch",
             "mainClass": "mazeNavigationsWithCoins",
+            "projectName": "leetcode-study_1cf2aa0a"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - mazeNavigationsWithCoins",
+            "request": "launch",
+            "mainClass": "mazeNavigationsWithCoins",
             "projectName": "leetcode-study_1e85ff3e"
         },
         {
