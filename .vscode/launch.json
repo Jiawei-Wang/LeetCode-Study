@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - maze",
+            "request": "launch",
+            "mainClass": "maze",
+            "projectName": "leetcode-study_1e85ff3e"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - mazeNavigationsWithCoins",
             "request": "launch",
             "mainClass": "mazeNavigationsWithCoins",
