@@ -14,7 +14,10 @@ def minMoves(maze, x, y):
     """
 
     # helper: returns shortest distance between current block and target
-    def helper(maze, visited, coins, i, j, x, y, path, ans):
+    def helper(maze, visited, coins, i, j, x, y, path):
+        print("path= "+str(path))
+        print("location ="+str([i,j]))
+        print("----------------")
         # if current location is one of these:
         # 1. out of boarder
         # 2. previous location from last recursion
@@ -30,12 +33,14 @@ def minMoves(maze, x, y):
         # recursion
         visited[i][j] = True # mark current location
         if maze[i][j] == 2: coins -= 1
-        ans = min(ans, helper(maze, visited, coins, i+1, j, x, y, path+1, ans))
-        ans = min(ans, helper(maze, visited, coins, i-1, j, x, y, path+1, ans))
-        ans = min(ans, helper(maze, visited, coins, i, j+1, x, y, path+1, ans))
-        ans = min(ans, helper(maze, visited, coins, i, j-1, x, y, path+1, ans))
+        print("Coins = "+str(coins))
+        print("-----------")
+        r = helper(maze, visited, coins, i+1, j, x, y, path+1)
+        l = helper(maze, visited, coins, i-1, j, x, y, path+1)
+        u = helper(maze, visited, coins, i, j+1, x, y, path+1)
+        d = helper(maze, visited, coins, i, j-1, x, y, path+1)
         visited[i][j] = False
-        return ans
+        return min(r, l, u, d)
 
     # initialize
     ans = 10000 # shortest path from starting location to target (so far)
@@ -44,12 +49,11 @@ def minMoves(maze, x, y):
         for j in range(len(maze[0])):
             if maze[i][j] == 2: 
                 coins += 1
-    visited = [[False] * len(maze[0])] * len(maze) 
+    visited = [[False] * len(maze[0])] * len(maze)
     # [0, 0]: current location
     # [x, y]: target location
     # 0: path length so far
-    # ans: shortest path so far
-    ans = helper(maze, visited, coins, 0, 0, x, y, 0, ans)
+    ans = helper(maze, visited, coins, 0, 0, x, y, 0)
     return ans if ans < 10000 else -1 
 
 # Test the answers
@@ -60,7 +64,7 @@ if __name__ == '__main__':
     y = 2
     ans = minMoves(maze, x, y)
     print(ans)
-
+    """
     # should give 2
     maze = [[0, 2, 0], [0, 0, 1], [1, 1, 1]]
     x = 1
@@ -81,3 +85,4 @@ if __name__ == '__main__':
     y = 1
     ans = minMoves(maze, x, y)
     print(ans)
+    """
