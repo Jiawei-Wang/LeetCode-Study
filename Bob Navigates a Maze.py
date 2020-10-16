@@ -19,7 +19,7 @@ def minMoves(maze, endX, endY):
         for j in range(col):
             if maze[i][j] == 2:
                 coin_list.append([i, j])
-    k = len(coin_list)
+    k = len(coin_list) # num of coins
 
     """
     2. make a 3d dp list: dp[i][j][k] = shortest distance from [i][j] to k-th coin 
@@ -34,7 +34,7 @@ def minMoves(maze, endX, endY):
         coin_row = coin_list[x][0]
         coin_col = coin_list[x][1]
 
-        # initialized every block as unvisited
+        # initialize every block as unvisited
         visited = [[False for inner_col in range(col)] for inner_row in range(row)]
         
         # bfs to get min distance of all blocks to this coin
