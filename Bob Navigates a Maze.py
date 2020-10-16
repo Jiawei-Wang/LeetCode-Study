@@ -4,6 +4,7 @@ import random
 import re
 import sys
 
+# two extra libraries
 from itertools import permutations
 from collections import deque
 
@@ -27,13 +28,14 @@ def minMoves(maze, endX, endY):
        column of dp = column of maze
        3rd length of dp = len of coin_list
     """
-    dp = [[[float('inf')] * k] * col] * row # initialize every distance to max
+    dp = [[[float('inf') for K in range(k)] for Col in range(col)] for Row in range(row)] # initialize every distance to max
     for x in range(k): # for every coin
+        # location of current coin
         coin_row = coin_list[x][0]
         coin_col = coin_list[x][1]
 
         # initialized every block as unvisited
-        visited = [[False] * col] * row
+        visited = [[False for inner_col in range(col)] for inner_row in range(row)]
         
         # bfs to get min distance of all blocks to this coin
         queue = deque() # append() and popleft()
@@ -110,7 +112,7 @@ if __name__ == '__main__':
     print("Answer should be: 2")
     print("return answer: ")
     print(ans)
-"""
+
     # return -1
     maze = [
         [0, 1, 0],
@@ -144,9 +146,8 @@ if __name__ == '__main__':
         [1, 0, 0]
     ]
     endX = 2
-    endX = 2
+    endY = 2
     ans = minMoves(maze, endX, endY)
     print("--------------")
     print("Answer should be: 4")
     print(ans)
-"""
