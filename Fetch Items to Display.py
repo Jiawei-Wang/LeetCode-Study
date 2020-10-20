@@ -14,10 +14,11 @@ Input:
     3. sortParameter, an integer representing the value used for sorting (0 for name, 
        1 for relevance, 2 for price)
     4. sortOrder, an integer representing the order of sorting (0 for ascending order and 1 descending)
+    5. itemsPerPage, an integer representing the number of items per page
+    6. pageNumber, an integer representing the page number
 
 Output:
-    return a list of string representing the item names on the requested page in the order they are
-    displayed
+    return a list of string representing the item names on the requested page in the order they are displayed
 
 Constraints:
     1 <= numOfItems < 10^5
@@ -37,4 +38,19 @@ Example:
         pageNumber = 1
     Output:
         ["item3"]
+    Explanation:
+        There are 3 items.
+        Sort them by relevance(sortParameter = 1) in ascending order ( items = [["item2", 3, 4], ["item1", 10,15], ["item3", 17, 8]]).
+        Display up to 2 items on each page.
+        The page 0 contains 2 item names ["item2", "item1"] and page 1 contains only 1 item name ["item3"].
+        So, the output is "item3".
+    Signature:
+        List<String> fetchItemsToDisplay(int numOfItems, HashMap<String, PairInt> items, int sortParameter, int sortOrder, int itemsPerPage, int pageNumber);
+"""
+
+
+"""
+1. map to list then sort
+2. PQ
+3. 
 """

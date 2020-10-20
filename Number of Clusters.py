@@ -27,10 +27,6 @@ class Solution:
         self.dfs(grid, i, j-1, curr)
 
 
-
-
-
-
 if __name__ == "__main__":
     # test case 1: should return 2
     array = [
