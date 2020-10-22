@@ -54,3 +54,37 @@ Example:
 2. PQ
 3. 
 """
+
+class Solution:
+    # solution 1: 
+    def fetchItemsToDisplay1(self, numOfItems, items, sortParameter, sortOrder, itemsPerPage, pageNumber):
+        ans = []
+
+        if not items or len(items) == 0:
+            return ans
+        
+        currPage = 0
+        currItems = 1
+        sortKey = [lambda x : x, lambda x : items[x][0], lambda x : items[x][1]]
+        for name in sorted(items, reverse = sortOrder, key = sortKey[sortParameter]):
+            if currPage > pageNumber:
+                break
+            if currPage == pageNumber:
+                ans.append(name)
+            if currItems == itemsPerPage:
+                currPage += 1
+                currItems = 1
+            currItems += 1
+        return ans
+        
+            
+if __name__ == "__main__":
+    # test case : should return ["item3"]
+    numOfItems = 3
+    items = {'item1': (10,15), 'item2': (3,4), 'item3': (17,8)}
+    sortParameter=1
+    sortOrder = 0
+    itemsPerPage=2
+    pageNumber=1
+    case = Solution()
+    print(case.fetchItemsToDisplay1(numOfItems, items, sortParameter, sortOrder, itemsPerPage, pageNumber))
