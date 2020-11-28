@@ -15,6 +15,7 @@ class Solution:
         return ans
 
 # brute force
+# time complexity: n^2
 class Solution2:
     def move(self, n, index, identity):
         ans = []
@@ -26,6 +27,10 @@ class Solution2:
                 ans[j] = ans[j-1]
             ans[pos] = curr
         return ans
+
+TODO
+# O(NlogN)
+# O(N)
 
 
 
