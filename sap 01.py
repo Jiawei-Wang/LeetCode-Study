@@ -29,8 +29,7 @@ class Solution2:
         return ans
 
 TODO
-# O(NlogN)
-# O(N)
+# O(NlogN): AVL tree / Segment tree
 
 
 
