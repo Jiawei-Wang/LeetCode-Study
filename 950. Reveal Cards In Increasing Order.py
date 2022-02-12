@@ -65,3 +65,7 @@ class Solution1:
                 index.append(index.popleft())
 
         return ans
+
+        # Time complexity:
+        # O(NlogN) to sort,
+        # O(N) to construct using deque or queue.
