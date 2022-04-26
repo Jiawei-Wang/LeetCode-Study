@@ -30,3 +30,42 @@ class Solution:
         return list(dictionary.values())
 # Time: 72%
 # Space: 30%
+
+
+# 再次回顾题目：
+# class Solution:
+#     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+#         # 拿到题第一想法：遍历每个元素，让其再遍历每个已知list，如果它不符合所有list，让其单独成为一个list
+        
+#         if not strs:
+#              return [[""]]
+        
+#         # space: n
+#         sort = []
+#         ans = []
+        
+#         # time: n^2logn
+#         for i in strs: # n
+#             cur = sorted(i) # nlogn
+#             if cur not in sort: # n
+#                 sort.append(cur)
+#                 ans.append([i])
+#             else:
+#                 ans[sort.index(cur)].append(i)
+#         return ans
+
+        # 和上一解逻辑相同，每个元素sort后找到对应位置并加入，使用dict更加易读
+        # ans = {}
+        # for w in strs:
+        #     key = tuple(sorted(w))
+        #     ans[key] = ans.get(key, []) + [w] # list + list = list，所以这里是创建空list，然后不断延长
+        # return list(ans.values()) # 使用dict.values()来获取所有value
+        
+        # 使用第242题：valid anagram来进一步优化，主要集中在sorted()上：
+        # hmap = collections.defaultdict(list) # 使用defaultdict也是一种初始化dict的手段
+        # for st in strs:
+        #     array = [0] * 26
+        #     for l in st:
+        #         array[ord(l) - ord('a')] += 1 # array记录的是st中26个字母每个字母的出现次数
+        #     hmap[tuple(array)].append(st)
+        # return hmap.values()
