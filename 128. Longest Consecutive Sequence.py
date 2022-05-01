@@ -49,3 +49,32 @@ class Solution:
                 longest_streak = max(longest_streak, current_streak)
 
         return longest_streak
+
+
+# 05-01-2022回顾
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        # time n^2 space n 
+        # if not nums:
+        #     return 0
+        # max_ans = 1
+        # nums = set(nums)
+        # for i in nums:
+        #     ans = 1
+        #     i += 1
+        #     while i in nums:
+        #         ans += 1
+        #         i += 1
+        #     max_ans = max(max_ans, ans)
+        # return max_ans
+        
+        # 对上面解法的优化
+        nums = set(nums)
+        best = 0
+        for x in nums:
+            if x - 1 not in nums: # 只检查每个streak的头部，大大缩短了时间
+                y = x + 1
+                while y in nums:
+                    y += 1
+                best = max(best, y - x)
+        return best
