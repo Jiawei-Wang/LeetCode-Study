@@ -33,3 +33,41 @@ if __name__ == "__main__":
     nums = [-1,0,1,2,-1,-4]
     case1 = Solution()
     print(case1.threeSum(nums))
+
+
+# 05-03-2022
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        """
+        The idea is to sort an input array and then run through all indices of a possible first element of a triplet. 
+        For each possible first element we make a standard bi-directional 2Sum sweep of the remaining part of the array. 
+        Also we want to skip equal elements to avoid duplicates in the answer without making a set or smth like that.
+        """
+        res = []
+        nums.sort()
+        for i in range(len(nums)-2):
+            if i > 0 and nums[i] == nums[i-1]: # prevent duplicate first element
+                continue
+                
+            l, r = i+1, len(nums)-1
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
+                if s < 0:
+                    l +=1 
+                elif s > 0:
+                    r -= 1
+                else:
+                    res.append((nums[i], nums[l], nums[r]))
+                    while l < r and nums[l] == nums[l+1]: # prevent duplicate for second element 
+                        l += 1
+                    while l < r and nums[r] == nums[r-1]: # prevent duplicate for third element
+                        r -= 1
+                    l += 1; r -= 1 # still need to find all possible combinations start with i
+        return res
+    
+    
+        """
+        理解算法：在two sum 2的基础上再加一层for loop
+        难点：two sum 2是找到一个可能组合，此题需要找到所有的组合，同时又需要避免重复
+        重复有两层含义：1. [i, l, r]和[i, r, l]是重复，2. 两个值相同但下标不同的元素也是重复，比如[0, -5, 5]和[0, -5, 5]中的0和5都是同一个元素但-5来自两个不同的元素
+        此解法巧妙之处：同一个元素不会出现两次，值相同的元素被忽略
