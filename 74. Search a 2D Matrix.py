@@ -1,5 +1,24 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # binary search + n*m extra space
+        nums = []
+        for i in matrix:
+            nums += i
+        l, r = 0, len(nums)-1
+        while l <= r:
+            m = l + (r-l)//2
+            if nums[m] > target:
+                r = m-1
+            elif nums[m] < target:
+                l = m+1
+            else:
+                return True
+        return False
+
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # 1 extra space: basically just calculate the [i, j] instead of making a new list
         if not matrix: return False
         start = 0
         rows = len(matrix)
