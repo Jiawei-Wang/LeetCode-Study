@@ -9,7 +9,7 @@ class Solution:
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
         # 从root出发的两条并不一定是最长线路，需要找到每个从每个点出发的线路长度并保留最大值
 
-        self.res = 0
+        self.res = 0 # 学习全局变量在methods中的转移方法
 
         def depth(root):
             if not root:
@@ -25,3 +25,20 @@ class Solution:
 
         depth(root)
         return self.res
+
+
+
+# 05-13-2022
+class Solution:
+    ans = 0
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.helper(root)
+        return self.ans
+
+    def helper(self, node):
+        if not node:
+            return 0
+        left = self.helper(node.left)
+        right = self.helper(node.right)
+        self.ans = max(self.ans, left+right)
+        return max(left,right)+1
