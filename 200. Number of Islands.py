@@ -53,3 +53,86 @@ class Solution:
                 if 0<= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == '1':
                     queue.append((i,j))
                     grid[i][j] = 0 
+
+
+# 05-16-2022
+# DFS recursive
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        area = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    curr = self.dfs(grid, i, j)
+                    area = max(area, curr)
+        return area
+    
+    def dfs(self, grid, i, j):
+        grid[i][j] = 0
+        curr = 1
+        for dr, dc in (1,0), (-1,0), (0,-1), (0,1):
+            r = i+ dr
+            c = j + dc
+            if 0<= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c] == 1:
+                curr += self.dfs(grid, r,c)
+        return curr
+    
+"""
+逻辑：
+1. 遍历2d list，每找到一块岛，计算面积，最后取最大值
+2. 计算面积：本体面积 + 下一层recursion的返回值，basecase = 1
+"""
+
+
+# DFS with stack
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        area = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1: # 遍历所有元素找到符合条件的新岛
+                    curr = self.dfs(grid, i, j) # 计算新岛面积
+                    area = max(area, curr)
+        return area
+    
+    def dfs(self, grid, i, j):
+        stack = deque([[i,j]]) # 使用双重括号来将list放入stack中，单重括号会将2个元素单独放入stack中
+        grid[i][j] = 0 # 标记走过的区域
+        curr = 1 # 新岛初始面积为1
+        while stack:
+            i, j = stack.pop()
+            for dr,dc in (1,0), (-1,0), (0,-1), (0,1):
+                r = i + dr
+                c = j + dc
+                if 0 <= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c]== 1:
+                    grid[r][c]=0
+                    stack.append([r,c])
+                    curr += 1
+        return curr
+
+
+# BFS with queue
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        area = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1: 
+                    curr = self.bfs(grid, i, j) 
+                    area = max(area, curr)
+        return area
+    
+    def bfs(self, grid, i, j):
+        queue = deque([[i,j]]) 
+        grid[i][j] = 0 
+        curr = 1 
+        while queue:
+            i, j = queue.popleft()
+            for dr,dc in (1,0), (-1,0), (0,-1), (0,1):
+                r = i + dr
+                c = j + dc
+                if 0 <= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c]== 1:
+                    grid[r][c]=0
+                    queue.append([r,c])
+                    curr += 1
+        return curr
