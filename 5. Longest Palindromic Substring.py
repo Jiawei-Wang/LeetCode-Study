@@ -25,3 +25,37 @@ class Solution:
         return ans
 
 
+"""
+dp: time n^2 space n^2 
+基本逻辑：和brute force相比，遍历时间不变，将之前计算过的值保存下来在下次遍历时省去计算时间
+
+# https://www.youtube.com/watch?v=TLaGwTnd3HY&ab_channel=GeeksforGeeks
+用L(0, 6)指代从0到6这个substring中最长的palindrome
+则L(0,6)=L(0,5)+2 if s[0]==s[6] else L(0,6)=max(L(0,5),L(1,6) 
+两个指针i, j各需要一维list，所以使用一个2d list
+"""
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        longest_palindrom = ''
+        dp = [[0]*len(s) for _ in range(len(s))]
+
+        #filling out the diagonal by True
+        for i in range(len(s)):
+            dp[i][i] = True # 字符本身是一个长度为1的palindrome
+            longest_palindrom = s[i]
+			
+        # filling the dp table
+        for i in range(len(s)-1,-1,-1):
+            for j in range(i+1,len(s)): # j starts from the i location : to only work on the upper side of the diagonal   
+                if s[i] == s[j]:  #if the chars mathces
+                    # if len slicied sub_string is just one letter if the characters are equal, we can say they are palindomr dp[i][j] =True 
+                    # if the slicied sub_string is longer than 1, then we should check if the inner string is also palindrom (check dp[i+1][j-1] is True)
+                    if j-i == 1 or dp[i+1][j-1] is True:
+                        dp[i][j] = True
+                        # we also need to keep track of the maximum palindrom sequence 
+                        if len(longest_palindrom) < len(s[i:j+1]):
+                            longest_palindrom = s[i:j+1]
+                
+        return longest_palindrom
+
+
