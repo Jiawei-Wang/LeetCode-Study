@@ -38,3 +38,27 @@ class Solution:
 比如: 11299112 可以变成 3*3=9
 但是: 011, 110, 11001等都需要额外的判断语句, 过于繁琐
 """
+
+
+# 05-21-2022 
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        # two digits: 1 + 0~9 或者 2 + 0~6
+        
+        if not s:
+            return 0
+
+        dp = [0 for x in range(len(s) + 1)] # dp[0]是缓冲，dp[1]是how many ways to decode s[0,1]
+
+        # base case initialization
+        dp[0] = 1 
+        dp[1] = 0 if s[0] == "0" else 1   #(1)
+
+        for i in range(2, len(s) + 1): 
+            # One step jump
+            if 0 < int(s[i-1:i]) <= 9:    #(2)
+                dp[i] += dp[i - 1]
+            # Two step jump
+            if 10 <= int(s[i-2:i]) <= 26: #(3)
+                dp[i] += dp[i - 2]
+        return dp[len(s)]
