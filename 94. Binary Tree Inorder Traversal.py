@@ -37,3 +37,52 @@ class Solution:
             res.append(curr.val)
             curr = curr.right
         return res
+
+
+# 05-24-2022
+# recursion
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def helper(node, ans):
+            if not node:
+                return
+            helper(node.left, ans)
+            ans.append(node.val)
+            helper(node.right, ans)
+            return
+        
+        ans = []
+        helper(root,ans)
+        return ans
+
+
+# 对recursion的优化
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def helper(node): # 不需要ans因为ans是全局变量
+            if not node:
+                return 
+            helper(node.left)
+            ans.append(node.val)
+            helper(node.right)
+            # 不需要return
+        
+        ans = []
+        helper(root)
+        return ans
+
+
+# iteration
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans = []
+        stack = []
+        cur = root
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            ans.append(cur.val)
+            cur = cur.right
+        return ans
