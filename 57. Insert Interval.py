@@ -30,6 +30,7 @@ class Solution:
 
 
 # 优化: 依旧是遍历，但是使用两个list，分别保存前面和后面不和newInterval相交的元素
+# 聪明之处：判断是否相交非常繁琐，所以干脆只判断是否不相交，其余的都进行融合
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         s, e = newInterval[0], newInterval[1]
@@ -39,17 +40,18 @@ class Solution:
         # 1.元素头 元素尾 newInterval头 newInterval尾
         # 2.元素头 newInterval头 元素尾 newInterval尾
         # 3.元素头 newInterval头 newInterval尾 元素尾
-        # 4.newInterval头 元素头 newInterval尾 元素尾
-        # 5.newInterval头 newInterval尾 元素头 元素尾
-        # 1和5不需要进行操作
-        # 2、3、4需要将两者融合
+        # 4.newInterval头 元素头 元素尾 newInterval尾
+        # 5.newInterval头 元素头 newInterval尾 元素尾
+        # 6.newInterval头 newInterval尾 元素头 元素尾
+        # 1和6不需要进行操作
+        # 2、3、4、5需要将两者融合
         
         for i in intervals:
             if i[1] < s: # 1.
                 left.append(i)
-            elif i[0] > e: # 5.
+            elif i[0] > e: # 6.
                 right.append(i) # 第一解中漏掉的细节：因为intervals中的元素本身不相交，所以newInterval的尾部覆盖的元素，在更新后不会和下一个元素相交
-            else: 
+            else: # 其他的不用再进行判断，肯定相交
                 s = min(s, i[0])
                 e = max(e, i[1])
 
