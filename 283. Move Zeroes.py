@@ -56,3 +56,18 @@ class Solution:
 如果后面的元素为0，则什么都不做（即两个0并排放在一起），继续寻找下一个元素
 用一个具体例子来形容：在找到第一个0之前所有元素不动，在找到0之后，遇到非0元素就抽出来放在0前面，遇到0就叠加在一起继续往后推
 """
+
+
+# 将一个list中的所有0全部放置于末尾，其他元素的相对位置不变
+# 要求：in place
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        cnt = 0 # how many zeros together
+        for i in range(len(nums)):
+            if not nums[i]:
+                cnt += 1
+            elif cnt > 0: # 如果nums[i]不为0且此时有至少一个0
+                nums[i], nums[i-cnt] = 0, nums[i] # 将此元素和第一个0对调

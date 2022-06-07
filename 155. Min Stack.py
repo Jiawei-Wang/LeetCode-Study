@@ -79,3 +79,38 @@ class MinStack:
 # obj.pop()
 # param_3 = obj.top()
 # param_4 = obj.getMin()
+
+
+"""
+1.理解题意：设计一个stack，可以push，pop，top，getMin
+2.example
+3.corner cases
+4.DSA: element + cur_min
+"""
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        
+    def push(self, x):
+        self.stack.append((x, min(self.getMin(), x))) 
+           
+    def pop(self):
+        self.stack.pop()
+
+    def top(self):
+        if self.stack:
+            return self.stack[-1][0]
+        
+    def getMin(self):
+        if self.stack:
+            return self.stack[-1][1]
+        return float('inf')   
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()

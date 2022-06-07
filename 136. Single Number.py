@@ -22,5 +22,5 @@ class Solution:
         return reduce(lambda x, y: x ^ y, nums)
         
     def singleNumber(self, nums):
-    return reduce(operator.xor, nums)
+        return reduce(operator.xor, nums)
 
