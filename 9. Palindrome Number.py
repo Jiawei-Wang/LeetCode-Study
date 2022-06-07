@@ -20,6 +20,7 @@ class Solution:
         while x > rev:
             rev = rev * 10 + x % 10
             x //= 10
-
+        
+        # 奇数偶数长度两种情况
         return rev == x or x == rev//10
         
