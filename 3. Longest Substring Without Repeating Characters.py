@@ -18,6 +18,10 @@ class Solution:
         # return result
         
         # 最优解：two pointers: O(n), space: O(n)
+        # 两个指针的移动逻辑如下：
+        # 1. 左指针不动，右指针一直走到出现重复元素为止
+        # 2. 此时移动左指针直到重复元素被排除为止
+        # 3. 重复第1步
         charSet = set()
         l = 0
         res = 0

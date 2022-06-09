@@ -6,6 +6,23 @@ class Solution:
         return list(itertools.permutations(nums))
 
 
+# DFS on decision tree
+class Solution:
+    def permute(self, nums):
+        res = []
+        self.dfs(nums, [], res)
+        return res
+
+    def dfs(self, nums, path, res):
+        # 如果遍历完了就将答案写入
+        if not nums:
+            res.append(path) # 并不需要return，因为此method是对res进行修改
+        
+        # 如果还没遍历完就进入下一层dfs
+        for i in range(len(nums)):
+            self.dfs(nums[:i]+nums[i+1:], path+[nums[i]], res)    
+
+            
 # 递归
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:

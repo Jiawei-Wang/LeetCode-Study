@@ -22,10 +22,10 @@ class Trie:
     def search(self, word):
         current = self.root
         for letter in word:
-            current = current.children.get(letter)
+            current = current.children.get(letter) # dict.get()，返回value或者None
             if current is None:
                 return False
-        return current.is_word
+        return current.is_word # 必须每一步（包括最后一个char）都返回True
 
     def startsWith(self, prefix):
         current = self.root
@@ -33,4 +33,4 @@ class Trie:
             current = current.children.get(letter)
             if current is None:
                 return False
-        return True
+        return True # 和search的对比在于：同样都使用input string在树里往下走，走不到最后就返回False，但不同之处在于如果走到最后，不需要查看此char的is_word属性
