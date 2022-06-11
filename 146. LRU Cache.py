@@ -15,6 +15,7 @@ class LRUCache:
         self.head.next = self.tail
         self.tail.prev = self.head
         
+    # 先在dictionary中找到key value pair，然后将这个pair提出来，放入linkedlist最后面
     def get(self, key: int) -> int:
         if key in self.dic:
             n = self.dic[key]
@@ -23,6 +24,9 @@ class LRUCache:
             return n.val
         return -1
 
+    # 首先判断是否key已存在，如果存在则在linked list中提出来（不放回去，等于是删除）
+    # 然后将新的key value pair放入linked list末尾，同时更新dictionary
+    # 放入后可能会出现长度超标，所以判断，如果超标则将LRU从linked list中提出来，然后更新dictionary
     def put(self, key: int, value: int) -> None:
         if key in self.dic:
             self._remove(self.dic[key])
@@ -34,12 +38,14 @@ class LRUCache:
             self._remove(n)
             del self.dic[n.key]
             
+    # 将node从它所在位置除去
     def _remove(self, node):
         p = node.prev
         n = node.next
         p.next = n
         n.prev = p
 
+    # 将node放入末尾
     def _add(self, node):
         p = self.tail.prev
         p.next = node

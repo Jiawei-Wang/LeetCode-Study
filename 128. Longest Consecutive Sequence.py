@@ -52,23 +52,32 @@ class Solution:
 
 
 # 05-01-2022回顾
+# nums中有若干个integer，寻找连成片的部分中的最长片段
+# 举例：[100, 4, 200, 1, 3, 2, 101]，其中片段有[1,2,3,4]，[100,101]，[200]，最长为4，所以返回4
+
+# 暴力解：将每个nums中出现的值都假定为头部，找到尾部的位置
+# time n^2 space n
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        # time n^2 space n 
-        # if not nums:
-        #     return 0
-        # max_ans = 1
-        # nums = set(nums)
-        # for i in nums:
-        #     ans = 1
-        #     i += 1
-        #     while i in nums:
-        #         ans += 1
-        #         i += 1
-        #     max_ans = max(max_ans, ans)
-        # return max_ans
+        if not nums:
+            return 0
         
-        # 对上面解法的优化
+        max_ans = 1
+        
+        nums = set(nums)
+        for i in nums:
+            ans = 1
+            i += 1
+            while i in nums:
+                ans += 1
+                i += 1
+            max_ans = max(max_ans, ans)
+        return max_ans
+        
+
+# 对上面解法的优化：可以通过 element-1 是否在nums里来轻松排除不是片段头部的元素
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
         nums = set(nums)
         best = 0
         for x in nums:
@@ -78,3 +87,4 @@ class Solution:
                     y += 1
                 best = max(best, y - x)
         return best
+        

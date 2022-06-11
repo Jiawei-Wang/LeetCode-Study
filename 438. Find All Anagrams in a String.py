@@ -1,3 +1,8 @@
+# 找到s中所有是p的anagram的substring，并返回它们的起始下标
+
+
+# 遍历 + sort
+# 超时
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
         # 思路：在s中遍历所有长度等于p的substring，如果相同则加进去
@@ -11,7 +16,30 @@ class Solution:
         return ans
 
 
-# 优化版本，主要优化点在于：不用每次都重新sort一个substring，只需要对dictionary进行很小的维护即可
+# 遍历所有长度为p的substring（O(n))，每个和p使用counter进行对比(O(n))
+# time len(s) * len(p), space len(s) * len(p) （每个substring都要使用一个counter）
+# 超时
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        ans = []
+        
+        target = [0] * 26
+        for c in p:
+            target[ord(c)-ord('a')] += 1
+        
+        for i in range(len(s)-len(p)+1):
+            substring = s[i: i+len(p)]
+            cur = [0] * 26
+            for c in substring:
+                cur[ord(c)-ord('a')] += 1
+            
+            if cur == target:
+                ans.append(i)
+        
+        return ans
+
+
+# 优化版本，主要优化点在于：不用每次都重新检查substring，只需要对dictionary进行很小的维护即可
 from collections import Counter
 class Solution:
     def findAnagrams(self, s, p):
