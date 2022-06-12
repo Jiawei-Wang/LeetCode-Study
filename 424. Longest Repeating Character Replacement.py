@@ -28,13 +28,13 @@ class Solution:
         return longest_str_len
     
     """
-    关于为什么只需要 l += 1的解释：
+    关于为什么每一次循环都让r向前走，但最多只需要 l += 1的解释：
     我们想要的是最长substring，所以如果l和r都前进一步后的substring不符合此长度下的条件，则没必要去进一步知道缩减到什么程度时可以符合条件
     """
 
 
 # time n space 26
-# 逻辑：只保留max frequency的元素的最大值，因为 lenth - maxf <= k，所以maxf减小表示此答案一定非最优解
+# 逻辑：只保留max frequency的元素的最大值，因为 lenth <= k + maxf，所以maxf减小时表示此答案一定非最优解
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         count = {}

@@ -42,14 +42,15 @@ class Solution:
 
 
 # DP top-down:
-# 理解如下：初始化只能到达0，然后循环找到从每个点出发最远能到达的位置，如果当前点本身并不能被到达，返回false
+# 理解如下：初始化只能到达0，然后从i=0开始遍历，找到从每个点出发最远能到达的位置，如果当前点本身并不能被到达，返回false
+# 所以在进入新一轮循环（即遍历到下一个点时），先检查从前面的点到它能否到达，如果能，则继续从它找到后续能到达的最远点
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         maxReach = 0
         for i in range(len(nums)):
-            if i > maxReach:
+            if i > maxReach: # 没有任何前面的点能到达这个点
                 return False
-            maxReach = max(maxReach, i+nums[i])
+            maxReach = max(maxReach, i+nums[i]) # 这个点可被到达，那么更新后续最远可到达点
         return True
 # Time: O(n^2)
 
@@ -58,18 +59,18 @@ class Solution:
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         m = [-1 for i in range(len(nums))]
-        m[len(nums)-1] = True
+        m[len(nums)-1] = True # 初始化设末尾点为目标
 
         last = len(nums)-1
 
         for i in range(len(nums)-2,-1,-1):
-            if i + nums[i] >= last:
+            if i + nums[i] >= last: # 如果当前的点可以到达目标，则设为True
                 m[i] = True
-                last = i
+                last = i # 将当前的点设为新的目标
                 continue
-            m[i] = False
+            m[i] = False # 如果当前的点到达不了目标则设为False
 
-        return m[0]
+        return m[0] # 对于出发点而言，如果它范围内所有的目标都为False，则它也为False
 # Time: O(n^2)
 
 
@@ -77,7 +78,7 @@ class Solution:
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         j = 0
-        for i, x in enumerate(nums):
+        for i, x in enumerate(nums): 
             if j < i: return False
             j = max(j, i+x)
         return True
