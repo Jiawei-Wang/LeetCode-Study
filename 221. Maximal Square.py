@@ -1,3 +1,25 @@
+# 在一个只有0和1组成的2d list中找到所有只包含1的正方形中面积最大者的面积
+# 举例：
+# 1 1 0 
+# 1 1 0
+# 0 0 1
+# 每个1自身是个面积为1的正方形，左上角有个2*2的，所以答案为4
+
+# 暴力解：对于每个1，从最长边长开始往内缩减，第一个符合条件的正方形即为以此点为左上角形成的最大正方形
+class Solution:
+    def maximalSquare(self, M: List[List[str]]) -> int:
+        def is_valid_sqaure(row, col, side):
+            return all(all(M[i][j] == '1' for j in range(col, col+side)) for i in range(row, row+side))
+        
+        m, n = len(M), len(M[0])
+        for side_len in range(min(m,n), 0, -1):
+            for row in range(m - side_len + 1):
+                for col in range(n - side_len + 1):
+                    if is_valid_sqaure(row, col, side_len):
+                        return side_len**2
+        return 0
+
+
 # Brute Force
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
@@ -32,5 +54,22 @@ class Solution:
         return maxsqlen * maxsqlen
 
 
-# DP:
-TODO 
+# DP: https://leetcode.com/problems/maximal-square/discuss/600149/Python-Thinking-Process-Diagrams-DP-Approach
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        if matrix is None or len(matrix) < 1:
+            return 0
+        
+        rows = len(matrix)
+        cols = len(matrix[0])
+        
+        dp = [[0]*(cols+1) for _ in range(rows+1)]
+        max_side = 0
+        
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == '1':
+                    dp[r+1][c+1] = min(dp[r][c], dp[r+1][c], dp[r][c+1]) + 1 # Be careful of the indexing since dp grid has additional row and column
+                    max_side = max(max_side, dp[r+1][c+1])
+                
+        return max_side * max_side

@@ -52,3 +52,29 @@ class Solution:
         # w = [1,2,3,4]
         # 新的w = [1,3,6,10]
         # 随机取5, 则应当返回2
+
+
+# 将上面的built in换成正常代码
+# accumulated freq sum + binary search
+class Solution:
+    def __init__(self, w: List[int]):
+        self.w = w
+        self.n = len(w)
+        for i in range(1,self.n):
+            w[i] += w[i-1]
+        self.s = self.w[-1]
+
+    def pickIndex(self):
+        seed = random.randint(1,self.s)
+        l,r = 0, self.n-1
+        while l<r:
+            mid = (l+r)//2
+            if seed <= self.w[mid]:
+                r = mid
+            else:
+                l = mid+1
+        return l
+
+
+# 还有一个更优化的答案：
+# https://leetcode.com/problems/random-pick-with-weight/discuss/671439/Python-Smart-O(1)-solution-with-detailed-explanation
