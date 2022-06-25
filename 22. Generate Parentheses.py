@@ -1,3 +1,45 @@
+# 思考：有n对括号，也就意味着有n个左括号并排排列，然后找到位置将n个右括号插进去
+# 举例：n=3，那么当前问题就可以转化为：在 0（1（2（3 中找到所有位置将 ））） 放进去
+# 其中位置0不能放元素，位置1最多可以放1个，位置2最多可以放2个，位置3最多可以放3个，以此类推
+# 进一步简化问题：将n个元素放入位置1~n中，每个位置可放的元素最大量为位置标号
+# 举例：[1,2,3]中放3个元素，可能解为：[0,0,3], [1,0,2], [0,1,2], [1,1,1], [0,2,1]，正好是题目给的例子
+# 先用decision tree做: 先决定在位置n里放多少个元素，然后决定在位置n-1里放多少个元素，直到不剩元素时获得一个解
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        
+        def decision(position, available, total, path):
+            # position：当前在哪个位置（同时也是当前位置能放多少个右括号）
+            # available：还剩多少个右括号可以用
+            # total：此前轮次一共用了多少右括号
+            # path：之前的轮次的决定
+            
+            if position == 0 and available == 0: 
+                ans.append(path)
+                return 
+            
+            maxNumber = min(position, available, n-total) # 本轮最多能用的数量
+            
+            # 本轮最少需要用的数量是 当前左括号总数 - 已用右括号总数
+            # 比如(1(2(3 中如果我走到位置3（刚开始第一轮loop），当前一共1个左括号，0个已用右括号，所以至少用1个
+            # 走到位置2，当前一共2个左括号（2和3），前面轮次一共用了k个右括号，所以这轮是2-k
+            minNumber = max(0, 1 + n - position - total)
+            
+            for numThisLoop in range(maxNumber, minNumber-1, -1):
+                decision(position-1, available - numThisLoop, total + numThisLoop, path+[numThisLoop])
+        
+        decision(n, n, 0, [])
+        
+        trueAns = []
+        for item in ans:
+            string = ''
+            for i in item:
+                string += '(' * i + ')'
+            trueAns.append(string)
+            
+        return trueAns
+
+
 # 暴力解：先生成2^(2n)个string，然后挨个检查哪个符合要求
 # time: 2^(2n)*n，因为验证也需要O(n)，space: 2^(2n)*n，因为每个string占n个位置
 class Solution:
