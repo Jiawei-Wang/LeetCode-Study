@@ -1,0 +1,23 @@
+Step 0:
+    get the question
+
+Step 1: Scope
+    1. identify use cases -> what functions are we going to design
+    2. clarify the system's constraints -> how much traffic/data, how many users, how long to store the data etc
+    goal: gather the requirements and agree on the scope with no assumption
+
+Step 2: Abstract
+    1. break the system into important components 
+    2. show connections between components
+    3. justify ideas and address every constraint and use case
+    goal: outline all important components with a simple high-level abstract design diagram 
+
+Step 3: Bottleneck
+    1. think about where are the bottlenecks, how to improve scalability (traffic/data)
+    2. find solutions to solve bottlenecks 
+    3. talk about trade-off for this solution
+    goal: locate bottlenecks in the design, but not going into too much detail about solution
+
+Step 4: Scalability -> main part
+    1. dive into each component and provide details
+    goal: make the system scalable
