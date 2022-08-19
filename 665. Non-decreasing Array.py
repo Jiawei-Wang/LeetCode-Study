@@ -24,3 +24,30 @@ class Solution:
             new[i] = old_ai
 
         return False
+
+
+# O(n)
+class Solution:
+    def checkPossibility(self, nums: List[int]) -> bool:
+        changed = False
+        
+        # 检查每一对元素
+        for i in range(len(nums)-1):
+            # 如果是非递减则符合条件，直接跳过
+            if nums[i] <= nums[i+1]:
+                continue
+            # 如果是递减且此时仅有一次的修改机会已被使用，则返回False
+            if changed:
+                return False
+            # 如果是递减且此时修改机会还未被使用，则修改元素
+            # 修改的原则为：
+            # 1. 尽可能修改前者，让前者的值和后者保持一致
+            # 2. corner case：[3, 4, 2]，那么就不能让4变为2，而是要让2变为4（即修改后者）
+            if i == 0 or nums[i+1] >= nums[i-1]: # 如果前者前面没其他元素，或者有允许前者修改的空间，则修改前者
+                nums[i] = nums[i+1]
+            else: # 如果无法修改前者，则修改后者
+                nums[i+1] = nums[i]
+            
+            changed = True
+            
+        return True
