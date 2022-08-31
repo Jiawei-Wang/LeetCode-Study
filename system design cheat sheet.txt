@@ -1,0 +1,4 @@
+1. client + dns + cdn + api gateway + servers + db + cache
+2. message queue
+3. consistent hashing
+4. websocket
