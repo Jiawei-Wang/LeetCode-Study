@@ -24,3 +24,4 @@ Step 4: Scalability -> main part
     1. dive into each component and provide details
     goal: make the system scalable
     
+Step 5: Follow-up
