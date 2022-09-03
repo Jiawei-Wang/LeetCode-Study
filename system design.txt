@@ -3,7 +3,7 @@ Step 0:
 
 Step 1: Scope
     1. identify use cases -> what functions are we going to design
-    2. clarify the system's constraints -> how much traffic/data, how many users, how long to store the data etc
+    2. clarify the system's constraints -> Daily active users/Query per second/Storage
     3. provide data model
     4. provide api
     goal: gather the requirements and agree on the scope with no assumption
