@@ -7,5 +7,6 @@
     2) availability: data replication
     3) consistency: versioning
 6. ID generator: timestamp + datacenter + machine + sequence 
-7. monitoring
+7. monitoring/alerting
 8. distributed message queue
+9. zookeeper
