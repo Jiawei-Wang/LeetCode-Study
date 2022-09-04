@@ -100,5 +100,4 @@
         1) geocoding service: input -> location
         2) route planner: ETA service/shortest route service/rank service/etc
 
-13) Hotel Reservation
     
