@@ -10,3 +10,4 @@
 7. monitoring/alerting
 8. distributed message queue
 9. zookeeper
+10. File system vs Blob DB
