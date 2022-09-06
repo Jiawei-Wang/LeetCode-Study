@@ -5,7 +5,7 @@
 5. data scalability/consistency/availability:
     1) scalability: data partition
     2) availability: data replication
-    3) consistency: versioning
+    3) consistency: versioning/2 phase commit
 6. ID generator: timestamp + datacenter + machine + sequence 
 7. monitoring/alerting
 8. distributed message queue
