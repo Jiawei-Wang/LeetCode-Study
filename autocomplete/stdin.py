@@ -14,4 +14,6 @@ while run:
         run = False
     else:
         buffer.append(line)
-print(buffer)
+
+for item in buffer:
+    sys.stdout.write(str(item)+'\n')
