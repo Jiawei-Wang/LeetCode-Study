@@ -14,3 +14,30 @@ object Solution {
   }
 }
 
+
+// 解法2：逐层除3，直到不能继续为止
+object Solution {
+  import scala.annotation.tailrec
+  @tailrec
+	def isPowerOfThree(n: Int): Boolean = {
+		n match {
+      // 一个int分为以下几种情况
+      case 0 => false
+		  case 1 => true
+		  case _ if n % 3 == 0 => isPowerOfThree(n / 3)
+		  case _ => false // 不能整除3的数字，或者负数，均不符合条件
+    }
+  }
+}
+
+
+// 解法3
+object Solution {
+  def isPowerOfThree(n: Int): Boolean = {
+    Integer.toString(n, 3).matches("^10*$")
+
+    // Integer.toString(a, b)：将a以b进制展示
+    // Integer.toString(3, 2) = "11"
+    // 最后使用Regex来进行检查
+  }
+}
