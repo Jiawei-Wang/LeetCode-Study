@@ -40,3 +40,16 @@ class Solution:
           stack.append(i)
 
         return ans
+
+
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        answer = []
+        stack = []
+        for index, element in enumerate(temperatures):
+            while stack and stack[-1][1] < element:
+                topElement = stack.pop()
+                answer[topElement[0]] = index - topElement[0]
+            stack.append([index, element])
+            answer.append(0)
+        return answer
