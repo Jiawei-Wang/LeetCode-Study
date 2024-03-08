@@ -83,3 +83,35 @@ class Solution:
             j = max(j, i+x)
         return True
 # Time: O(n)
+
+
+
+# 03-07-2024
+# bottom up dp: O(n^2)
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        nums.reverse()
+        length = len(nums)
+        dp = [True] + [False] * (length - 1)
+        
+        for index in range(1, length): # for every jump point
+            coverage = nums[index] 
+            # we just need find one True within the range
+            for i in range(index, index-coverage-1, -1):
+                if i >= 0 and dp[i] == True:
+                    dp[index] = True
+                    break
+        return dp[-1]
+
+# move goal towards starting point, greedy: O(n)
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        length = len(nums)
+        goal = length - 1 # current goal is the last element
+        for index in range(length-1, -1, -1): # for every index (backwards)
+            if index + nums[index] >= goal: # if we can jump from index to goal
+                goal = index # then index becomes the new goal
+        
+        return goal == 0
+
+        
