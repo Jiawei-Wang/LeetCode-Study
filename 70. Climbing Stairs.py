@@ -12,3 +12,19 @@ class Solution:
 
 
 # 学习不同的dp/recursion写法
+
+
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 1: return 1
+        if n == 2: return 2
+
+        first = 1
+        second = 2
+        current = 2
+        while current < n:
+            current += 1
+            first, second = second, first + second
+            
+        return second
