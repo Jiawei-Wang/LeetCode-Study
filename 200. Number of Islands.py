@@ -136,3 +136,56 @@ class Solution:
                     queue.append([r,c])
                     curr += 1
         return curr
+
+
+# dfs
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def dfs(row, col):
+            if row < 0 or row >= rowLength or col < 0 or col >= colLength or grid[row][col] == "0":
+                return
+            grid[row][col] = "0"
+            dfs(row-1, col)
+            dfs(row+1, col)
+            dfs(row, col-1)
+            dfs(row, col+1)
+
+        count = 0
+        rowLength = len(grid)
+        colLength = len(grid[0])
+        for i in range(rowLength):
+            for j in range(colLength):
+                if grid[i][j] == "1":
+                    count += 1
+                    dfs(i, j)
+                    
+        return count
+
+
+# bfs
+from collections import deque
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def bfs(row, col):
+            queue = deque([(row, col)])
+            while queue:
+                r, c = queue.popleft()
+                if r < 0 or r >= rowLength or c < 0 or c >= colLength or grid[r][c] == "0":
+                    continue
+                grid[r][c] = "0"
+                queue.append((r-1, c))
+                queue.append((r+1, c))
+                queue.append((r, c-1))
+                queue.append((r, c+1))
+
+        count = 0
+        rowLength = len(grid)
+        colLength = len(grid[0])
+        for i in range(rowLength):
+            for j in range(colLength):
+                if grid[i][j] == "1":
+                    count += 1
+                    bfs(i, j)
+                    
+        return count
