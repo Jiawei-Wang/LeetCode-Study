@@ -52,3 +52,30 @@ class Solution:
 第一个：处理string中有非法元素的情况
 第三个：处理string是奇数长度的情况
 """
+
+
+
+from collections import deque
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = deque()
+        for char in s:
+            if char == ")":
+                if not stack or stack[-1] != "(":
+                    return False
+                else:
+                    stack.pop()
+            elif char == "]":
+                if not stack or stack[-1] != "[":
+                    return False
+                else:
+                    stack.pop()
+            elif char == "}":
+                if not stack or stack[-1] != "{":
+                    return False
+                else:
+                    stack.pop()
+            else:
+                stack.append(char)
+        return not stack
