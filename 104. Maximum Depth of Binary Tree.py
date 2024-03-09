@@ -46,3 +46,27 @@ class Solution:
                 num_node_level = len(worklist)
                 
         return levels
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def level(node):
+            if not node: 
+                return 0
+            elif node.left and node.right:
+                return 1 + max(level(node.left), level(node.right))
+            elif node.left:
+                return 1 + level(node.left)
+            elif node.right:
+                return 1 + level(node.right)
+            else:
+                return 1
+
+        return level(root)
+        
