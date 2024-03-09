@@ -56,3 +56,39 @@ class Solution:
                 e = max(e, i[1])
 
         return left + [[s,e]] + right
+
+
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        if not intervals:
+            return [newInterval]
+
+        answer = []
+        head = newInterval[0]
+        tail = newInterval[1]
+
+        for index in range(len(intervals)):
+            current = intervals[index]
+            # case 1: newInterval is inside an existing interval
+            if current[0] <= head and current[1] >= tail: 
+                return intervals
+            # case 2: newInterval doesn't interact with current interval
+            elif current[1] < head: # newInterval is behind current interval
+                answer.append(current)
+                if index == len(intervals)-1: # if current interval is the last in the list
+                    answer.append(newInterval)
+            elif current[0] > tail: # newInterval is in front of current interval
+                answer.append([head, tail]) 
+                for remain in intervals[index:]:
+                    answer.append(remain)
+                return answer
+            # case 3: newInterval interact with current interval 
+            else: 
+                head = min(current[0], head)
+                tail = max(current[1], tail) # we merge current interval into newInterval
+                if index == len(intervals)-1: # if current interval is the last in the list
+                    answer.append([head, tail]) 
+            
+        return answer
+
+        
