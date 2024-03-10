@@ -41,3 +41,22 @@ class Solution:
                 return reverse(nxt, curr) # 更新变量，并带入下一层循环
 
         return reverse(head, None) # 初始化
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        previous = None # need a dummy node first
+        current = head 
+        while current:
+            temp = current.next # need to store next node 
+            current.next = previous # change direction
+            previous = current # one step forward
+            current = temp 
+
+        return previous # at last node, current will point to None and previous to current so we return previous
+        
