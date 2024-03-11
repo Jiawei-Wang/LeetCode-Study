@@ -32,3 +32,31 @@ class Solution:
             if i != 0:
                 return False
         return True
+
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        return sorted(s) == sorted(t)
+
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+        
+        count = dict()
+        for index in range(len(s)):
+            if s[index] in count:
+                count[s[index]] += 1
+            else:
+                count[s[index]] = 1
+
+            if t[index] in count:
+                count[t[index]] -= 1
+            else:
+                count[t[index]] = -1
+        
+        for key in count:
+            if count[key] != 0:
+                return False
+        return True
