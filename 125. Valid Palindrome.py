@@ -53,3 +53,9 @@ class Solution:
         https://www.w3schools.com/python/ref_string_maketrans.asp
         https://www.w3schools.com/python/ref_string_translate.asp
         """
+
+import re
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        clean_string = re.sub(r'[^a-zA-Z0-9]', '', s.lower())
+        return clean_string == clean_string[::-1]
