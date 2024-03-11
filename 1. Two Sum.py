@@ -36,3 +36,15 @@ class Solution:
             else:
                 Map[nums[i]] = i
         return None
+
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hashmap = dict()
+        for index in range(len(nums)):
+            left = target - nums[index]
+            if left in hashmap:
+                return [index, hashmap[left]]
+            else:
+                hashmap[nums[index]] = index
+        
