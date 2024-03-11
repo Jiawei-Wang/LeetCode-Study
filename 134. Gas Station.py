@@ -14,7 +14,7 @@ class Solution:
                 total = 0
                 start = i + 1
         
-        return start
+        return start if start < len(gas) else -1
     
     """
     理解for loop：
@@ -25,3 +25,26 @@ class Solution:
              3）可以推断出来从start到i，其中任意一个位置j开始走到i，汽油净增肯定都不会大于从start到i（因为从start到j的total >=0)
              4）进而可知从start到i都不符合要求，那么答案肯定在i+1到末尾之间
     """
+
+
+    class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        length = len(gas)
+        net_gain = [gas[i] - cost[i] for i in range(length)]
+        
+        total = sum(net_gain)
+        if total < 0:
+            return -1  # If total gas is less than total cost, it's impossible to complete the circuit
+        
+        start = 0
+        tank = 0
+        
+        for i in range(length):
+            tank += net_gain[i]
+            if tank < 0:
+                # If at any point the tank goes below 0, we reset the start to the next station
+                start = i + 1
+                tank = 0
+        
+        # If we can complete the loop, the start index should be the solution
+        return start if start < length else -1
