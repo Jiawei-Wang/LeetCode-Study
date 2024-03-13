@@ -102,3 +102,24 @@ class Solution:
             left = max(right+i, left)
             right = tmp
         return left
+
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        length = len(nums)
+        if length <= 2:
+            return max(nums)
+        
+        # for every house, we only care about maximum amount we can rob till this house
+        # it doesn't necessarily mean this house is included in the rob
+        dp = [0] * length
+
+        dp[0] = nums[0] # base case 1
+        dp[1] = max(nums[0], nums[1]) # base case 2
+
+        for i in range(2, length):
+            # from the 3rd house, we have 2 options: rob it or not
+            # if rob: the maximum amount is from 2 houses ago, plus current one
+            # if not rob: the maximum amount is from the last house
+            dp[i] = max(dp[i-2]+nums[i], dp[i-1]) 
+        return dp[-1]
