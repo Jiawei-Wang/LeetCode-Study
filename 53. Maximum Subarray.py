@@ -50,4 +50,23 @@ class Solution:
         # dp[0] = nums[0]
         # 出现index越界错误，原因是初始化时没有给元素，解决办法就是使用append
 
+
+# 2024
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        # if all elements are negative, just return one element: the biggest one 
+        if max(nums) <= 0:
+            return max(nums)
+
+        # there are negative, 0 and positive elements
+        # we only keep a subarray if sum of it is positive
+        total = 0
+        current = 0
+        for num in nums:
+            current += num
+            if current < 0: # if a subarray sum is negative
+                current = 0 # we discard this subarray
+            total = max(total, current)
+        return total
+
        
