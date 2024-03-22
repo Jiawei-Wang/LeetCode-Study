@@ -48,3 +48,26 @@ class Solution:
         本轮left=4，right=5，mid=4，假设不符合要求（此时我们知道答案为mid=5）
         那么下一轮left=5，right=5，如果有 <= ，就会无止尽地循环下去
         """
+
+
+# 2024
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        def check(k):
+            total = 0
+            for pile in piles:
+                if pile % k:
+                    total += pile//k + 1
+                else:
+                    total += pile//k
+            return total <= h
+        
+        low = 1
+        high = max(piles)
+        while low < high:
+            mid = low + (high-low)//2 # lower bound
+            if check(mid):
+                high = mid
+            else:
+                low = mid + 1
+        return low
