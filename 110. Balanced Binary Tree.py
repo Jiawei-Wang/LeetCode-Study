@@ -48,3 +48,22 @@ class Solution:
         然后逐层往上，只要是子树被标记的，自身也会被标记
         所以最后如果root ！= -1，那么它的两个子树必然不是 -1
     """
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
+
+        def get_height(node):
+            if not node:
+                return 0
+            return 1 + max(get_height(node.left), get_height(node.right))
+        
+        return abs(get_height(root.left) - get_height(root.right)) <= 1 and self.isBalanced(root.left) and self.isBalanced(root.right)
