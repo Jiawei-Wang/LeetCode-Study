@@ -33,3 +33,18 @@ class Solution:
         4. 使用itertools.chain()来给list降维
         5. 使用[::-1]来省去反转元素的步骤
         """
+
+
+# 2024
+# sort
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        count = dict()
+        for num in nums:
+            if num in count:
+                count[num] += 1
+            else:
+                count[num] = 1
+        
+        sorted_dictionary = sorted(count.items(), key = lambda x: x[1], reverse = True)
+        return [item[0] for item in sorted_dictionary[:k]]
