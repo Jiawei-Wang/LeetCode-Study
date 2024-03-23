@@ -42,3 +42,39 @@ class Solution:
         right = self.helper(node.right)
         self.ans = max(self.ans, left+right)
         return max(left,right)+1
+
+
+"""
+1. we want to get the length of the longest path
+2. a path = longest leg of left subtree + longest leg of right subtree
+3. the path across root node is not always the longest
+4. so we need to get path for every node
+5. there is no relation between path length for current node, and path length for node.left and node.right
+6. there IS relation between longest two legs of current node, and longest two legs of node.left and node.right:
+    1) longest left leg of node = 1+ max(longest left leg of node.left, longest right leg of node.left)
+    2) so is right leg with node.right
+7. so at each node:
+    1) we calculate path length and update global longest path length
+        1- only one global variable is needed (path and path don't have relation)
+    2) path length is calculated based on two legs
+        1- leg itself is calculated based on one subtree leg from each subtree
+        2- so we only need to keep track of the longest one leg, the other one doesn't matter
+"""
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.answer = 0 # global longest path 
+
+        def length(node):
+            if not node:
+                return 0
+            
+            left = length(node.left)
+            right = length(node.right) # get two legs
+
+            self.answer = max(self.answer, left + right) # update path
+
+            return 1 + max(left, right) # only keep the longest leg for parent node 
+        
+        # we don't dp: return length(root), since length(root) is just one leg length, not path length
+        length(root)
+        return self.answer
