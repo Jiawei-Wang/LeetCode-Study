@@ -69,3 +69,16 @@ class Solution:
         #         array[ord(l) - ord('a')] += 1 # array记录的是st中26个字母每个字母的出现次数
         #     hmap[tuple(array)].append(st)
         # return hmap.values()
+
+
+# O(n*mlogm)
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        hashmap = dict()
+        for string in strs: # O(n)
+            key = str(sorted(string)) # O(mlogm)
+            if key in hashmap:
+                hashmap[key].append(string)
+            else:
+                hashmap[key] = [string]
+        return list(hashmap.values())
