@@ -13,3 +13,18 @@ class Solution:
             
         helper(0, [])
         return ans
+
+
+"""
+2024
+"""
+# itertools
+from itertools import combinations
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        subsets = []
+        length = len(nums)
+        for k in range(length + 1):
+            for combination in combinations(nums, k):
+                subsets.append(combination)
+        return subsets
