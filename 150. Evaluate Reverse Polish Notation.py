@@ -48,3 +48,33 @@ class Solution:
                     # print(int(float(-2)/3))         0
         return stack.pop()
                     
+
+from collections import deque
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        def divide(a, b):
+            if (a >= 0 and b > 0) or (a < 0 and b < 0):
+                return a // b
+            else:
+                return -(-a//b) if a % b != 0 else a//b
+
+        operations = set(['*', '/', '+', '-'])
+        stack = deque()
+        for token in tokens:
+            if token in operations:
+                second = stack.pop()
+                first = stack.pop()
+                if token == '+':
+                    stack.append(first + second)
+                elif token == '-':
+                    stack.append(first - second)
+                elif token == '*':
+                    stack.append(first * second)
+                else:
+                    stack.append(divide(first, second))
+            else:
+                stack.append(int(token))
+        
+        return stack.pop()
+
+        
