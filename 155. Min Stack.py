@@ -114,3 +114,48 @@ class MinStack:
 # obj.pop()
 # param_3 = obj.top()
 # param_4 = obj.getMin()
+
+
+"""
+2024
+linked list as stack
+"""
+class ListNode:
+    def __init__(self, val, min, next = None):
+        self.val = val
+        self.min = min
+        self.next = next
+
+class MinStack:
+    def __init__(self): # create a dummy node and assign to pointer
+        self.current = None
+
+    def push(self, val: int) -> None: 
+        # first get the node.min from top node
+        if self.current == None:
+            getMin = float("inf") # dummy doesn't have node.min
+        else:
+            getMin = self.getMin()
+        # second create a new node and update pointer
+        currentMin = min(getMin, val)
+        node = ListNode(val, currentMin, self.current)
+        self.current = node 
+
+    def pop(self) -> None:
+        pop = self.current
+        self.current = self.current.next
+
+    def top(self) -> int:
+        top = self.current.val
+        return top
+
+    def getMin(self) -> int:
+        getMin = self.current.min
+        return getMin
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
