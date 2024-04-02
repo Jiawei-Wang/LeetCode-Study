@@ -114,4 +114,14 @@ class Solution:
         
         return goal == 0
 
+
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        far = 0
+        for i in range(len(nums)):
+            if i > far:
+                return False
+            jump = nums[i]
+            far = max(far, i + jump)
+        return True
         
