@@ -66,3 +66,31 @@ class Solution:
     print(id(b))
     在这里a的地址发生了变化，所以即使a发生了改变，b并不改变
     """
+
+
+# 2024 
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        length = len(intervals)
+        if length == 1: # corner cass
+            return intervals
+
+        intervals = sorted(intervals, key = lambda x : x[0]) # sort intervals using head 
+        ans = []
+        current = intervals[0]
+        for i in range(1, length):
+            new = intervals[i]
+            if current[1] >= new[0]: # if two overlap: merge
+                current[1] = max(current[1], new[1])
+                if i == length-1: # if it is already the end
+                    ans.append(current)
+                else:
+                    continue
+            else:
+                ans.append(current) # no overlap
+                current = new
+                if i == length-1:
+                    ans.append(current)
+                else:
+                    continue
+        return ans
