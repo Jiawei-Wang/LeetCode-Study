@@ -10,3 +10,21 @@ class Solution:
             else: 
                 cnt += 1 # 如果重叠则去掉
         return cnt
+
+
+# greedy
+# first: sort
+# second: go over all elements:
+# if two overlap: remove the one that ends behind
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort() # sort by both first element and second element
+        res = 0
+        prevEnd = intervals[0][1] # use first interval as starting point
+        for start, end in intervals[1:]:
+            if start >= prevEnd: # if no overlap
+                prevEnd = end
+            else:
+                res += 1
+                prevEnd = min(end, prevEnd) # if two overlap, remove second one
+        return res
