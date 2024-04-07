@@ -1,4 +1,13 @@
 # LCS：经典DP
+"""
+2024
+understanding:
+1. we need one more extra row and one more extra column to provide initial value
+2. if text1[i] and text2[j] are not a match, sub problem becomes: 
+finding the biggest value for either text1[i+1] and text2[j], or text1[i] and text2[j+1]
+3. if we find a match for text1[i] and text2[j], sub problem becomes:
+finding the beggest value for text1[i+1] and text2[j+1]
+"""
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         # 使用从左上角向右下角步进的方法
