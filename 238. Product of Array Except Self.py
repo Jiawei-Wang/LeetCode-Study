@@ -120,3 +120,51 @@ class Solution:
         对解法2仍有两种进一步优化的方式，下次再学习
         https://leetcode.com/problems/product-of-array-except-self/discuss/1597994/C%2B%2BPython-4-Simple-Solutions-w-Explanation-or-Prefix-and-Suffix-product-O(1)-space-approach
         '''
+
+
+"""
+2024
+"""
+# prefix and postfix
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        length = len(nums) # length >= 2 given by question
+
+        left = []
+        l = 1
+        for num in nums:
+            l *= num
+            left.append(l)
+
+        right = []
+        r = 1
+        for num in nums[::-1]:
+            r *= num
+            right.append(r)
+        right.reverse()
+
+        answer = []
+        answer.append(right[1])
+        for i in range(1, length-1):
+            answer.append(left[i-1]*right[i+1])
+        answer.append(left[-2])
+        return answer
+
+
+# O(1) space
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = [1] * (len(nums))
+
+        # store prefix directly in the answer 
+        for i in range(1, len(nums)):
+            res[i] = res[i-1] * nums[i-1]
+
+        # then multiply by postfix and get the answer
+        postfix = 1
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= postfix
+            postfix *= nums[i]
+        
+        return res
+        
