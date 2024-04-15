@@ -60,12 +60,16 @@ class Solution:
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
-        dp[0] = 1
+        dp[0] = 1 # only 1 way to sum up to 0
         
         for j in coins:
             for i in range(0, amount+1):
                 if i + j < amount+1:
                     dp[i+j] += dp[i]
+        # for example: [2,3,5] target=10
+        # by using only 2, calculate how many ways we have to sum up to 10
+        # then by using 2 and 3, calculate how many ways we can have to sum up to 10
+        # finally by using all 2,3,5, calculate how many ways we can have to sum up to 10
         
         return dp[-1]
     
