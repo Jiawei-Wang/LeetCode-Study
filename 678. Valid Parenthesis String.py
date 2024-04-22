@@ -23,3 +23,38 @@ class Solution:
             if cmax < 0:
                 return False
         return cmin == 0
+
+
+# 2024
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        # Use two stacks to keep track of possible open parentheses and asterisks
+        open_stack = []
+        star_stack = []
+
+        # Iterate through each character in the string
+        for i, char in enumerate(s):
+            if char == "(":
+                open_stack.append(i)  # Store the index of the open parenthesis
+            elif char == "*":
+                star_stack.append(i)  # Store the index of the asterisk
+            else:  # Closing parenthesis encountered
+                if open_stack:  # If there are open parentheses
+                    open_stack.pop()  # Match with the last open parenthesis
+                elif star_stack:  # If there are asterisks
+                    star_stack.pop()  # Use the asterisk to match the closing parenthesis
+                else:
+                    return False  # No open parentheses or asterisks to match with
+
+        # Now, consider remaining asterisks in the stack
+        while open_stack and star_stack:
+            if open_stack[-1] < star_stack[-1]:  # If an asterisk comes after an open parenthesis
+                open_stack.pop()  # Match them
+                star_stack.pop()
+            else:
+                break  # No more valid matches
+
+        return not open_stack  # If all open parentheses are matched, return True
+
+
+
