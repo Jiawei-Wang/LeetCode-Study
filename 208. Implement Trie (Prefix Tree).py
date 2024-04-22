@@ -1,9 +1,14 @@
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+
 """
 逻辑：implement一个树
 树拥有多个node，每个node也拥有多个节点
 将一个node标记为末尾来表示从树根到它的一条路径为一个单词
 """
-
 class TrieNode:
     def __init__(self):
         self.children = collections.defaultdict(TrieNode)
