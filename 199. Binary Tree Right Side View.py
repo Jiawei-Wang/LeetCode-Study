@@ -89,3 +89,31 @@ class Solution:
 """
 
 
+# 2024
+from collections import deque
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        # return the right most node of each level
+        answer = []
+
+        if not root:
+            return answer
+        
+        current_level = deque()
+        current_level.append(root)
+        next_level = deque()
+
+        while current_level:
+            node = current_level.popleft()
+
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+        
+            if not current_level:
+                answer.append(node.val)
+                current_level = next_level
+                next_level = deque()
+        
+        return answer
