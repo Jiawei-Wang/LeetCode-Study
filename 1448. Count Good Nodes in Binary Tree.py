@@ -22,3 +22,45 @@ class Solution:
             return res
         
         return dfs(root, root.val)
+
+
+# 2024
+# dfs with no extra data structure 
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        count = 0 
+        
+        def dfs(node, current_max):
+            nonlocal count
+            if not node:
+                return
+            if node.val >= current_max:
+                count += 1
+        
+            new_max = max(current_max, node.val)
+            dfs(node.left, new_max)
+            dfs(node.right, new_max)
+
+        start_max = float('-inf')
+        dfs(root, start_max) # start from root: empty path, no current_max value
+        return count
+
+# bfs with stack: for each node, we compare (node.val) with (current path max value), then pass updated max to child nodes
+from collections import deque
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        count = 0 
+        queue = deque([(root, float("-inf"))]) # one tuple inside a list, list is then turned into queue 
+        
+        while queue:
+            node, current_max = queue.pop() # every element in queue is a tuple: (node, current path max value)
+            if node.val >= current_max: 
+                count += 1
+            new_max = max(current_max, node.val) # update current path max value and give to child nodes
+            
+            if node.left: 
+                queue.append((node.left, new_max))
+            if node.right:
+                queue.append((node.right, new_max))
+
+        return count
