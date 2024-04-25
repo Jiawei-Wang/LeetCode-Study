@@ -36,3 +36,28 @@ class Solution:
         return head
 
 
+# 2024
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # if only one node, return None
+        if not head.next:
+            return None
+
+        collection = []
+        cur = head
+        while cur:
+            collection.append(cur)
+            cur = cur.next
+        
+        index = len(collection) - n
+        if n == 1: # if removing last node
+            collection[index-1].next = None
+        elif index == 0: # if removing first node
+            collection[0].next = None
+            head = collection[1]
+        else: 
+            collection[index-1].next = collection[index+1]
+        
+        return head
+
+
