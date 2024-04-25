@@ -10,6 +10,22 @@ class Solution:
         return x ** n
 
 
+# Time Limit Exceeded
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        # x and n are not both 0
+        if x == 0:
+            return 0
+        if n == 0:
+            return 1
+
+        ans = x
+        for i in range(abs(n)-1):
+            ans *= x
+        
+        return ans if n > 0 else 1/ans
+
+
 # recursion
 """
 理解：
@@ -21,25 +37,29 @@ class Solution:
 """
 class Solution:
     def myPow(self, x, n):
-        if not n:
+        if n == 0:
             return 1
         if n < 0:
             return 1 / self.myPow(x, -n)
         if n % 2:
             return x * self.myPow(x, n-1)
+        
+        # if n is positive integer and is multiple of 2: 
         return self.myPow(x*x, n/2)
 
 
 # iteration
 class Solution:
     def myPow(self, x: float, n: int) -> float:
+        # a^b = (1/a)^-b
         if n < 0:
             x = 1 / x
             n = -n
-        pow = 1
+
+        ans = 1
         while n:
             if n & 1: # if n % 2
-                pow *= x
+                ans *= x
             x *= x
             n >>= 1 # n // 2 
-        return pow
+        return ans
