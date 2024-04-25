@@ -39,3 +39,21 @@ class Solution:
             for x in range(i+1, len(digits)):
                 digits[x] = 0
         return digits
+
+
+# 2024
+"""
+[1, 2, 4]: modify last element
+[1, 2, 9]: modify last two elements
+[9, 9]: modify every element and add one digit
+"""
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        for index in range(len(digits)-1, -1, -1):
+            digit = digits[index]
+            if digit == 9: # [1,2,9] will enter here in first loop, enter else in next loop and return
+                digits[index] = 0
+            else: # [1,2,4] will enter here directly and return
+                digits[index] += 1
+                return digits
+        return [1] + digits # [9,9] will enter if twice, and return here
