@@ -60,3 +60,20 @@ class Solution:
 
         return previous # at last node, current will point to None and previous to current so we return previous
         
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # no need to do anything if there are less than 2 nodes
+        if not head or not head.next:
+            return head
+
+        prev = None # after reversing, head.next is None, tail.next is no longer None but the second last node
+        curr = head
+
+        while curr:
+            temp = curr.next # use temp to hold node before breaking the link
+            curr.next = prev # break current link
+            prev = curr # one step forward
+            curr = temp # one step forward
+            
+        return prev 
