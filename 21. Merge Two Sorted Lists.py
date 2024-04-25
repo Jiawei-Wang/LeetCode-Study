@@ -63,3 +63,26 @@ class Solution:
             curr.next = l2
         
         return dummy.next
+
+
+class Solution:
+    def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = cur = ListNode(0) # 1. dummy本身初始化的值并无所谓，2. 需要两个变量，因为dummy这个指针不能动，动了就找不到return value了
+
+        # when both l1 and l2 exist, find one to link to cur
+        # then one step forward for both the list node and cur node
+        while l1 and l2:
+            if l1.val < l2.val:
+                cur.next = l1
+                l1 = l1.next 
+            else:
+                cur.next = l2
+                l2 = l2.next
+            cur = cur.next
+        
+        # assume list2 finishes first: 
+        # cur is at last node of new linked list
+        # l1 is at a node in list1
+        # l2 is at None
+        cur.next = l1 or l2 # (node or None) returns node
+        return dummy.next
