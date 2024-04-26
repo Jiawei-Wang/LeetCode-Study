@@ -47,3 +47,14 @@ len(nums) = 3, index = [0,1,2]
 """
 
 
+# 2024
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        length = len(nums)
+        xor = 0
+        for i in range(length):
+            xor ^= i
+            xor ^= nums[i]
+        xor ^= length
+        return xor
+
