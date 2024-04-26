@@ -43,3 +43,22 @@ class Solution:
             count += 1
             time = current
         return count
+
+
+# 2024
+# 1. sort cars by position
+# 2. calculate each car's travel time
+# 3. check how many cars will merge with current car (arrives faster than current car)
+# 4. set current to next car that doesn't merge (arrives later than current car)
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        pos_spd = [[position[i], speed[i]] for i in range(len(position))]
+        pos_spd.sort()
+        times = [(target-car[0])/car[1] for car in pos_spd[::-1]]
+        count = 1
+        cur = times[0]
+        for time in times[1:]:
+            if time > cur:
+                count += 1
+                cur = time
+        return count
