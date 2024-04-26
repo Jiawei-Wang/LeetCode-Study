@@ -53,3 +53,19 @@ class Solution:
             stack.append([index, element])
             answer.append(0)
         return answer
+
+
+# 2024
+from collections import deque
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        length = len(temperatures)
+        answer = [0] * length
+        stack = deque()
+        for index in range(length):
+            value = temperatures[index]
+            while stack and stack[-1][0] < value:
+                last = stack.pop()
+                answer[last[1]] = index - last[1]
+            stack.append([value, index])
+        return answer
