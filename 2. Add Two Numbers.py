@@ -65,3 +65,46 @@ class Solution:
             n.next = ListNode(val)
             n = n.next
         return root.next
+
+
+# 2024
+# modify l1 in place
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]: 
+        head1 = l1
+        head2 = l2
+        carry = 0
+        while head1 and head2:
+            head1.val += carry + head2.val 
+            carry = head1.val // 10
+            head1.val = head1.val % 10
+            tmp = head1
+            head1 = head1.next # in case head1 is None, we can use tmp to get last head1 
+            head2 = head2.next
+        
+        if not head1 and not head2: # if both linked lists are of same length
+            if carry:
+                tmp.next = ListNode(1)
+        elif not head2: # if l1 is longer, keep updating head1
+            while head1:
+                head1.val += carry
+                carry = head1.val // 10
+                head1.val = head1.val % 10
+                tmp2 = head1
+                head1 = head1.next # in case head1 is None, we can use tmp2 to get last head1
+            if carry:
+                tmp2.next = ListNode(1)
+        else: # if l2 is longer, connect head1 to head2, then modify head2
+            tmp.next = head2 # tmp is the last head1
+            while head2:
+                head2.val += carry
+                carry = head2.val // 10
+                head2.val = head2.val % 10
+                tmp3 = head2 # in case head2 is None, we can use tmp3 to get last head2
+                head2 = head2.next
+            if carry:
+                tmp3.next = ListNode(1)
+
+        return l1
+
+
