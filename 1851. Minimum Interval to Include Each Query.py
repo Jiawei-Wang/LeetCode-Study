@@ -3,11 +3,10 @@
 class Solution:
     def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
         intervals.sort()
-        sueries.sort()
         minHeap = []
         res = {} # key: query, value: answer for this query
         i = 0
-        for q in queries:
+        for q in sorted(queries): # sort queries here, cause we still need the original variable for return value
             # first we add intervals that start not later than q
             while i < len(intervals) and intervals[i][0] <= q:
                 l, r = intervals[i]
