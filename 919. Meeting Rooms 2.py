@@ -2,6 +2,9 @@
 # understanding: find the maximum number of overlaps at one time
 
 def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # each interval doesn't matter (start doesn't have to match end)
+        # we only care about total number of intervals at one time
+        # so we only keep track of number of starts and ends
         # for example: [[0, 30], [5, 10], [15,25]]
         # 1 room needed at 0
         # 2 rooms needed at 5
