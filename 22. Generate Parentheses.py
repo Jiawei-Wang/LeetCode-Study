@@ -78,37 +78,8 @@ class Solution:
 所以可以：dp，backtrack，dfs等
 """
 
-
-# dp
-# 和创建2d list，并让每个位置上保存所有当前string相比，下面的方法使用的space少很多
-# 理解方式：每一轮寻找所有能够插入一对括号的位置
+# dfs
 class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
-        dp = [[] for i in range(n + 1)]
-        dp[0].append('')
-        for i in range(n + 1):
-            for j in range(i):
-                # 若n=2，则所有(i,j)组合为[(1,0), (2,0), (2,1)]
-                dp[i] += ['(' + x + ')' + y for x in dp[j] for y in dp[i - j - 1]]
-        return dp[n]
-    
-    """
-    以n=3为例，上面的dp输出内容为：
-    ['()']
-    ['()()']
-    ['()()', '(())']
-    ['()()()', '()(())']
-    ['()()()', '()(())', '(())()']
-    ['()()()', '()(())', '(())()', '(()())', '((()))']
-    """
-    
-    """
-    上面答案不是特别明白，还要再看看
-    """
-
-
-    # dfs
-    class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         if not n:
             return []
@@ -129,3 +100,31 @@ class Solution:
         
         dfs(left,right,ans,'')
         return ans
+
+
+# dp
+# 和创建2d list，并让每个位置上保存所有当前string相比，下面的方法使用的space少很多
+# 理解方式：每一轮寻找所有能够插入一对括号的位置
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        dp = [[] for i in range(n + 1)]
+        dp[0].append('')
+        for i in range(1, n + 1):
+            for j in range(i):
+                dp[i] += ['(' + x + ')' + y for x in dp[j] for y in dp[i - j - 1]]
+                # for example i = 3: 
+                # j = 0, 1, 2
+                # dp[3] (initially empty) will add the following combinations:
+                # (dp[0]) + dp[2]: put () before everything in dp[2]
+                # (dp[1]) + dp[1]
+                # (dp[2]) + dp[0]: put () around everything in dp[2]
+        print(dp)
+        return dp[n]
+    
+    """
+    以n=3为例，上面的dp输出内容为：
+    [''], 
+    ['()'], 
+    ['()()', '(())'], 
+    ['()()()', '()(())', '(())()', '(()())', '((()))']
+    """
