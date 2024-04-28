@@ -119,3 +119,47 @@ class Solution:
 """
 对答案的理解：不理解，需要重新读帖子
 """
+
+
+# question: return maximum element in each window
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        res = []
+        bigger = deque() # bigger是一个递减queue, with indexes of numbers
+        for i, n in enumerate(nums):
+
+            # 将queue尾部开始所有小于该元素的元素都pop出来, 将该元素加入queue尾部
+            # any window containing current element will no longer need previous smaller elements
+            while bigger and nums[bigger[-1]] <= n:
+                bigger.pop()
+            bigger += [i]
+
+            # we update queue if it's longer than window
+            # 如果尾部元素和头部元素在nums中距离超过k, 则pop掉头部元素
+            # although the front element is the biggest, it's no longer in current window, we don't need it
+            if i - bigger[0] >= k:
+                bigger.popleft()
+
+            # 只有当遍历到第k个元素时, 才开始向res中添加元素
+            if i + 1 >= k:
+                res.append(nums[bigger[0]])
+
+        return res
+
+"""
+1. before we visit the k-th element: we add element to queue, discard smaller ones in the front
+2. when we start from the k-th element: we pick front element as answer (guaranteed biggest in window)
+3. if queue is full, we discard front element since it is not part of the window anymore
+
+
+nums = [1,3,-1,-3,5,3,6,7], k = 3
+1. for 1: put index 0 into bigger: [0] 
+2. for 3: pop 0, put 1: [1] (nums[0] = 1 will not be considered anymore)
+3. for -1: put 2: [1, 2], first window full, start to append to res: [3] (nums[1] = 3)
+4. for -3: put 3: [1, 2, 3], bigger becomes full (not pop yet), second window full, append to res: [3, 3] (nums[1] = 3 is still the biggest)
+5. for 5: pop everything, put 4: [4], append to res: [3, 3, 5] (nums[4] = 5 is the only one, because it's the biggest one)
+6. for 3: put 5: [4, 5], append to res: [3, 3, 5, 5]
+7. for 6: pop everything, put 6: [6], append to res: [3, 3, 5, 5, 6]
+8. for 7: pop everything, put 7: [7], append to res: [3, 3, 5, 5, 6, 7] 
+""" 
