@@ -21,3 +21,30 @@ class Solution:
             for c in range(COLS):
                 if dfs(r, c, 0): return True
         return False
+
+
+# 2024
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        def dfs(r, c, index, visited):
+            if (not (0 <= r < len(board) and 0 <= c < len(board[0]))) or (r, c) in visited or board[r][c] != word[index]:
+                return
+            
+            # 1. block is in bound 2. block is never visited, 3. block maches word[index]
+            if index == len(word)-1:
+                return True
+            else:
+                visited.add((r,c))
+                find = dfs(r, c+1, index+1, visited) or dfs(r, c-1, index+1, visited) or dfs(r+1, c, index+1, visited) or dfs(r-1, c, index+1, visited)
+                visited.remove((r,c))
+                return find
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if dfs(i, j, 0, set()):
+                    return True
+        return False
+
+            
+
+
