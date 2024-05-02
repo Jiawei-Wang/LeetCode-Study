@@ -51,3 +51,35 @@ class Solution:
         
         backtrack(0, '')
         return res
+
+
+# 2024
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        length = len(digits)
+        answer = []
+        if length == 0:
+            return answer
+
+        mapping = {
+            "2": ["a", "b", "c"],
+            "3": ["d", "e", "f"],
+            "4": ["g", "h", "i"],
+            "5": ["j", "k", "l"],
+            "6": ["m", 'n', 'o'],
+            "7": ['p', 'q', 'r','s'],
+            "8": ['t', 'u', 'v'],
+            "9": ['w','x','y','z']
+        }
+        
+        def dfs(index, path):
+            digit = digits[index]
+            if index == length - 1:
+                for letter in mapping[digit]:
+                    answer.append(path + letter)
+            else:
+                for letter in mapping[digit]:
+                    dfs(index+1, path+letter)
+        
+        dfs(0, "")
+        return answer
