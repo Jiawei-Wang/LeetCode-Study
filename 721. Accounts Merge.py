@@ -121,6 +121,14 @@ class Solution:
 
 
 # 2024
+"""
+1. a union-find list is created to track all owners
+2. we use a dictionary to hold all emails, value will be the owner
+3. when we find duplicate emails, we update union-find list to merge two owners together
+4. then we create another dictionary to hold all unique owners
+5. we go through all emails in the first dictionary, use union-find list to find the true owner
+6. we append the email into the owner dictionary
+"""
 class UF:
     # we use a list to reprent relationship
     # every element in the list represents an "element" in the given input
