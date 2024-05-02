@@ -56,3 +56,61 @@ class Twitter:
 # param_2 = obj.getNewsFeed(userId)
 # obj.follow(followerId,followeeId)
 # obj.unfollow(followerId,followeeId)
+
+
+# 2024
+from collections import defaultdict
+import heapq
+
+class Twitter:
+
+    def __init__(self):
+        # tweetId is not sorted (a newer post can have a smaller tweetId with an older post with a bigger tweetId)
+        # so to sort posts we need timestamp
+        self.timestamp = 0 
+
+        # key = user, value = set of all users this user follows
+        self.relationship = defaultdict(set) 
+
+        # key = user, value = list of all post from this user
+        # post: tuple of (timestamp, tweetId), so this list is increasing  
+        self.post = defaultdict(list) 
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        # update relationship
+        self.relationship[followerId].add(followeeId)
+          
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        # update relationship
+        if followeeId in self.relationship[followerId]:
+            self.relationship[followerId].remove(followeeId)
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        # if a user posts, we need to add the user as it's own follower
+        self.follow(userId, userId)
+
+        # update this user's own post list
+        self.timestamp += 1 
+        self.post[userId].append((self.timestamp, tweetId))
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        feed_heap = []
+        for user in self.relationship[userId]:
+            for post in self.post[user][::-1]:
+                if len(feed_heap) < 10:
+                    heapq.heappush(feed_heap, post)
+                else:
+                    heapq.heappushpop(feed_heap, post)
+        feed = []
+        while feed_heap:
+            timestamp, tweetId = heapq.heappop(feed_heap)
+            feed.append(tweetId)
+        return feed[::-1]
+
+# Your Twitter object will be instantiated and called as such:
+# obj = Twitter()
+# obj.postTweet(userId,tweetId)
+# param_2 = obj.getNewsFeed(userId)
+# obj.follow(followerId,followeeId)
+# obj.unfollow(followerId,followeeId)
