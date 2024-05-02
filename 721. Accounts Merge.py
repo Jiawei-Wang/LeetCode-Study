@@ -118,3 +118,53 @@ class Solution:
             ans[uf.find(owner)].append(email) 
         
         return [[accounts[i][0]] + sorted(emails) for i, emails in ans.items()]
+
+
+# 2024
+class UF:
+    # we use a list to reprent relationship
+    # every element in the list represents an "element" in the given input
+    # index is how we can access this element
+    # value is the index of another element in the list, representing parent of current element
+    # for example: [0, 1]: two elements, first element's parent is itself (index = 0, self.parents[index] = index), same for second element
+    # [1, 1]: first element's parent is the second element, second element's parent is itself
+    
+    # initilize the relationship: everyone is its own parent
+    def __init__(self, N):
+        self.parents = list(range(N)) # a list: [0, 1, 2, ..., N-1]: self.parents[index] = index
+
+    # merge two groups together
+    def union(self, child, parent):
+        self.parents[self.find(child)] = self.find(parent) # let the root of "child" points to the root of "parent"
+    
+    # find the root of a parent-child group (a group may have many paths)
+    def find(self, x):
+        if self.parents[x] != x: # if index and value are not the same (element x is not its own parent)
+            self.parents[x] = self.find(self.parents[x]) # recursion till we find the element that is its own parent
+            # during the recursion:
+            # 1. current parent-child path is updated: all children on this path (not necessarily all children in this group)
+               # point to the root directly
+            # 2. which is reflected as value for this index in self.parents list is changed
+            # so if we have [1, 2, 2]: 0 -> 1 -> 2, find(0) will change it to: [2,2,2] (both 0 and 1 are now direct childrend of 2)
+        return self.parents[x] # return the element (which is the root of current parent-child group)
+    
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        uf = UF(len(accounts))
+        
+        ownership = {}
+        for i, (name, *emails) in enumerate(accounts): # 学习这个提取出sublist的语法
+            for email in emails:
+                if email in ownership: # if email already has an owner
+                    uf.union(i, ownership[email]) # merge these two owners into one group
+                ownership[email] = i # let account i owns this email (update either from None, or from previous owner)
+        # when we finish this part, we have a dictionary ownership, which contains all emails and their owners
+        # every email only has one owner as value (although it may in fact has multiple owners in the input)
+        # we also have a owner relationship list, which has all owner groups
+        
+        ans = collections.defaultdict(list) # ans is a dictionary: key is the unique owner, value is a list of emails
+        for email, owner in ownership.items():
+            ans[uf.find(owner)].append(email) # we find the root of this child, and put the email into this root  
+        
+        return [[accounts[i][0]] + sorted(emails) for i, emails in ans.items()]
+    
