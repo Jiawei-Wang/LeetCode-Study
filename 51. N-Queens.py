@@ -1,26 +1,44 @@
-'''
-Use the DFS helper function to find solutions recursively. 
-A solution will be found when the length of queens is equal to n ( queens is a list of the indices of the queens).
-
-
-In this problem, whenever a location (x, y) is occupied, 
-any other locations (p, q ) where p + q == x + y or p - q == x - y would be invalid. 
-We can use this information to keep track of the indicators (xy_dif and xy_sum ) of the invalid positions 
-and then call DFS recursively with valid positions only.
-
-
-At the end, we convert the result (a list of lists; each sublist is the indices of the queens) into the desire format.
-'''
+"""
+when location (x, y) is occupied, another location (i, j) is invalid when:
+i == x or j == y (horizontal or vertical)
+or 
+i + j = x + y or i - j = x - y (diagonal)
+"""
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def DFS(queens, xy_dif, xy_sum):
-            p = len(queens)
-            if p==n:
-                result.append(queens)
-                return None
-            for q in range(n):
-                if q not in queens and p-q not in xy_dif and p+q not in xy_sum: 
-                    DFS(queens+[q], xy_dif+[p-q], xy_sum+[p+q])  
+        # we check row by row: put a queen on 0-th row
+        # then on 1st row check what columns are available to put the next queen
+        # repeat
+        # so in this way we don't have to check i == x
+        def dfs(locations, xy_dif, xy_sum):
+            # locations: list of column indices of all existing queens
+            # for example: [1, 3] means on 0-th row we put on 1st col, on 1st row we put on 3rd col
+            # it serves two purposes:
+            # 1. it will provide the information to draw return value matrix
+            # 2. it will provide the information to check if j == y
+            # xy_dif: list of all existing x-y
+            # xy_sum: list of all existing x+y
+            
+            # we now enter a new row, there is no queen on this row, all previous rows have queens on them
+            row = len(locations) # if we have 2 existing queens on board, then we are currently on 2rd row 
+
+            # first we check if dfs can end
+            if row == n: # we have entered the "row" below the last row on board
+                result.append(locations)
+                return 
+            
+            # if dfs doens't end now (current row is still not fulfilled)
+            # we pick a column for the new queen
+            for col in range(n):
+                # 1. col cannot be as the same as any previous col
+                # 2. row - col cannot be as the same as any previous x - y
+                # 3. row + col cannot be as the same as any previous x + y
+                if col not in locations and row-col not in xy_dif and row+col not in xy_sum: # we find an available col for this queen
+                    dfs(locations+[col], xy_dif+[row-col], xy_sum+[row+col]) # update and go to next loop
+
         result = []
-        DFS([],[],[])
-        return [ ["."*i + "Q" + "."*(n-i-1) for i in sol] for sol in result]
+        dfs([],[],[])
+        # there are multiple solutions in result
+        # each solution has a list of column indices
+        # so if n = 4, index = 1, the row should be ". Q . ." 
+        return [["." * col + "Q" + "." * (n-col-1) for col in solution] for solution in result]
