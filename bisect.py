@@ -68,6 +68,27 @@ def bisect_right(a, x, lo=0, hi=None):
                                     (either case length becomes 1, no further loop) 
     """
     while lo < hi:
+
+        """
+        why while lo < hi rather than lo <= hi:
+        to prevent endless loop
+
+        if we have while lo <= hi:
+        1. if 3 elements: it will go into either 2 elements loop or 1 element loop
+        2. if 2 elements: it will go into either 1 element loop or stop
+        3. if 1 element: it will go into either 1 element loop or stop
+        for example: [0, 1, 2], lo = 0, hi = 2, to insert -1, we should return 0
+        however with while lo <= hi:
+        1. mid = 1: lo = 0, hi = 1
+        2. mid = 0: lo = 0, hi = 0
+        3. mid = 0: endless loop
+
+        if we have while lo < hi: 
+        for example: [0, 1, 2], lo = 0, hi = 2, to insert -1, we should return 0
+        1. mid = 1: lo = 0, hi = 1
+        2. mid = 0: lo = 0, hi = 0
+        3. ends
+        """
         mid = (lo+hi)//2
         if x < a[mid]: hi = mid
         else: lo = mid+1
