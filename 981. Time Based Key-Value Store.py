@@ -124,6 +124,11 @@ class TimeMap:
         """
         
         while left < right:
+            """
+            why while left < right instead of while left <= right:
+            1. mid is not excludded, we allow right = mid
+            2. so if mid > timestamp and left = right: we enter endless loop
+            """
             mid = (left + right) // 2
             if arr[mid][0] <= timestamp:
                 left = mid + 1 # target should be at least inserted at mid + 1
