@@ -72,3 +72,40 @@ class Solution:
         # so we shrink the left/right bounds to one value,
         # without ever disqualifying a possible minimum
         return nums[left]
+
+
+# find smallest element in a rotated array
+# 2024 understanding
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        # all elements are possible solution
+        lo = 0
+        hi = len(nums) - 1
+
+        # stop when we only have one element left
+        while lo < hi:
+            mid = lo + (hi-lo)//2 # lower middle
+
+            """
+            we want to return lo, and lower middle is picked, so in order to prevent endless loops for 2 elements case
+            we need to move lo away from mid, by using lo = mid + 1
+            and the only way to do that is to check mid > hi
+            """
+
+            
+            if nums[mid] > nums[hi]: # smallest one must be to the right side  
+                lo = mid + 1
+                # visualize wit this example: [1, 2, 3, -1, 0]
+                # 3 > 0, minimum value cannot be on the left side 
+                # another example: [1, 2, 3, -2, -1, 0]: 3 > 0, same
+                # another example: [1, 2, 3, 4, -1, 0]: 3 > 0, same
+            else: # smallest one must be to the left side (including mid)
+                hi = mid
+                # visualize wit this example: [1, 2, -3, -2, 0]
+                # -3 < 0, minimum value cannot be on the right side
+                # another example: [1, 2, -3, -2, -1, 0]: -3 < 0, same
+                # another example: [1, -4, -3, -2, -1, 0]: -3 < 0: same
+
+            # the logic also applies to normal array: [1,2,3,4,5], because we can view normal array as part of rotated array 
+        return nums[lo]
+        
