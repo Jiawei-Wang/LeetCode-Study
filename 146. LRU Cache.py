@@ -65,6 +65,7 @@ class LRUCache:
 # hashmap + double linkedlist
 # hashmap for quick lookup
 # linkedlist for updating cache
+# linkedlist is faster than deque
 
 # first create a linkedlist node class
 class Node:
