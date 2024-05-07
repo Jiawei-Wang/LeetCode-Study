@@ -25,16 +25,24 @@ class Solution:
 # dfs + cache
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
-        def dfs(i, j):
-            if not dp[i][j]:
+        M, N = len(matrix), len(matrix[0])
+        dp = [[0] * N for i in range(M)] # initially the longest path starting from every node is 0 
+        
+        def dfs(i, j): # for a node
+
+            if not dp[i][j]: # if we already know longest path starting from it, then we skip this node
+
                 val = matrix[i][j]
-                dp[i][j] = 1 + max(
+
+                # for a new node, its longest starting path = itself + longest path starting from any of the 4 neighbors
+                dp[i][j] = 1 + max( 
+                    # for a neightbor: first it has to exist, then it must be bigger than node
+                    # if both satisfy: we use neighbor's path, otherwise 0 
                     dfs(i - 1, j) if i and val > matrix[i - 1][j] else 0,
                     dfs(i + 1, j) if i < M - 1 and val > matrix[i + 1][j] else 0,
                     dfs(i, j - 1) if j and val > matrix[i][j - 1] else 0,
                     dfs(i, j + 1) if j < N - 1 and val > matrix[i][j + 1] else 0)
-            return dp[i][j]
 
-        M, N = len(matrix), len(matrix[0])
-        dp = [[0] * N for i in range(M)]
-        return max(dfs(x, y) for x in range(M) for y in range(N))    
+            return dp[i][j] # return is needed so other dfs loops can use current return value for calculation
+
+        return max(dfs(x, y) for x in range(M) for y in range(N))   
