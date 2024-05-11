@@ -139,3 +139,53 @@ class Solution:
             cost = temp
             
         return cost[dst] if cost[dst] != float('inf') else -1 
+
+
+# 2024
+"""
+Dijkstra: greedy
+1. update src's neighbor's distance, mark src as visited
+2. pick smallest distance node, update its neighbors, mark this node as visited
+3. repeat
+
+so this question can be built upon Dijkstra:
+we can only go maximum k steps, so we need a variable to keep track of total steps travelled so far 
+"""
+import heapq
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        # turn flights list into dictionary
+        neis = collections.defaultdict(list)
+        for f, t, p in flights:
+            neis[f].append((t, p))
+
+        # build a min heap to get the cheapest city every time
+        # current total price, max distance to destination allowed, current source city,   
+        heap = [(0, k, src)] # the origianl source city has 0 total price and k distance
+        seen_stops = collections.defaultdict(int)
+ 
+        while heap: # while there are cities to explore (cities are only added if they are within k stops)
+            totalP, stops, city = heapq.heappop(heap) # get the cheapest one
+            if city == dst: # by Dijkstra, first time we visit the city, it's the cheapest
+                return totalP
+            if stops < 0: # if this city is too far away no need to do anything
+                continue
+            if city in seen_stops and seen_stops[city] >= stops: 
+            # optimization: avoid the case where current path has fewer available stops than previous visit 
+            # (we already know current price >= previous visit price, and now we know current path is longer than previous path) 
+                continue
+
+            # if we haven't arrived at distination and we still have more stops allowed
+            seen_stops[city] = stops
+            for nei, neiP in neis[city]: # we update current city's neighbors
+                heapq.heappush(heap, (totalP + neiP, stops - 1, nei))
+
+                """
+                Dijkstra doesn't keep track of paths, 
+                so one path may have the cheapest price but also have more than k stops
+                so we cannot directly update neighbor's price (overwrite one price with another)
+                we can only add a new price to the heap
+                (instead of having a global optimal, we keep all possible routes)
+                """
+        
+        return -1
