@@ -48,9 +48,21 @@ class Solution:
                     total_dis = cur_dis + nei_dis
                     if total_dis < distance[nei-1]: # if we find a shorter distance between k and nei-1
                         distance[nei-1] = total_dis
-                        heapq.heappush(heap, (total_dis, nei))
-                        # old distance for nei (longer one) is still in the heap but it is behind new distance (shorter)
-                        # for a node: there may be multiple distances in heap but only the shortest one is used
+                        heapq.heappush(heap, (total_dis, nei)) 
+                        
+                        """
+                        a node may have multiple paths from k to itself, and we use the element distance[node] to keep the shortest path
+                        we use heap as collection of current distances, so when we first find a path to it, we push the distance into heap
+                        next time we may find a shorter path, we update distance[node] value and update this value in heap
+                        but finding a value in heap is time consuming
+                        so we just push shorter distance into heap without modifying the longer ones 
+                        shorter one is on top so all longer ones will not be used for calculation
+                        optimization: we only push shorter distance into heap, not every distance
+                        for example for node x, if we find path of distance 5, we have (5, x) in heap
+                        then we find another path of distance 7 for x, we do nothing
+                        then we find another path of distance 3 for x, we add (3, x) to heap
+                        when we use (3, x), x is marked as visited, so (5, x) is never taken into calculation
+                        """
 
         for boo in visited:
             if not boo:
