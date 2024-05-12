@@ -112,3 +112,48 @@ class MyQueue:
 
     def empty(self):
         return not self.s1 and not self.s2
+
+
+# 2024
+class MyQueue:
+
+    def __init__(self):
+        self.first = deque()
+        self.second = deque()
+
+    # push: just push to first stack
+    def push(self, x: int) -> None:
+        self.first.append(x)
+    
+    # empty: two stacks both have nothing
+    def empty(self) -> bool:
+        return not self.first and not self.second
+    
+    # pop: only dump first into second if second is empty
+    # otherwise order is ruined
+    def pop(self) -> int:
+        if self.empty():
+            return None 
+        
+        if not self.second:
+            while self.first:
+                self.second.append(self.first.pop())
+        return self.second.pop() 
+
+    # peek: same as pop, only dump first into second if second is empty
+    def peek(self) -> int:
+        if self.empty():
+            return None
+
+        if not self.second:
+            while self.first:
+                self.second.append(self.first.pop())
+        return self.second[-1]
+        
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
