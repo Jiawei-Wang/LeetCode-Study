@@ -95,20 +95,38 @@ class Solution:
 # 和上面相同逻辑的解法：针对排序后逐个检查的优化：二分查找，其他不变
 
 
-# dijkstra（priority queue）
+# 2024
+# question: find the minimum value, that there exists a path from top-left to bottom-right and value >= every element in the path
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
-        N = len(grid)
-        pq = [(grid[0][0], 0, 0)]
-        seen = set([(0, 0)])
+        """
+        dijkstra with priority queue + visited list
+        how is dijkstra applied: 
+        1. we always start from [0, 0], so we have a single starting node
+        2. then we update its neighbor nodes and add to pq: 
+           we don't care about total distance from [0, 0] to this node
+           we care about edge weight, which is their value 
+        3. pick nearest neighbor (the one with smallest edge weight), update its neighbors and add to pq
+        4. repeat
+        5. so at the end we have a shortest distance between [0, 0] to [n-1, n-1]
+        6. and the distance is the biggest edge weight on this path
+        """
+
+        N = len(grid) # grid is square
+        pq = [(grid[0][0], 0, 0)] # tuple: element value, element index
+        seen = set([(0, 0)]) 
         res = 0
         
         while True:
-            T, x, y = heapq.heappop(pq)
-            res = max(res, T)
+            # pick nearest neighbor (the one with smallest edge weight)
+            height, x, y = heapq.heappop(pq)
+
+            res = max(res, height)
             if x == y == N - 1:
                 return res
+            
+            # add neighbor edge weight into pq
             for i, j in [(x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1)]:
                 if 0 <= i < N and 0 <= j < N and (i, j) not in seen:
-                    seen.add((i, j))
                     heapq.heappush(pq, (grid[i][j], i, j))
+                    seen.add((i, j))
