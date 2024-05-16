@@ -59,3 +59,53 @@ class Solution:
             if sCounter[s[i-len(p)+1]] == 0:
                 del sCounter[s[i-len(p)+1]]   # remove the count if it is 0
         return res
+
+
+# 2024 
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        if len(p) > len(s):
+            return []
+
+        target = dict()
+        for char in p:
+            if char not in target:
+                target[char] = 1
+            else:
+                target[char] += 1
+        
+        for i in range(len(p)):
+            char = s[i]
+            if char in target:
+                target[char] -= 1
+            else:
+                target[char] = -1
+        
+        def empty(target):
+            for key, value in target.items():
+                if value:
+                    return False
+            return True
+
+        answer = []
+        if empty(target):
+                answer.append(0)
+        for i in range(len(p), len(s)):
+            new = s[i]
+            old = s[i-len(p)]
+            if new in target:
+                target[new] -= 1
+            else:
+                target[new] = -1
+            if old in target:
+                target[old] += 1
+            else:
+                target[old] = 1
+            if empty(target):
+                answer.append(i-len(p)+1)
+        
+        return answer
+            
+
+
+        
