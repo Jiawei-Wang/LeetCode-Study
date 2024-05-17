@@ -27,3 +27,24 @@ class Solution:
 
 
 # 不用deque的方法：初始化一个list，所有元素均为0，然后同样用two pointer，每次找到位置然后更新
+
+
+# 2024
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        answer = []
+
+        l = 0
+        r = len(nums)-1
+
+        while l <= r:
+            lo = nums[l]
+            hi = nums[r]
+            if abs(lo) < abs(hi):
+                answer.append(hi * hi)
+                r -= 1
+            else:
+                answer.append(lo * lo)
+                l += 1
+        
+        return answer[::-1]
