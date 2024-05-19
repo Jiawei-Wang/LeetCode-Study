@@ -4,22 +4,22 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+
+# solution 1: turn tree into 1d sorted list
+# 思路：BST中每个元素的位置均固定，所以DFS就可以找到第K个元素
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        # 思路：BST中每个元素的位置均固定，所以DFS就可以找到第K个元素
-        def inorder(r):
-            # 将每个元素的值放进一个list中
-            return inorder(r.left) + [r.val] + inorder(r.right) if r else []
+        def inorder(node):
+            if not node:
+                return []
+            else:
+                return inorder(node.left) + [node.val] + inorder(node.right)
+
         return inorder(root)[k - 1]
 
 
-# 05-24-2022
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+# solution 2: dfs directly
 class Solution:
     def kthSmallest(self, root, k):
         self.k = k
@@ -38,6 +38,7 @@ class Solution:
         self.helper(node.right)
 
 
+# solution 3: dfs with stack
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         stack = []
