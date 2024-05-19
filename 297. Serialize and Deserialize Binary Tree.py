@@ -12,17 +12,23 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
+        # storing node value is easy
+        # storing tree shape is hard
+        vals = []
+
         def encode(node): 
-            # 从root开始，将树中每个元素以中左右的形式遍历，放入vals中
             if node:
                 vals.append(str(node.val))
                 encode(node.left)
                 encode(node.right)
             else:
                 vals.append('#')
-        vals = []
+        
         encode(root)
         return ' '.join(vals)
+        # we preorder traverse the tree, so the string stores order information
+        # leaf nodes are followed by two #
+        # so the shape of the tree is fully stored in the string
         
 
     def deserialize(self, data):
@@ -31,16 +37,21 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
+        vals = iter(data.split()) # vals是一个iter，next(vals)每次会按顺序返回vals中下一个元素
+
         def decode():
-            # 将vals中的元素逐个取出，以中左右的顺序逐个放入新的树中
-            val = next(vals) # vals是一个iter，next(vals)每次会按顺序返回vals中下一个元素
+            # preorder it again
+            val = next(vals) 
+
             if val == '#':
                 return None
+            
             node = TreeNode(int(val))
             node.left = decode()
             node.right = decode()
+            
             return node
-        vals = iter(data.split())
+        
         return decode()
         
 
