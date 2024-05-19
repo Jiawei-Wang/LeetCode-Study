@@ -1,3 +1,20 @@
+"""
+可以把题目转换为：找到从起始node到目标node的最短路径
+every node is in the given input except start node
+for example:
+    start: abc
+    nodes: [abd, aed, aec]
+    end: aec
+we have two paths:
+1. abc -> aed (1 step)
+2. abc -> abd -> aed -> aed (3 steps)
+so we return 1
+   
+路径weight均为1，但adj list的关系被隐藏（即我们无法直接获得当前遍历的word的邻居）
+找邻居的传统思路：遍历list，其中每个word都拿出来和当前的word逐个char对比，如果两者刚好相差一个char则视为邻居
+找邻居的新思路：将当前word的所有（只改变一个char）的变体找出来，查看是否在list中
+"""
+
 # BFS：每次向邻居走一步，如果在遍历完所有word前走到endWord则返回当前步数
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:                 
@@ -24,11 +41,3 @@ class Solution:
                         # 2.只保留到达此node的最短路径（能2步到没必要3步到）
                         queue.append([next_word, length + 1])
         return 0
-                        
-                        
-    """
-    可以把题目转换为：找到从起始node到目标node的最短路径
-    其中路径weight均为1，但adj list的关系被隐藏（即我们无法直接获得当前遍历的word的邻居）
-    找邻居的传统思路：遍历list，其中每个word都拿出来和当前的word逐个char对比，如果两者刚好相差一个char则视为邻居
-    找邻居的新思路：将当前word的所有（只改变一个char）的变体找出来，查看是否在list中
-    """
