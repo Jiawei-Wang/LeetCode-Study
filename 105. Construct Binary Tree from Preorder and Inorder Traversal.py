@@ -4,11 +4,17 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+
+# we know: for a tree: 
+# preorder的第一个元素是root
+# inorder中在root前的元素是left subtree，之后的元素是right subtree
+# so we can:
+# 1. get the root
+# 2. remove root from both lists
+# 3, recursively build left subtree and right subtree
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        # preorder的第一个元素永远是root
-        # inorder中在root前的元素永远是left subtree，之后的元素永远是right subtree
-        # 重复此循环
         if inorder: 
             ind = inorder.index(preorder.pop(0))
             root = TreeNode(inorder[ind]) 
