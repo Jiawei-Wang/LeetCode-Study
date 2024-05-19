@@ -1,7 +1,8 @@
 # brute force: DFS or BFS on every cell: time (N*M)^2
 
 # 找出连接pacific ocean的所有元素，找出连接atlantic ocean的所有元素，返回重叠部分: time N*M
-# 具体方法：从第一行出发，dfs/bfs找到每个元素对应的邻居中所有能抵达top的元素，同理，从最后一行，第一列，最后一列出发，找到对应元素
+# 具体方法：从第一行(top)出发，dfs/bfs找到每个元素对应的邻居中所有能抵达top的元素
+# 同理，从最后一行，第一列，最后一列出发，找到对应元素
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         ROWS, COLS = len(heights), len(heights[0])
