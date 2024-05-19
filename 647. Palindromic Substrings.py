@@ -45,3 +45,19 @@ class Solution:
                 
                 ans += dp[i][j]
         return ans
+
+
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+            n = len(s)
+            palindrome = [[0] * n for _ in range(n)] # palindrome[i][j] = True: s[i:j+1] is palindrome
+            
+            count = 0
+            for i in range(n-1, -1, -1):
+                for j in range(i, n):
+                    # if string length = 1 (j==i) or = 2: palindrome[i][j] = s[i] == s[j]
+                    # if string length >= 3: palindrome[i][j] = s[i] == s[j] and palindrome[i+1][j-1]
+                    palindrome[i][j] = s[i] == s[j] and ((j-i+1) < 3 or palindrome[i+1][j-1])
+                    count += palindrome[i][j] # 5 + True = 6
+
+            return count
