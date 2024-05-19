@@ -1,5 +1,12 @@
-'''
-读题想法：找环，然后和minimum height tree一样，从外围删除元素
+"""
+in a graph with n vertices marked from 0 to n-1
+we have some directed edges 
+find if there is a circle on this graph
+
+读题想法：
+和minimum height tree一样，从外围删除元素
+and at the end check if graph is empty 
+
 这个图里的edge是有向的，举例: [[0,1], [0,2],[1,2]] 虽然是个环（课程0需要1和2，1需要2），但是以 2->1->0的顺序可以完成课程
 但是反过来，如果是[[0,1],[1,2],[2,0]]，则无法完成
 1. 画图，获得每个node和它的前置课程
@@ -11,7 +18,7 @@
 思考：
 1. adj list中的value可以用set而不是list来提高搜索速度，因为一个课程的前置课程没有顺序之分
 2. 可以将后置课程也放入adj list来避免遍历adj list找它们
-'''
+"""
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         if not prerequisites:
@@ -33,7 +40,7 @@ class Solution:
             if i not in adj:
                 ans.append(i)
                 
-        # 一直删到不能删为止
+        # then keep removing nodes with no prerequisite from graph
         while True:
             if not adj:
                 return ans
@@ -49,7 +56,7 @@ class Solution:
                     for laterCourse in adj[key][1]:
                         adj[laterCourse][0].remove(key)
                 del adj[key]
-            # 下面这段有bug：找出一个课程A后立刻修改它的后置课程[B,c,D]中的前置课程set，最后再加入cur set，
+            # 下面这段有bug：找出一个课程A后立刻修改它的后置课程[B,C,D]中的前置课程set，最后再加入cur set，
             # 可能会导致遍历到某个它的后置课程B时发现B也没有前置课程，导致B也被加入当前这轮的cur set
             # for key in adj:
             #     # 找出没有前置课程的课
@@ -68,23 +75,26 @@ class Solution:
         return []
 
 
-# 这个答案不是很懂，需要再回顾
-# 同时这道题还有一个Topological Sort答案，TODO
-# DFS
+# DFS to check if grpah is DAG
 class Solution:
-    def findOrder(self, numCourses, prerequisites):
-        # 首先还是做adj list
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        self.res = []
+
+        # first create adj list 
         self.graph = collections.defaultdict(list)
         for pair in prerequisites:
             self.graph[pair[0]].append(pair[1]) 
         
-        self.res = [] # 答案初始化为空
-        
-        self.visited = [0 for x in range(numCourses)] # DAG detection 
+        # 0: not visited yet
+        # -1: currently being visited
+        # 1: already visited and proven to have no circle
+        self.visited = [0 for x in range(numCourses)]
+
+        # then check DAG
         for x in range(numCourses):
             if not self.DFS(x):
                 return []
-             # continue to search the whole graph
+
         return self.res
     
     def DFS(self, node):
@@ -92,6 +102,7 @@ class Solution:
             return False
         if self.visited[node] == 1:
             return True # has been finished, and been added to self.res
+            
         self.visited[node] = -1 # mark as visited
         for x in self.graph[node]:
             if not self.DFS(x):
@@ -99,3 +110,40 @@ class Solution:
         self.visited[node] = 1 # mark as finished
         self.res.append(node) # add to solution as the course depenedent on previous ones
         return True
+
+
+# Topological Sort
+from collections import defaultdict, deque
+class Solution:
+    def findOrder(self, numCourses, prerequisites):
+        if numCourses <= 0:
+            return []
+
+        # 1. Init the two HashMaps
+        in_degree = {i: 0 for i in range(numCourses)} # A in-degree map, which record each nodes in-degree
+        topo_map = defaultdict(list) # A topo-map which record the Node's children
+        # in-degree: how many courses to finish before we can finish current course
+        # children: list of courses that have current course as prerequisite
+
+        # 2. Build Map
+        for cur_course, pre_course in prerequisites:
+            topo_map[pre_course].append(cur_course)  # put the child into its parent's list
+            in_degree[cur_course] += 1  # increase child inDegree by 1
+
+        # 3. Iterate the inDegree map, find the Node has 0 inDegree. (If none, there must be a circle)
+        #    reduce children's inDegree, until all inDegrees are 0
+        res = []
+        queue = deque([k for k in in_degree if in_degree[k] == 0])
+        while queue:
+            key = queue.popleft()
+            res.append(key)
+            for child in topo_map[key]:
+                in_degree[child] -= 1
+                if in_degree[child] == 0:
+                    queue.append(child)
+
+        # If the result size is less than numCourses, there is a cycle
+        if len(res) != numCourses:
+            return []
+
+        return res
