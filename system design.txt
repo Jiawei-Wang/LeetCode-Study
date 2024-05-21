@@ -1,27 +1,159 @@
+System Design Interview Process
+
 Step 0:
     get the question
 
 Step 1: Scope
-    1. identify use cases -> what functions are we going to design
-    2. clarify the system's constraints -> Daily active users/Query per second/Storage
+    1. identify use cases:                   what functions are we going to design
+    2. clarify the system's constraints:     Daily active users/Query per second/Storage
     3. provide data model
     4. provide api
-    goal: gather the requirements and agree on the scope with no assumption
+goal: gather the requirements and agree on the scope with no assumption
 
 Step 2: Abstract
     1. break the system into important components 
     2. show connections between components
     3. justify ideas and address every constraint and use case
-    goal: outline all important components with a simple high-level abstract design diagram 
+goal: outline all important components with a simple high-level abstract design diagram 
 
 Step 3: Bottleneck
     1. think about where are the bottlenecks, how to improve scalability (traffic/data)
     2. find solutions to solve bottlenecks 
     3. talk about trade-off for this solution
-    goal: locate bottlenecks in the design, but not going into too much detail about solution
+goal: locate bottlenecks in the design, but not going into too much detail about solution
 
 Step 4: Scalability -> main part
     1. dive into each component and provide details
-    goal: make the system scalable
+goal: make the system scalable
     
 Step 5: Follow-up
+
+
+
+
+
+System Design Cheat Sheet 
+
+1. client + dns + cdn + api gateway + servers + db + cache
+2. message queue
+3. consistent hashing + sharding
+4. websocket/http/long pulling
+5. data scalability/consistency/availability:
+    1) scalability: data partition
+    2) availability: data replication
+    3) consistency: versioning/2 phase commit
+6. ID generator: timestamp + datacenter + machine + sequence 
+7. monitoring/alerting
+8. distributed message queue
+9. zookeeper
+10. File system vs Blob DB
+
+
+
+
+
+System Design Questions
+
+1) Rate Limiter
+    1. part of API gateway
+    2. Token Bucket algorithm
+    3. high level
+        1) client -> Rate Limiter -> server
+        2) workers fetch rules and store in cache, Rate Limiter visites cache
+        3) limited requests go into MQ or be dropped, notification is sent out
+    4. follow-up:
+        1) race: sorted sets data structure 
+        2) sync: centralized data center
+        3) latency: nearby data center
+
+2) URL Shortener
+    1. hashing + collision resolution
+    2. high level:
+        1) long url -> check db -> generate short url -> store in db
+        2) short url -> check cache -> check db -> return long url
+
+3) Web Crawler
+    1. high level:
+        seed url -> url frontier -> HTML downloader (+ DNS) -> content parser -> check content db
+        -> link extractor -> url filter -> check url db -> url frontier 
+    2. url frontier: 
+        1) a queue
+        2) politeness: multiple queues with multiple hosts
+        3) priority: add prioritizer
+        4) storage: queue + db
+    3. content parser: validate the html content
+
+4) Notification System
+    1. sign up: client -> load balancer -> api servers -> db
+    2. notification: services -> notification server (+ cache + db) -> MQ -> worker -> APN -> device
+    3. reliability: MQ -> worker + logging -> APN
+
+5) News Feed/Twitter
+    1. Post: DNS -> client -> load balancer -> server -> post (cache + db)/push to feed/notification
+    2. Feed: DNS + CDN -> client -> load balancer -> server -> feed (cache)
+    3. deep dive:
+        1) push to feed: 
+            1. get friend Id from graph db
+            2. get friend data from cache + db
+            3. MQ -> worker -> feed cache (only stores ID)
+        2) build feed:
+            1. server -> feed cache -> find ID
+            2. server -> user db -> find user
+            3. server -> post db -> find post
+
+6) Chat App
+    1. stateless: user -> load balancer -> user profile/group profile/Auth/server finder
+    2. stateful: user1 -> websocket -> chat service -> websocket -> user2
+    3. deep dive on message flow:
+        user1 -> server1 -> message sync queue (+ db)-> server2 -> user2 
+        (message sync queue stores to Push Notification server if offline)
+    4. group chat: receiver has a message queue that contains everything from everyone else
+    5. online status: 
+        1) user -> ws -> status server -> db
+        2) user -> pub/sub -> friends
+
+7) Search Autocomplete
+    1. Data gathering: analytics logs -> aggregator -> aggregated db -> workers -> regular update -> Trie db -> Trie cache
+    2. Query service: client -> load balancer -> server -> Trie cache -> Trie db
+
+8) Youtube
+    1. Core: CDN + blob storage
+    2. two parts: CDN for streaming + api server for profile/etc
+    3. high level:
+        1) video upload: user -> cloud storage -> transcoding server -> completion queue -> handler -> metadata db/cache
+                                                                     -> trascoding storage -> CDN
+        2) transcoding: preprocessor -> scheduler -> resource manager -> task worker -> video
+    4. optimization: parallelism: MQ + multiple workers
+
+9) Google Drive
+    1. upload: client -> block server -> store in blocks on cloud -> cold storage
+    2. visit: client -> load balancer -> api server -> metadata db/cache
+    3. notification service
+
+10) Nearby Places
+    1. master/slave for write and read
+    2. Business service -> write to master / Location based service -> read from slaves
+    3. find distance: Geohash
+    4. high level:
+        1) client -> load balancer -> business service -> data cluster (master/slave)
+        2) client -> load balancer -> location based service -> redis cluster (geohash + business info)
+        3) redis sync from data cluster
+
+11) Nearby friends
+    1. high level: 
+        1) everything else: client -> http -> LB -> api server -> db
+        2) location: client -> ws -> LB <-> ws server -> redis pub/sub + location cache + history location db
+    2. pub/sub: user1 -> publisher1 -> user1 channel -> all friends
+
+12) Google Map
+    1. high level:
+        1) client -> cdn -> precomputed map image
+        2) client -> load balancer -> location service -> db
+        3) client -> navigation service -> geocoding db + routing tiles
+    2. location: update every few seconds
+    3. tiles: client -> fetch url of tiles -> tiles db -> construct url of tiles -> download from CDN
+    4. navigation: 
+        1) geocoding service: input -> location
+        2) route planner: ETA service/shortest route service/rank service/etc
+
+    
