@@ -86,3 +86,19 @@ class Solution:
             ans.append(cur.val)
             cur = cur.right
         return ans
+
+
+# 2024
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        answer = []
+        def dfs(node):
+            if not node:
+                return
+            if node.left:
+                dfs(node.left)
+            answer.append(node.val)
+            if node.right:
+                dfs(node.right)
+        dfs(root)
+        return answer
