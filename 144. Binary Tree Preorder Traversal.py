@@ -33,3 +33,19 @@ class Solution:
             else:
                 root = stack.pop()
         return ans
+
+
+# 2024
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        answer = []
+        def dfs(node):
+            if not node:
+                return
+            answer.append(node.val)
+            if node.left:
+                dfs(node.left)
+            if node.right:
+                dfs(node.right)
+        dfs(root)
+        return answer
