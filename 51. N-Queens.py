@@ -9,7 +9,7 @@ class Solution:
         # we check row by row: put a queen on 0-th row
         # then on 1st row check what columns are available to put the next queen
         # repeat
-        # so in this way we don't have to check i == x
+        # so in this way we don't have to check horizontally 
         def dfs(locations, xy_dif, xy_sum):
             # locations: list of column indices of all existing queens
             # for example: [1, 3] means on 0-th row we put on 1st col, on 1st row we put on 3rd col
@@ -38,7 +38,7 @@ class Solution:
 
         result = []
         dfs([],[],[])
-        # there are multiple solutions in result
-        # each solution has a list of column indices
-        # so if n = 4, index = 1, the row should be ". Q . ." 
+        # result is a list of solutions
+        # each solution is a list of column indices
+        # so if n = 4, col = 1, the row should be ". Q . ." 
         return [["." * col + "Q" + "." * (n-col-1) for col in solution] for solution in result]
