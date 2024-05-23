@@ -10,10 +10,12 @@ class FreqStack:
     def push(self, val: int) -> None:
         self.stack.append(val)
         if val not in self.dict:
-            self.dict[val] = [0, deque([len(self.stack)-1])]
+            self.dict[val] = [1, deque([len(self.stack)-1])]
+            # this val appears 1 (once), and it's at index = len(self.stack)-1 in stack
         else:
             self.dict[val][0] += 1
             self.dict[val][1].appendleft(len(self.stack)-1)
+            # this val appears 1 more time, and its latest one is at index = len(self.stack)-1
         
 
     def pop(self) -> int:
@@ -32,41 +34,44 @@ class FreqStack:
 # param_2 = obj.pop()
 
 
-"""
-Hash map freq will count the frequence of elements.
-Hash map m is a map of stack.
-If element x has n frequence, we will push x n times in m[1], m[2] .. m[n]
-maxfreq records the maximum frequence.
 
-push(x) will push x to m[++freq[x]]
-pop() will pop from m[maxfreq]
-"""
 class FreqStack:
     def __init__(self):
-        self.freq = collections.Counter()
-        self.m = collections.defaultdict(list)
-        self.maxf = 0
+        # key: element, value: frequency
+        # for example: {3:5}: value 3 exists 5 times 
+        self.freq = collections.Counter()  
+
+        # key: frequency, value: list of elements with this frequency
+        # for example: {6: [2, 3]}: value 2 exists 6 times, value 3 also exists 6 times
+        self.m = collections.defaultdict(list) 
+
+        # int to keep track of maximum frequency
+        self.maxf = 0 
 
     def push(self, x):
-        freq, m = self.freq, self.m
-        freq[x] += 1
-        self.maxf = max(self.maxf, freq[x])
-        m[freq[x]].append(x)
+        self.freq[x] += 1 # for example {3:5} -> {3:6}
+        self.maxf = max(self.maxf, self.freq[x]) # check if we need to update maximum frequency
+        self.m[self.freq[x]].append(x) # {6: [2, 3]} lastest element will be added to the end of list
 
     def pop(self):
-        freq, m, maxf = self.freq, self.m, self.maxf
-        x = m[maxf].pop()
-        if not m[maxf]: self.maxf = maxf - 1
-        freq[x] -= 1
+        x = self.m[self.maxf].pop() # pop the lastest element with the maximum frequency
+        self.freq[x] -= 1 
+        if not self.m[self.maxf]: 
+            self.maxf -= 1
         return x
-    
-    
+
     """
-    理解：
-    freq中记录所有元素和它们的频率
-    m是一个dict，每个元素是一个list，key = freq, value = 此freq中出现的所有元素（先push的排在前面）
-    maxf记录当前最大频率
-    
-    push时更新freq，maxf，然后在m中key=freq的list中添加元素
-    pop时先把最大频率的最后一个元素pop出来，然后更新maxf，最后更新freq dict
+    for example push 2, 3, 3, 2
+    each step we have 
+        1) freq {2: 1}
+           m    {1: [2]}
+        2) freq {2:1, 3:1}
+           m    (1: [2,3])
+        3) freq {2:1, 3:2}
+           m    {1: [2,3], 2: [3]}
+        4) freq {2:2, 3:2}
+           m    {1: [2,3], 2: [3,2]}
+    so we pop 2, then pop 3, then pop 3, then pop 2
     """
+    
+    
