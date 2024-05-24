@@ -1,3 +1,4 @@
+# solution 1: space n
 class Solution:
     def candy(self, ratings: List[int]) -> int:
         size = len(ratings)
@@ -19,3 +20,6 @@ class Solution:
         result = sum(num)
         return result
         
+
+# solution 2: space 1
+TODO
