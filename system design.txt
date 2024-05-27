@@ -1,7 +1,8 @@
 System Design Interview Process
 
-Step 0:
-    get the question
+Step 0: Get the question
+    1. functional requirements
+    2. Non functional requirements
 
 Step 1: Scope
     1. identify use cases:                   what functions are we going to design
@@ -45,14 +46,13 @@ System Design Cheat Sheet
     2) stateful / stateless
     3) message queue
 3. Cache:
-    1) 
+    1) Redis
 4. Database:
     1) relational / non-relational
-        1- CAP:
-            consistency: versioning / 2 phase commit
-            availability: data replication
-            partition tolerance: failure detection / read + write / master + slave
-        2- scalability: data partition
+        consistency: versioning / 2 phase commit
+        availability: data replication
+        partition tolerance: failure detection / read + write / master + slave
+        scalability: data partition
     2) File system / Blob DB
     3) sharding / consistent hashing
 5. Logging / Monitoring / etc
