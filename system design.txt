@@ -5,7 +5,7 @@ Step 0:
 
 Step 1: Scope
     1. identify use cases:                   what functions are we going to design
-    2. clarify the system's constraints:     Daily active users/Query per second/Storage
+    2. clarify the system's constraints:     Daily active users/Query per second/Storage/SLA
     3. provide data model
     4. provide api
 goal: gather the requirements and agree on the scope with no assumption
@@ -16,17 +16,18 @@ Step 2: Abstract
     3. justify ideas and address every constraint and use case
 goal: outline all important components with a simple high-level abstract design diagram 
 
-Step 3: Bottleneck
+Step 3: Deep dive -> main part
+    1. dive into each component and provide details
+    2. scalabiliy
+goal: make the system scalable
+
+Step 4: Bottleneck
     1. think about where are the bottlenecks, how to improve scalability (traffic/data)
     2. find solutions to solve bottlenecks 
     3. talk about trade-off for this solution
 goal: locate bottlenecks in the design, but not going into too much detail about solution
 
-Step 4: Scalability -> main part
-    1. dive into each component and provide details
-goal: make the system scalable
-    
-Step 5: Follow-up
+Step 5: Recap and Follow-up
 
 
 
@@ -34,19 +35,27 @@ Step 5: Follow-up
 
 System Design Cheat Sheet 
 
-1. client + dns + cdn + api gateway + servers + db + cache
-2. message queue
-3. consistent hashing + sharding
-4. websocket/http/long pulling
-5. data scalability/consistency/availability:
-    1) scalability: data partition
-    2) availability: data replication
-    3) consistency: versioning/2 phase commit
-6. ID generator: timestamp + datacenter + machine + sequence 
-7. monitoring/alerting
-8. distributed message queue
-9. zookeeper
-10. File system vs Blob DB
+1. Client side: 
+    1) web/mobile
+    2) DNS
+    3) CDN
+    4) HTTP/pulling/long pulling/RPC/Websocket
+2. Server side:
+    1) API Gateway / Load balancer / Rate limiter
+    2) stateful / stateless
+    3) message queue
+3. Cache:
+    1) 
+4. Database:
+    1) relational / non-relational
+        1- CAP:
+            consistency: versioning / 2 phase commit
+            availability: data replication
+            partition tolerance: failure detection / read + write / master + slave
+        2- scalability: data partition
+    2) File system / Blob DB
+    3) sharding / consistent hashing
+5. Logging / Monitoring / etc
 
 
 
@@ -55,20 +64,21 @@ System Design Cheat Sheet
 System Design Questions
 
 1) Rate Limiter
-    1. part of API gateway
+    1. part of API gateway, between client and API servers
     2. Token Bucket algorithm
     3. high level
         1) client -> Rate Limiter -> server
         2) workers fetch rules and store in cache, Rate Limiter visites cache
         3) limited requests go into MQ or be dropped, notification is sent out
     4. follow-up:
-        1) race: sorted sets data structure 
-        2) sync: centralized data center
+        1) race condition: sorted sets data structure in Redis
+        2) synchronization: centralized data center
         3) latency: nearby data center
 
 2) URL Shortener
     1. hashing + collision resolution
-    2. high level:
+    2. ID generator: timestamp + datacenter + machine + sequence
+    3. high level:
         1) long url -> check db -> generate short url -> store in db
         2) short url -> check cache -> check db -> return long url
 
@@ -104,17 +114,19 @@ System Design Questions
 6) Chat App
     1. stateless: user -> load balancer -> user profile/group profile/Auth/server finder
     2. stateful: user1 -> websocket -> chat service -> websocket -> user2
-    3. deep dive on message flow:
+    3. Zookeeper: find chat servers
+    4. deep dive on message flow:
         user1 -> server1 -> message sync queue (+ db)-> server2 -> user2 
         (message sync queue stores to Push Notification server if offline)
-    4. group chat: receiver has a message queue that contains everything from everyone else
-    5. online status: 
+    5. group chat: receiver has a message queue that contains everything from everyone else
+    6. online status: 
         1) user -> ws -> status server -> db
         2) user -> pub/sub -> friends
 
 7) Search Autocomplete
-    1. Data gathering: analytics logs -> aggregator -> aggregated db -> workers -> regular update -> Trie db -> Trie cache
-    2. Query service: client -> load balancer -> server -> Trie cache -> Trie db
+    1. Trie data structure
+    2. Data gathering: analytics logs -> aggregator -> aggregated db -> workers -> regular update -> Trie db -> Trie cache
+    3. Query service: client -> load balancer -> server -> Trie cache -> Trie db
 
 8) Youtube
     1. Core: CDN + blob storage
