@@ -16,6 +16,9 @@ def max_sum_no_adjacent(array, n):
     
     dp = [[0] * (len(array) + 1) for _ in range(n + 1)] 
     # dp[k][i]: maximum sum for picking k elements from array[0:i]
+    # base case:
+    # 1. k == 0: every dp[0][i] = 0
+    # 2. i == 0: every dp[k][0] = 0
     
     for k in range(1, n + 1):
         for i in range(1, len(array) + 1):
