@@ -39,3 +39,14 @@ class Solution:
     1. 如果它大于前面一个元素, 那么最后一个subarray就会把它计算在内
     2. 如果它小于前面一个元素, 那么它会同时被赋值给buy和sell, 成为单独一个subarray, profit = 0
     """
+
+
+# 2024
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        answer = 0
+        current = 0
+        for i in range(1, len(prices)):
+            if prices[i] >= prices[i-1]:
+                answer += prices[i] - prices[i-1] 
+        return answer
