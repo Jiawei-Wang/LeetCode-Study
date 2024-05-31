@@ -12,3 +12,25 @@ class Solution:
             ans += count[total - k]
             count[total] += 1
         return ans
+
+
+# 2024
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        count = 0
+
+        hashmap = dict()
+        total = 0
+        hashmap[total] = 1
+        
+        for i in range(len(nums)):
+            total += nums[i]
+            if total - k in hashmap:
+                count += hashmap[total - k]
+
+            if total not in hashmap:
+                hashmap[total] = 1
+            else:
+                hashmap[total] += 1
+        
+        return count
