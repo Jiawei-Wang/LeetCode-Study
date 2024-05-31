@@ -31,3 +31,22 @@ class Solution:
                 if not prefix:
                     return ""
         return prefix
+
+
+# 2024
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        def find_prefix(a, b):
+            string = ""
+            length = min(len(a), len(b))
+            for i in range(length):
+                if a[i] == b[i]:
+                    string += a[i]
+                else:
+                    return string
+            return string
+        
+        prefix = strs[0]
+        for i in range(1, len(strs)):
+            prefix = find_prefix(prefix, strs[i])
+        return prefix
