@@ -77,3 +77,17 @@ class Solution:
             else:
                 profit = max(profit, p-low)
         return profit
+
+
+# 2024
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        answer = 0
+        start = 0
+        for i in range(1, len(prices)):
+            if prices[start] >= prices[i]:
+                start = i
+            else:
+                answer = max(answer, prices[i]-prices[start])
+        
+        return answer
