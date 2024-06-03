@@ -24,3 +24,18 @@ class Solution:
     return True
 
 
+# 2024
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        array = s.split()
+        return map(pattern.find, pattern) == map(array.index, array)
+
+        """
+        string.find gets the smallest index for a char in a string
+        for example: pattern = "example"
+        list(map(pattern.find, pattern)) = [0, 1, 2, 3, 4, 5, 0]
+        
+        array.index does the same thing
+        for example: array = ["e", "x", "a", "m", "p", "l", "e"]
+        results = list(map(array.index, array)) = [0, 1, 2, 3, 4, 5, 0]
+        """
