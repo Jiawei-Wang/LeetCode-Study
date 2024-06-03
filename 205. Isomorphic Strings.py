@@ -1,7 +1,8 @@
 # below answer is incorrect: 
+# for example
 # s = "badc"
 # t = "baba"
-# return value is True
+# return value is True but real answer is False
 # class Solution:
 #     def isIsomorphic(self, s: str, t: str) -> bool:
 #         length = len(s)
