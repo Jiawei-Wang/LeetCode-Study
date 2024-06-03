@@ -71,3 +71,18 @@ class Solution:
                 cnt += 1
             elif cnt > 0: # 如果nums[i]不为0且此时有至少一个0
                 nums[i], nums[i-cnt] = 0, nums[i] # 将此元素和第一个0对调
+
+
+# 2024
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        index = 0
+        for i in range(len(nums)):
+            if nums[i]:
+                nums[index] = nums[i]
+                index += 1
+        for i in range(index, len(nums)):
+            nums[i] = 0
