@@ -18,3 +18,17 @@ class Solution:
                 return False
 
         return True
+
+
+# 2024
+class Solution:
+    def isMonotonic(self, nums: List[int]) -> bool:
+        is_increasing = False
+        is_decreasing = False
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i-1]:
+                is_increasing = True
+            elif nums[i] < nums[i-1]:
+                is_decreasing = True
+        
+        return not (is_increasing and is_decreasing)
