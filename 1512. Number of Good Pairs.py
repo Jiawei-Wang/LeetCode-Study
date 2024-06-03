@@ -43,3 +43,17 @@ class Solution:
             else:
                 i = j
         return count    
+
+
+# 2024
+class Solution:
+    def numIdenticalPairs(self, nums: List[int]) -> int:
+        hashmap = dict()
+        for num in nums:
+            hashmap[num] = hashmap.get(num, 0) + 1
+        
+        answer = 0
+        for key, value in hashmap.items():
+            if value >= 2:
+                answer += value * (value-1) // 2
+        return answer
