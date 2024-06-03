@@ -11,3 +11,16 @@ class Solution:
             else:
                 cur *= (i//abs(i))
         return cur
+
+
+# 2024
+class Solution:
+    def arraySign(self, nums: List[int]) -> int:
+        count = 0
+        for num in nums:
+            if not num:
+                return 0
+            if num < 0:
+                count += 1 
+        return -1 if count % 2 else 1
+        
