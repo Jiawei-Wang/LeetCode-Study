@@ -21,3 +21,31 @@ class ParkingSystem:
 # Your ParkingSystem object will be instantiated and called as such:
 # obj = ParkingSystem(big, medium, small)
 # param_1 = obj.addCar(carType)
+
+
+class ParkingSystem:
+
+    def __init__(self, big: int, medium: int, small: int):
+        self.big = big
+        self.med = medium
+        self.smo = small
+
+    def addCar(self, carType: int) -> bool:
+        if carType == 1:
+            if self.big >= 1:
+                self.big -= 1
+                return True
+            else:
+                return False
+        elif carType == 2:
+            if self.med >= 1:
+                self.med -= 1
+                return True
+            else:
+                return False
+        else:
+            if self.smo >= 1:
+                self.smo -= 1
+                return True
+            else:
+                return False
