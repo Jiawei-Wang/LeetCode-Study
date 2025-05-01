@@ -31,3 +31,26 @@ class Solution:
                             answer = l[0] + "(" + l[1] + "+" + r[0] + ")" + r[1]
         return answer
 
+
+# clean up
+class Solution:
+    def minimizeResult(self, expression: str) -> str:
+        left, right = expression.split("+")
+        min_value = float("inf")
+        result_expr = ""
+
+        for i in range(len(left)):
+            for j in range(1, len(right) + 1):
+                a, b = left[:i], left[i:]
+                c, d = right[:j], right[j:]
+
+                left_mult = int(a) if a else 1
+                right_mult = int(d) if d else 1
+                middle_sum = int(b) + int(c)
+                value = left_mult * middle_sum * right_mult
+
+                if value < min_value:
+                    min_value = value
+                    result_expr = f"{a}({b}+{c}){d}"
+
+        return result_expr
