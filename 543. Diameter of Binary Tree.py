@@ -5,44 +5,6 @@
 #         self.left = None
 #         self.right = None
 
-class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        # 从root出发的两条并不一定是最长线路，需要找到每个从每个点出发的线路长度并保留最大值
-
-        self.res = 0 # 学习全局变量在methods中的转移方法
-
-        def depth(root):
-            if not root:
-                return 0
-            left = depth(root.left)
-            right = depth(root.right)
-
-            # 对于一个点，其res为res或左右子树长度之和
-            self.res = max(self.res, left+right)
-
-            # 对于一个点而言，只需要保留其较长的那个子树并 +1
-            return 1 + max(left, right)
-
-        depth(root)
-        return self.res
-
-
-
-# 05-13-2022
-class Solution:
-    ans = 0
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        self.helper(root)
-        return self.ans
-
-    def helper(self, node):
-        if not node:
-            return 0
-        left = self.helper(node.left)
-        right = self.helper(node.right)
-        self.ans = max(self.ans, left+right)
-        return max(left,right)+1
-
 
 """
 1. we want to get the length of the longest path
@@ -60,21 +22,61 @@ class Solution:
         1- leg itself is calculated based on one subtree leg from each subtree
         2- so we only need to keep track of the longest one leg, the other one doesn't matter
 """
+
+
+# revisit the problem in 2025 since I still have trouble understanding recursion well
+# issue: logic is clear on paper but coding is unclear, espicially the recursion body
+# whether variable is needed, what if-statement to use, how to recurse, what to return, etc
 class Solution:
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        self.answer = 0 # global longest path 
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        # first: understand the question:
+        # longest path doesn't need to pass root, so we need to calculate every path
+        # since we only need to return one longest path, we don't need to store every path but rather just one
+        # so we create one variable to store it and act as return value of this method (answer)
+        self.res = 0 # a global variable to provide local access
 
-        def length(node):
-            if not node:
-                return 0
+        # second: recursion
+        # recursion only focuses on current node, so we need to know what is input, what is output
+        # input is clear, current node, output is harder
+        # output != longest path through current node, but rather
+        # output == longest leg to pass to parent node
+        def depth(node):
+            # for current node, we have 3 cases: node is None, node is leaf, node is non-leaf
+
+            # None gets 0: longest leg is 0
+            if not node: return 0
             
-            left = length(node.left)
-            right = length(node.right) # get two legs
+            # leaf and non-leaf are treated the same
+            # we first calculate path and update global longest path
+            # we don't know how leg is calculated yet, it's pending implementation
+            # but we know return value IS the leg and we just use it
+            left = depth(node.left)
+            right = depth(node.right) # get the legs
+            self.res = max(self.res, left+right) # update the path
+            # then we implement leg calculation
+            # the following line does 2 things:
+            # 1. leg calculation implementation
+                # implementation is combined with `if not root: return 0` together
+                # None gets 0 as leg, leaf and non-leaf get 1 + child node leg
+            # 2. return value for current method
+            return 1 + max(left, right) # return the longest leg
 
-            self.answer = max(self.answer, left + right) # update path
+        depth(root)
+        return self.res
 
-            return 1 + max(left, right) # only keep the longest leg for parent node 
-        
-        # we don't dp: return length(root), since length(root) is just one leg length, not path length
-        length(root)
-        return self.answer
+
+# helper method style
+class Solution:
+    ans = 0 # fun way to declear global variable
+    
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.helper(root)
+        return self.ans
+
+    def helper(self, node):
+        if not node:
+            return 0
+        left = self.helper(node.left)
+        right = self.helper(node.right)
+        self.ans = max(self.ans, left+right)
+        return max(left,right)+1
