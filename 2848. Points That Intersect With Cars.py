@@ -14,3 +14,22 @@ class Solution:
             end = max(end, nums[i][1])
 
         return total + end - start + 1
+    
+
+# without sort 
+class Solution:
+    def numberOfPoints(self, nums: list[list[int]]) -> int:
+        v = [0] * 102  # 1 <= start <= end <= 100
+        ans = 0
+        total = 0
+
+        for start, end in nums:
+            v[start] += 1
+            v[end + 1] -= 1
+
+        for i in range(1, 101):
+            total += v[i]
+            if total != 0:
+                ans += 1
+
+        return ans
