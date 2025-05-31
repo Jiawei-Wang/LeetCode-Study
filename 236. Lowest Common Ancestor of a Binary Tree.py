@@ -15,7 +15,7 @@ class Solution:
         def findPath(node, path, key): 
             # node: 进入此循环时遍历到的node
             # path：上一轮循环结束时获得的path
-            # value：我们要寻找的value
+            # key：我们要寻找的value
             if not node:
                 return False
             if node == key:
@@ -35,3 +35,21 @@ class Solution:
                 return path_p[i-1]
         
         return path_p[-1] if lp < lq else path_q[-1]
+
+
+# solution 2
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        
+        if root == p or root == q:
+            return root
+        
+        l = self.lowestCommonAncestor(root.left, p, q)
+        r = self.lowestCommonAncestor(root.right, p, q)
+
+        if l and r:
+            return root
+        else:
+            return l or r
