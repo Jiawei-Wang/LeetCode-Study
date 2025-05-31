@@ -7,4 +7,3 @@
    2. look for bottleneck, unnecessary work, duplicated work
    3. think about best conceivable runtime
 6. syntax and logic are more important than perfect algorithm, avoid mistakes that give bad impression
-7. 
