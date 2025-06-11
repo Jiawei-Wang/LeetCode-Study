@@ -1,21 +1,22 @@
-# 暴力解：将每个元素的下标以它的weight的数量加入一个list，从list中随机取一个返回
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()
+
+
+# 暴力解：create multiple copies of elements based on weight
 # space超标
 class Solution:
 
     def __init__(self, w: List[int]):
-        self.w = w
         self.weight = []
-        for i in range(len(self.w)):
-            self.weight += [i] * self.w[i]
+        for i in range(len(w)):
+            self.weight += [i] * w[i]
+        # for example: w = [5, 10, 15]
+        # we will have 5 0s, 10 1s and 15 2s in self.weight
 
     def pickIndex(self) -> int:
         index = random.randint(0, len(self.weight)-1)
         return self.weight[index]
-
-
-# Your Solution object will be instantiated and called as such:
-# obj = Solution(w)
-# param_1 = obj.pickIndex()
 
 
 # built in
@@ -58,22 +59,31 @@ class Solution:
 # accumulated freq sum + binary search
 class Solution:
     def __init__(self, w: List[int]):
-        self.w = w
-        self.n = len(w)
-        for i in range(1,self.n):
-            w[i] += w[i-1]
-        self.s = self.w[-1]
+        self.weights = w
+        self.length = len(w)
+        for i in range(1,self.length):
+            self.weights[i] += self.weights[i-1]
+        self.sum = self.weights[-1]
 
     def pickIndex(self):
-        seed = random.randint(1,self.s)
-        l,r = 0, self.n-1
+        seed = random.randint(1,self.sum)
+        l,r = 0, self.length-1
         while l<r:
             mid = (l+r)//2
-            if seed <= self.w[mid]:
+            if seed <= self.weights[mid]:
                 r = mid
             else:
                 l = mid+1
         return l
+
+    # why it works
+    # w = [5, 10, 15]: we have 5 zeros, 10 ones and 15 twos
+    # brute force solution is to actually create 30 seends for all 3 candidates in the memory
+    # but instead we assign a range for each candidate, a seed is just a number in this range
+    # so when a seed is picked, we binary search to find which candidate stays in this range
+    # self.weights = [5, 15, 30], self.sum = 30
+    # which means we have in total 30 seeds, 1 to 5 is zero, 6 to 15 is one, 16 to 30 is two
+    # pick a seed between 1 and 30, if seed = 14, we return 1
 
 
 # 还有一个更优化的答案：
