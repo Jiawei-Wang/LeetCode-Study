@@ -1,20 +1,20 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        need = collections.Counter(t)            #hash table to store char frequency
-        missing = len(t)                         #total number of chars we care
-        start, end = 0, 0
+        need = collections.Counter(t)            # hash table to store char frequency
+        missing = len(t)                         # total number of chars we care
+        start, end = 0, 0                        # store return value
         i = 0
-        for j, char in enumerate(s, 1):          #index j from 1 (because the result is s[i,j], so j needs to be at least 1)
+        for j, char in enumerate(s, 1):          # index j from 1 (because the result is s[i,j], so j needs to be at least 1)
             if need[char] > 0:
                 missing -= 1
             need[char] -= 1
-            if missing == 0:                     #match all chars
-                while i < j and need[s[i]] < 0:  #remove chars to find the real start
+            if missing == 0:                     # match all chars
+                while i < j and need[s[i]] < 0:  # remove chars to find the real start
                     need[s[i]] += 1
                     i += 1
-                if end == 0 or j-i < end-start:  #find a new current best answer
+                if end == 0 or j-i < end-start:  # find a new current best answer
                     start, end = i, j
-                need[s[i]] += 1                  #move i to next element in s
+                need[s[i]] += 1                  # move i to next element in s
                 missing += 1                     
                 i += 1                           
         return s[start:end]
