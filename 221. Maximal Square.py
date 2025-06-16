@@ -73,3 +73,44 @@ class Solution:
                     max_side = max(max_side, dp[r+1][c+1])
                 
         return max_side * max_side
+    
+
+"""
+example 1: 
+0 1 1
+1 1 1
+1 1 1
+dp[1][1] = 1 # biggest square with matrix[1][1] as bottom right corner is 1
+dp[2][1] = 2
+dp[1][2] = 2
+dp[2][2] = 2
+
+example 2:
+1 1 0
+1 1 1 
+1 1 1
+dp[1][1] = 2
+dp[2][1] = 2
+dp[1][2] = 1
+dp[2][2] = 2
+
+dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+"""
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        rows = len(matrix)
+        cols = len(matrix[0])
+
+        # one extra row and one extra col for 0s
+        # so index won't go out of bound for first row and first col
+        dp = [[0 for _ in range(cols+1)] for _ in range(rows+1)]
+        longest = 0
+
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == "1":
+                    dp[r+1][c+1] = min(dp[r][c], dp[r+1][c], dp[r][c+1]) + 1
+                    longest = max(longest, dp[r+1][c+1])
+        
+        return longest * longest
+        
