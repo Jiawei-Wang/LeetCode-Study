@@ -6,7 +6,7 @@ example:
 
 input: "this is a really long long long long long long long long long long long long long long string"
 
-output: ["this is a really long long long long long long long long long long long long 1/2", "long long string 2/2"
+output: ["this is a really long long long long long long long long long long long long 1/2", "long long string 2/2"]
 
 
 ## chat gpt answer
