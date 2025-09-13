@@ -37,3 +37,47 @@ class Solution:
             remainder_index[cur] = i  
         
         return -1 if answer == len(nums) else answer
+
+
+class Solution:
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        """
+        rewrite the above answer in my own words
+        for example
+        nums = [3, 1, 4, 2]
+        p = 6
+        meaning we want to remove a chunk of nums
+        so that the rest of it is 6*k
+        we can remove either [3,1] or [4], so we pick [4]
+
+        in order to apply this question to long input nums and big p
+        we need to think about computing the target
+        in this case target = 4, we need a subarray which == 4 + 6*k
+        
+        checking all possible subarray means O(n^2)
+        to make it faster, we can use hashmap
+        so for each end, we can quickly check all starts
+
+        hashmap to store prefix sum info
+        so now when we arrive at a new index (the end)
+        we check if there is a prefix sum (start) to help us build the required subarray
+        and we can improve it by only storing the biggest index for each prefix sum
+        """
+        target = sum(nums) % p
+        if target == 0: return 0
+
+        answer = len(nums)
+        cur = 0 
+        idx = -1
+        hashmap = {
+            cur: idx
+        }
+
+        for index, value in enumerate(nums):
+            cur = (cur + value) % p
+            diff = (cur - target + p) % p
+            if diff in hashmap:
+                answer = min(answer, index - hashmap[diff])
+            hashmap[cur] = index
+        
+        return -1 if answer == len(nums) else answer
