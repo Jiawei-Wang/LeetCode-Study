@@ -33,3 +33,18 @@ class Solution:
             ans += count[total - k]
             count[total] += 1
         return ans
+
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        prefix_sum = defaultdict(int)
+        prefix_sum[0] += 1
+        current = 0
+        answer = 0
+        for i in range(len(nums)):
+            current += nums[i]
+            target = current - k
+            if target in prefix_sum:
+                answer += prefix_sum[target]
+            prefix_sum[current] += 1
+        return answer
