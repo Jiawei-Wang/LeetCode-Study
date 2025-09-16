@@ -22,10 +22,12 @@ class Solution:
     
         # then iterate from nums[1]
         for i in range(1, len(nums)):
-            # first get rid of the max_sums that are outside of the window 
+            # first get rid of the top max_sums that are outside of the window 
             while i - max_heap[0][1] > k:
                 heapq.heappop(max_heap)
             # now we find a qualified max_sum
+            # (max_sums under this one may also be outside of the window
+            #  but they don't concern us, because they are smaller than this one)
 
             # then we decide if we want to extend the best subsequence we have or start a new one
             cur_max = max(nums[i], nums[i] - max_heap[0][0])
@@ -33,4 +35,5 @@ class Solution:
 
             # last update global answer
             res = max(res, cur_max)
+            
         return res
