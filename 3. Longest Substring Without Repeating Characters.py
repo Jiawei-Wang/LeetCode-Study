@@ -33,3 +33,25 @@ class Solution:
             charSet.add(s[r])
             res = max(res, r-l+1)
         return res
+
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        char_set = set() # a hashset to keep track of the current window
+        left = 0 
+        max_length = 0
+
+        for right in range(len(s)): # move right pointer step by step
+            # if the new added char is in hashset
+            # we need to move left till it is removed
+            while s[right] in char_set:
+                char_set.remove(s[left])
+                left += 1
+            
+            # regardless if new added char is in hashset, we add it to hashset
+            char_set.add(s[right])
+
+            # update answer after each right pointer step
+            max_length = max(max_length, right - left + 1)
+
+        return max_length
