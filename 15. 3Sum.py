@@ -71,3 +71,57 @@ class Solution:
         难点：two sum 2是找到一个可能组合，此题需要找到所有的组合，同时又需要避免重复
         重复有两层含义：1. [i, l, r]和[i, r, l]是重复，2. 两个值相同但下标不同的元素也是重复，比如[0, -5, 5]和[0, -5, 5]中的0和5都是同一个元素但-5来自两个不同的元素
         此解法巧妙之处：同一个元素不会出现两次，值相同的元素被忽略
+        """
+
+
+# 2025
+# turn 3sum into 2sum
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        answer = set()
+        nums.sort()  # sort so duplicates are easier to detect
+        
+        # for every first element
+        for i in range(len(nums)-2):
+            # do it like 2sum
+            target = -nums[i]
+            hashset = set()
+            for j in range(i+1, len(nums)):
+                if target - nums[j] in hashset:
+                    answer.add((nums[i], target-nums[j], nums[j]))  # store as tuple
+                hashset.add(nums[j])
+        
+        return [list(triplet) for triplet in answer]
+
+
+# faster with two pointer
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+
+        # for every first element
+        for i in range(len(nums)-2):
+            # skip the duplicate first element
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            
+            # use two pointers
+            j = i + 1
+            k = len(nums) - 1
+
+            while j < k:
+                total = nums[i] + nums[j] + nums[k]
+
+                if total > 0:
+                    k -= 1
+                elif total < 0:
+                    j += 1
+                else:
+                    res.append([nums[i], nums[j], nums[k]])
+                    # if we find an answer, we need to find a new second element
+                    j += 1
+                    while nums[j] == nums[j-1] and j < k:
+                        j += 1
+        
+        return res
