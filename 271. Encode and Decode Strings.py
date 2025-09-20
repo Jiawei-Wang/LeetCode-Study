@@ -20,3 +20,29 @@ class Solution:
             i = j
             
         return res
+
+
+class Solution:
+
+    def encode(self, strs: List[str]) -> str:
+        output = ""
+        for string in strs:
+            output += str(len(string)) + "#" + string
+        return output
+
+    def decode(self, output: str) -> List[str]:
+        answer = []
+        i = 0
+        current_length = 0
+        while i < len(output):
+            if output[i] != "#":
+                current_length = current_length * 10 + int(output[i])
+                i += 1
+            else:
+                i += 1
+                answer.append(output[i:i+current_length])
+                i += current_length
+                current_length = 0
+        return answer
+            
+
