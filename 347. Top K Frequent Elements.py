@@ -48,3 +48,38 @@ class Solution:
         
         sorted_dictionary = sorted(count.items(), key = lambda x: x[1], reverse = True)
         return [item[0] for item in sorted_dictionary[:k]]
+
+
+# 2025
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq = defaultdict(int)
+        for num in nums:
+            freq[num] += 1
+        
+        array = []
+        for key, value in freq.items():
+            array.append((value, key))
+        array.sort(reverse=True)
+        return list(y for x, y in array[:k])
+        
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq = defaultdict(int)
+        for num in nums:
+            freq[num] += 1
+        
+        bucket = [[] for _ in range(len(nums)+1)]
+
+        for key, value in freq.items():
+            bucket[value].append(key)
+        
+        answer = []
+        for i in range(len(bucket)-1, -1, -1):
+            if len(bucket[i]):
+                answer.extend(bucket[i])
+                if len(answer) == k:
+                    return answer
+
+            
