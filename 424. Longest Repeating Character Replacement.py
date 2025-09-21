@@ -8,38 +8,39 @@
 # time 26n, space 26
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        l = 0
-        frequency = {}
-        longest_str_len = 0 # 初始答案为0而非1，因为我们从index=0开始遍历string
-        for r in range(len(s)): # 每前进至一个新的位置，更新frequency表
+        l = 0 # left pointer
+        frequency = {} # freq hashmap
+        longest_str_len = 0 # global best answer
+        for r in range(len(s)): # move right pointer to each index
+            # update freq hashmap first
             if not s[r] in frequency:
                 frequency[s[r]] = 0
             frequency[s[r]] += 1
             
+            # then update answer
             cells_count = r - l + 1
             if cells_count - max(frequency.values()) <= k: 
                 longest_str_len = max(longest_str_len, cells_count)
-            else:
-                frequency[s[l]] -= 1 # 超过了最大长度，则左侧向前进一步
+            else: # else we move left pointer one step
+                frequency[s[l]] -= 1 
                 if not frequency[s[l]]:
                     frequency.pop(s[l])
                 l += 1
+                """
+                关于为什么每一次循环都让r向前走，但最多只需要 l += 1的解释：
+                我们想要的是最长substring，所以如果l和r都前进一步后的substring不符合此长度下的条件，
+                则没必要去进一步知道缩减到什么程度时可以符合条件
+                """
         
         return longest_str_len
     
-    """
-    关于为什么每一次循环都让r向前走，但最多只需要 l += 1的解释：
-    我们想要的是最长substring，所以如果l和r都前进一步后的substring不符合此长度下的条件，则没必要去进一步知道缩减到什么程度时可以符合条件
-    """
-
-
+    
 # time n space 26
 # 逻辑：只保留max frequency的元素的最大值，因为 lenth <= k + maxf，所以maxf减小时表示此答案一定非最优解
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         count = {}
         res = 0
-        
         l = 0
         maxf = 0
         for r in range(len(s)):
