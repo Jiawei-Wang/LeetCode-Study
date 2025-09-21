@@ -79,3 +79,24 @@ class Solution:
             else:
                 stack.append(char)
         return not stack
+
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        hashmap = {
+            "(": ")",
+            "{": "}",
+            "[": "]"
+        }
+
+        stack = []
+        for char in s:
+            if char in hashmap:
+                stack.append(hashmap[char])
+            else:
+                if not stack or (stack[-1] != char):
+                    return False
+                else:
+                    stack.pop()
+        
+        return len(stack) == 0
