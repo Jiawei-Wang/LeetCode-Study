@@ -26,3 +26,27 @@ class Solution:
         res = []
         dfs(0, [], 0)
         return res
+
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        answer = []
+
+        def dfs(index, path, total):
+            # index: which element we are standing on
+            # path: list of elements picked
+            # total: sum of path
+            if total == target:
+                answer.append(path)
+                return
+            
+            if total > target or index >= len(candidates):
+                return
+            
+            # choose this element
+            dfs(index, path+[candidates[index]], total+candidates[index])
+            dfs(index+1, path, total)
+        
+
+        dfs(0, [], 0)
+        return answer
