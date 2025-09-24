@@ -33,3 +33,25 @@ class Solution:
 		
         path(root) 
         return max_path	
+
+
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        answer = -float('inf')
+
+        def dfs(node):
+            nonlocal answer
+            if not node:
+                return 0
+            left = dfs(node.left) if node.left else 0
+            right = dfs(node.right) if node.right else 0
+            # for the path, I have three options:
+            # 1. having both legs
+            # 2. having either leg
+            # 3. having no leg
+            answer = max(answer, max(0, left) + max(0, right) + node.val)
+            # but for return value, I must pick one leg and one leg only
+            return node.val + max(0, left, right)
+        
+        dfs(root)
+        return answer
