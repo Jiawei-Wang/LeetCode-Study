@@ -123,3 +123,17 @@ class Solution:
             # if not rob: the maximum amount is from the last house
             dp[i] = max(dp[i-2]+nums[i], dp[i-1]) 
         return dp[-1]
+
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        first = 0
+        second = nums[0]
+
+        if len(nums) == 1:
+            return second
+        
+        for i in range(1, len(nums)):
+            first, second = second, max(first + nums[i], second)
+        
+        return second
