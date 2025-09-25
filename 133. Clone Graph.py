@@ -169,3 +169,21 @@ class Solution:
             return copy 
 
         return dfs(node)
+
+
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        old_to_new = {} # key: node, value: new copy of node
+        
+        def clone(node):
+            if node in old_to_new:
+                return old_to_new[node]
+            else:
+                copy = Node(node.val)
+                old_to_new[node] = copy
+                
+                for nei in node.neighbors:
+                    copy.neighbors.append(clone(nei))
+                return copy 
+        
+        return clone(node) if node else None
