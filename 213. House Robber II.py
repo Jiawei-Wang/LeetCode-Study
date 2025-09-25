@@ -24,3 +24,25 @@ class Solution:
             right2 = tmp
         
         return max(left, left2)
+
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        
+        # pick 0-th and skip last one 
+        first = 0
+        second = nums[0]
+        for i in range(1, len(nums)-1):
+            first, second = second, max(second, first + nums[i])
+        answer1 = second
+
+        # pick last one and skip 0-th
+        first = 0
+        second = nums[1]
+        for i in range(2, len(nums)):
+            first, second = second, max(second, first + nums[i])
+        answer2 = second
+
+        return max(answer1, answer2)
