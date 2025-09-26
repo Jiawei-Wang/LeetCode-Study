@@ -28,3 +28,20 @@ class Solution:
                 res += 1
                 prevEnd = min(end, prevEnd) # if two overlap, remove second one
         return res
+
+
+# 2025
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        # sort intervals first
+        # then remove one with later end
+        intervals.sort()
+        count = 0
+        current = intervals[0][1]
+        for interval in intervals[1:]:
+            if interval[0] >= current:
+                current = interval[1]
+            else:
+                count += 1
+                current = min(current, interval[1])
+        return count
