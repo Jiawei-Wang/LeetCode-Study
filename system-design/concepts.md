@@ -2,6 +2,9 @@
 DNS, CDN, IP, HTTP, HTML/JSON
 web/mobile
 
+### Middleware:
+API gateway/Rate limiter 
+
 ### Back:
 server
 load balancer
