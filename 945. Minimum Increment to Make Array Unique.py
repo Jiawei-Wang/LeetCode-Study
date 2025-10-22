@@ -42,3 +42,19 @@ class Solution:
                 count[i+1] += extra
                 answer += extra
         return answer
+
+
+# union find
+# need to revisit this code 
+class Solution:
+    def minIncrementForUnique(self, nums: List[int]) -> int:
+        hashmap = {}
+        
+        def find(num):
+            if num not in hashmap:
+                hashmap[num] = num
+            else:
+                hashmap[num] = find(hashmap[num]+1)
+            return hashmap[num]
+        
+        return sum(find(num) - num for num in nums)
