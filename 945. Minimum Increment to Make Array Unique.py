@@ -20,3 +20,25 @@ class Solution:
                 nums[i] = nums[i-1] + 1
         
         return answer
+
+
+# counter: n + max (count from 1 to len(nums) + max(nums))
+# for example [1, 1, 2, 2, 3, 7] (doesn't have to be sorted)
+# then counter = {
+#     1: 2
+#     2: 2
+#     3: 1
+#     7: 1
+# }
+# start from 1, every key will keep value <= 1 and move the rest to next key
+# max key is max(nums), plus len(nums) in case all elements in nums are max value
+class Solution:
+    def minIncrementForUnique(self, nums: List[int]) -> int:
+        count = Counter(nums)
+        answer = 0
+        for i in range(len(nums) + max(nums)):
+            if count[i] > 1:
+                extra = count[i] - 1
+                count[i+1] += extra
+                answer += extra
+        return answer
