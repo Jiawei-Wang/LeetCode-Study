@@ -67,11 +67,15 @@ ML interview:
       1. feature selection/extraction: select and extract predictive features from raw data
       2. handling all kinds of data issues
       3. feature transformation: transform predictive features into model usable format
-         1. feature scaling
+         1. feature scaling: 
+            1. normalization
+            2. standardization
+            3. log scaling
          2. discretization
          3. encode categorical features
-            1. one hot
-            2. embedding learning: word2vec
+            1. integer encoding
+            2. one hot
+            3. embedding learning: word2vec
 4. model development
    1. model selection
       1. pick simple ones first
@@ -102,3 +106,4 @@ ML interview:
       1. batch prediction
       2. online prediction
 7. monitoring and infra
+   1. data distribution shift
