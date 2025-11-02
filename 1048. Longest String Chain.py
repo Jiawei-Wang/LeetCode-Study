@@ -38,3 +38,27 @@ class Solution:
             best = max(best, dp[word])
 
         return best
+
+
+# 2025
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        words.sort(key = lambda x: len(x))
+        hashmap = defaultdict(int)
+        
+        min_length = min([len(word) for word in words])
+        for word in words:
+            length = len(word)
+
+            if length == min_length:
+                hashmap[word] = 1
+                continue
+            
+            best = 1
+            for index in range(length):
+                new_word = word[0:index] + word[index+1:]
+                if new_word in hashmap:
+                    best = max(best, hashmap[new_word]+1)
+            hashmap[word] = best
+            
+        return max(hashmap.values())
