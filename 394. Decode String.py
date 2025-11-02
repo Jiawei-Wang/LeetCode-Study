@@ -48,3 +48,25 @@ class Solution:
     举例：4[a2[c]]
     那么stack里会放入（''，4)，然后放入('a', 2)，遇到第一个右括号后current_string = 'a' + 2 * 'c'，遇到第二个右括号后current_string = '' + 4 * 'acc'
     """
+
+
+class Solution:
+    def decodeString(self, s: str) -> str:
+        current_string = ""
+        stack = []
+        counter = 0
+
+        for char in s:
+            if char.isdigit():
+                counter = counter * 10 + int(char)
+            elif char == "[":
+                stack.append((current_string, counter))
+                current_string = ""
+                counter = 0
+            elif char == "]":
+                last_string, last_counter = stack.pop(-1)
+                current_string = last_string + last_counter * current_string
+            else:
+                current_string += char
+
+        return current_string
