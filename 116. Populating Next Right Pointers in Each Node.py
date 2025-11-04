@@ -30,3 +30,26 @@ class Solution:
         
         return root
 
+
+# 2025
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return None
+
+        current_level = [root]
+        while current_level:
+            next_level = []
+            for i in range(len(current_level)):
+                if i == len(current_level) - 1:
+                    current_level[i].next = None
+                else:
+                    current_level[i].next = current_level[i+1]
+                
+                if current_level[i].left:
+                    next_level.append(current_level[i].left)
+                    next_level.append(current_level[i].right)
+
+            current_level = next_level
+        
+        return root
