@@ -39,3 +39,37 @@ class Solution:
         for example: array = ["e", "x", "a", "m", "p", "l", "e"]
         results = list(map(array.index, array)) = [0, 1, 2, 3, 4, 5, 0]
         """
+
+
+# 2025 
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        # Split the string into words
+        words = s.split()
+
+        # If lengths mismatch, it's impossible to follow the pattern
+        if len(pattern) != len(words):
+            return False
+
+        # Dictionary to map characters in pattern to words
+        char_to_word = {}
+        # Set to make sure no two characters map to the same word
+        used_words = set()
+
+        # Iterate through pattern and corresponding words at the same time
+        for char, word in zip(pattern, words):
+            # If character has been seen before
+            if char in char_to_word:
+                # Check if it maps to the same word as before
+                if char_to_word[char] != word:
+                    return False
+            else:
+                # If character is new but the word is already mapped to another character
+                if word in used_words:
+                    return False
+                # Create a new mapping
+                char_to_word[char] = word
+                used_words.add(word)
+
+        # If no conflicts were found, it's a valid pattern
+        return True
