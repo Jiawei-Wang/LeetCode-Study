@@ -161,3 +161,118 @@ class NumArray(object):
                 return rangeSum(root.left, i, mid) + rangeSum(root.right, mid+1, j)
         
         return rangeSum(self.root, i, j)
+
+
+# 2025
+"""
+Prefix Sum
+1. build: O(n)
+2. query: O(1)
+3. update: O(n)
+space: O(n)
+
+Segment Tree:
+1. build: O(n)
+2. query: O(logn)
+3. update: O(logn)
+space: O(4 * n) still linear
+"""
+class SegmentTreeNode:
+    def __init__(self, start, end):
+        self.start = start # start index of this segment
+        self.end = end # end index of this segment
+        self.sum = 0 # sum of this segment
+        self.left = None # left child 
+        self.right = None # right child
+
+"""
+For example:
+["NumArray",  "sumRange", "update", "sumRange"]
+[[[1, 3, 5]], [0, 2],     [1, 2],   [0, 2]]
+
+After each call:
+
+1. build tree
+               [0,2] sum=9
+              /             \
+        [0,1] sum=4       [2,2] sum=5
+        /         \
+[0,0] sum=1   [1,1] sum=3
+
+2. sumRang(0, 2)
+no change, just query and return
+
+3. update(1, 2)
+               [0,2] sum=8
+              /             \
+        [0,1] sum=3       [2,2] sum=5
+        /         \
+[0,0] sum=1   [1,1] sum=2
+
+4. sumRange(0, 2)
+no change, just query and return
+"""
+
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        # Build the segment tree
+        def buildTree(l, r):
+            if l > r:
+                return None
+            node = SegmentTreeNode(l, r)
+            if l == r:
+                node.sum = nums[l]
+            else:
+                mid = (l + r) // 2
+                node.left = buildTree(l, mid)
+                node.right = buildTree(mid + 1, r)
+                node.sum = node.left.sum + node.right.sum
+            return node
+
+        if nums:
+            self.root = buildTree(0, len(nums) - 1)
+        else:
+            self.root = None
+
+    def update(self, index: int, val: int) -> None:
+        # Update a value in the segment tree
+        def updateTree(node, i, val):
+            if node.start == node.end == i:
+                node.sum = val
+                return
+            mid = (node.start + node.end) // 2
+            if i <= mid:
+                updateTree(node.left, i, val)
+            else:
+                updateTree(node.right, i, val)
+            node.sum = node.left.sum + node.right.sum
+        
+        if self.root:
+            updateTree(self.root, index, val)
+        
+
+    def sumRange(self, left: int, right: int) -> int:
+        # Query a range sum in the segment tree
+        def rangeSum(node, l, r):
+            # The query range [l, r] fully matches the node’s range
+            if node.start == l and node.end == r:
+                return node.sum
+            mid = (node.start + node.end) // 2
+            # The query range is completely inside the left or right child
+            if r <= mid: 
+                return rangeSum(node.left, l, r)
+            elif l > mid:
+                return rangeSum(node.right, l, r)
+            # The query overlaps both left and right
+            else: 
+                return rangeSum(node.left, l, mid) + rangeSum(node.right, mid + 1, r)
+        
+        return rangeSum(self.root, left, right)
+        
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
