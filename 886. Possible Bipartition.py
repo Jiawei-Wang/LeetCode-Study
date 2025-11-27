@@ -56,3 +56,46 @@ class Solution:
                 return False 
         
         return True
+
+
+class Solution:
+    def possibleBipartition(self, N: int, dislikes: List[List[int]]) -> bool:
+        
+        # Constant defined for color drawing to person
+        BLUE, GREEN = 1, -1
+        # -------------------------------------
+
+        # Update dislike relationship, either a dislikes b, or b dislikes a        
+        dislike = defaultdict(list)
+        for a, b in dislikes:
+            dislike[a].append(b)
+            dislike[b].append(a)
+        
+        # Color map of each person
+        color_of = dict()
+
+        for person in range(1, N+1):
+            
+            # If this person has been draw, just skip
+            if person in color_of: continue
+            
+            # Without the loss of generality, start drawing from BLUE        
+            # (It can be GREEN if you like)
+            color_of[person] = BLUE
+            bfs_queue = deque([(person, BLUE)])
+
+            while bfs_queue:
+
+                cur, color = bfs_queue.popleft()
+                for enemy in dislike[cur]:
+                    
+                    if enemy not in color_of:
+                        # Draw enemy with opposite color
+                        color_of[enemy] = -1*color
+                        bfs_queue.append( (enemy, color_of[enemy]) )
+
+                    elif color_of[enemy] == color:
+                        # If enemy and me have same color, woops, it is impossible to being bipartite
+                        return False
+                    
+        return True
