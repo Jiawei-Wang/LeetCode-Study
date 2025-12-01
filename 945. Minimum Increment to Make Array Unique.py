@@ -58,3 +58,37 @@ class Solution:
             return hashmap[num]
         
         return sum(find(num) - num for num in nums)
+
+
+# union find: parent[x] = next free number ≥ x
+# example: nums = [3, 2, 1, 2, 1, 7]
+# Process each:
+# 3 → free → use 3 → parent[3] = 4
+# 2 → free → use 2 → parent[2] = 3
+# 1 → free → use 1 → parent[1] = 2
+# 2 → find(2) gives 3, find(3) gives 4 → use 4 → parent[4] = 5
+# 1 → find(1)→2→3→4→5 → use 5 → parent[5] = 6
+# 7 → free → use 7 → parent[7] = 8
+# Final array: [3,2,1,4,5,7] increments = (4-2)+(5-1) = 5.
+class Solution:
+    def minIncrementForUnique(self, nums: List[int]) -> int:
+        parent = {}
+
+        # find with path compression
+        def find(x):
+            if x not in parent:
+                parent[x] = x
+                return x
+            if parent[x] == x:
+                return x
+            parent[x] = find(parent[x])
+            return parent[x]
+
+        moves = 0
+
+        for x in nums:
+            pos = find(x)         # smallest available ≥ x
+            moves += pos - x
+            parent[pos] = find(pos + 1)  # mark pos as taken
+
+        return moves
