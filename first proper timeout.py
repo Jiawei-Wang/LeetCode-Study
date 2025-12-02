@@ -59,26 +59,25 @@ def first_timeout(events, timeout):
     active = {}              # service_id -> start_time
     heap = []                # (timeout_time, service_id, start_time)
 
-    for sid, ts, et in events:
+    for service_id, timestamp, event_type in events:
         # before handling this event, check heap for expired timeouts
-        while heap and heap[0][0] <= ts:
-            t_out, s, start_t = heapq.heappop(heap)
-            if s in active and active[s] == start_t:   # still active
-                return s, t_out
+        while heap and heap[0][0] <= timestamp:
+            timeout_time, s, start_time = heapq.heappop(heap)
+            if s in active and active[s] == start_time:   # still active
+                return s, timeout_time
 
-        if et == "Start":
-            active[sid] = ts
-            heapq.heappush(heap, (ts + timeout, sid, ts))
-
+        if event_type == "Start":
+            active[service_id] = timestamp
+            heapq.heappush(heap, (timestamp + timeout, service_id, timestamp))
         else:  # End
-            if sid in active:
-                del active[sid]
+            if service_id in active:
+                del active[service_id]
 
     # After all events, remaining active services might timeout afterward
     while heap:
-        t_out, s, start_t = heapq.heappop(heap)
-        if s in active and active[s] == start_t:
-            return s, t_out
+        timeout_time, s, start_time = heapq.heappop(heap)
+        if s in active and active[s] == start_time:
+            return s, timeout_time
 
     return None
 
@@ -93,4 +92,4 @@ events = [
     (3, 8, "End"),
 ]
 
-print(first_timeout(events, 3))  # (2, 5)
+print(first_timeout(events, 3))  # (2, 4)
