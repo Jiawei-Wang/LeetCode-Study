@@ -47,3 +47,26 @@ class Solution:
             else:
                 arr[n+cnt] = i
         return maxLen
+
+
+# 2025
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        count = 0 # how many more 1s than 0s
+        max_length = 0
+        table = {0: -1}
+        
+        for index, num in enumerate(nums):  
+            if num == 0:
+                count -= 1
+            else:
+                count += 1
+
+            if count in table:
+                max_length = max(max_length, index - table[count])
+            else:
+                table[count] = index
+
+        return max_length
+
+        
