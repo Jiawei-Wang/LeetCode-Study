@@ -46,3 +46,28 @@ class Solution:
 			return True
 
 		return False
+
+
+# 2025
+class Solution:
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+        pair = dict()
+
+        def dfs(node, parent, depth):
+            if not node:
+                return
+
+            if node.val == x or node.val == y:
+                pair[node.val] = (parent, depth)
+
+                if len(pair) == 2:
+                    return
+            
+            dfs(node.left, node.val, depth+1)
+            dfs(node.right, node.val, depth+1)
+        
+        dfs(root, None, 0)
+        if len(pair) == 2 and x in pair and y in pair:
+            return pair[x][0] != pair[y][0] and pair[x][1] == pair[y][1]
+        return False
+        
