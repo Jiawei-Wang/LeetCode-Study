@@ -24,3 +24,16 @@ class Solution:
                 count += 1 
         return -1 if count % 2 else 1
         
+
+# 2025
+class Solution:
+    def arraySign(self, nums: List[int]) -> int:
+        pos = True
+        for num in nums:
+            if num == 0:
+                return 0
+            
+            if num < 0:
+                pos = not pos
+        
+        return 1 if pos else -1
