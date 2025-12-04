@@ -1,3 +1,7 @@
+# we want to get max value of values[i] + values[j] + i - j
+# in other words: we want the maximum values[i] + i + values[j] - j
+# so we need to keep track of maximum values[i] + i
+# in the below code, we also let it -= 1 for each step we take
 class Solution:
     def maxScoreSightseeingPair(self, values: List[int]) -> int:
         # start with the first position
