@@ -62,3 +62,23 @@ class Solution:
                 count += 1
                 cur = time
         return count
+
+
+# 2026
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        # turn input into a list of travel times
+        # from cloest to farthest
+        cars = [(position[i], speed[i]) for i in range(len(position))]
+        cars.sort(reverse=True)
+        travel_time = [(target-car[0])/car[1] for car in cars]
+
+        # check to see if cars catch up with each other
+        current = travel_time[0]
+        fleet = 1
+        for time in travel_time[1:]:
+            if time > current: # if car behind doesn't catch up with current car
+                fleet += 1
+                current = time
+
+        return fleet
