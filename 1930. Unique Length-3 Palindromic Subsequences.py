@@ -46,3 +46,13 @@ class Solution:
                 res += len(distinct_chars)
 
         return res
+
+
+class Solution:
+    def countPalindromicSubsequence(self, s: str) -> int:
+        res = 0
+        for char in string.ascii_lowercase:
+            first, last = s.find(char), s.rfind(char)
+            if first != -1:
+                res += len(set(s[first + 1: last]))
+        return res
