@@ -29,3 +29,41 @@ class Solution:
                 cur.reverse()
             ans.append(reversed(cur))
         return ans
+
+
+# 2026
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        answer = []
+        if not root:
+            return answer
+        
+        answer.append([root.val])
+        current = [root]
+        reverse = True
+        while True:
+            nxt = []
+            for node in current:
+                if node.left:
+                    nxt.append(node.left)
+                if node.right:
+                    nxt.append(node.right)
+            if nxt:
+                if reverse:
+                    answer.append([node.val for node in nxt[::-1]])
+                else:
+                    answer.append([node.val for node in nxt])
+                reverse = not reverse
+                current = nxt
+            else:
+                break
+
+        return answer
+            
+
