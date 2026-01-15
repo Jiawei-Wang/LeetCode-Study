@@ -6,6 +6,39 @@
 #         self.right = right
 class Solution:
     def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
+        visited = dict() # key: value of node, value: TreeNode instance
+        not_root = set() # value of nodes that are not root
+        for connection in descriptions:
+            parent_val = connection[0]
+            child_val = connection[1]
+            is_left = connection[2]
+
+            if parent_val in visited:
+                parent = visited[parent_val]
+            else:
+                parent = TreeNode(parent_val)
+
+            if child_val in visited:
+                child = visited[child_val]
+            else:
+                child = TreeNode(child_val)
+            
+            not_root.add(child_val)
+            
+            if is_left:
+                parent.left = child
+            else:
+                parent.right = child
+            visited[parent_val] = parent
+            visited[child_val] = child
+        
+        for key, value in visited.items():
+            if key not in not_root:
+                return value
+        
+
+class Solution:
+    def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
         children = set()
         hashmap = {}
         for parent,child,left in descriptions:
