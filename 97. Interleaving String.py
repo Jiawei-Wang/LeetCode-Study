@@ -182,3 +182,68 @@ class Solution:
             for j in range(1, c+1):
                 dp[j] = (dp[j] and s1[i-1] == s3[i-1+j]) or (dp[j-1] and s2[j-1] == s3[i-1+j])
         return dp[-1]
+
+
+# 2026
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        """
+        # what data structure
+        dp[i][j] == True 
+        meaning using the first i char from s1 and first j char from s2 can form first i+j char of s3
+        s3[0: i+j] can be formed by using s1[0:i] and s2[0:j]
+
+        # what problem
+        check if dp[len(s1)][len(s2)] is True or False
+
+        # what base case
+        dp[0][0] = True: using 0 char from s1 and 0 char from s2 can form first 0 char of s3
+
+        # what transition
+        # each step we need to pick a char from either s1 or s2 so
+        for dp[i][j]
+        current char = s3[i+j-1] 
+        if current char == s1[i-1] and dp[i-1][j] == True
+        or current char == s2[j-1] and dp[i][j-1] == True
+        dp[i][j] = True
+        """
+
+        l1 = len(s1)
+        l2 = len(s2)
+        l3 = len(s3)
+
+        if l3 != l1 + l2:
+            return False
+
+        if not l1:
+            return s2 == s3
+        if not l2:
+            return s1 == s3
+        
+        if s3[0] != s1[0] and s3[0] != s2[0]:
+            return False
+        
+        # s1 on col, s2 on row
+        dp = [[False for _ in range(l1+1)] for _ in range(l2+1)]
+        dp[0][0] = True
+        
+        for i in range(1, l1+1):
+            # if we use only i chars from s1
+            if s1[0:i] == s3[0:i]:
+                dp[0][i] = True
+        
+        for j in range(1, l2+1):
+            if s2[0:j] == s3[0:j]:
+                dp[j][0] = True
+        
+        for j in range(1, l2+1):
+            for i in range(1, l1+1):
+                current_char = s3[i+j-1]
+                if (current_char == s1[i-1] and dp[j][i-1] == True) or (current_char == s2[j-1] and dp[j-1][i] == True):
+                    dp[j][i] = True
+        
+        return dp[-1][-1]
+
+
+
+
