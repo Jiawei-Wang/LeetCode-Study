@@ -54,3 +54,27 @@ class Solution:
         
         return remaining
 
+
+# 2026
+class Solution:
+    def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+        counter = defaultdict(int)
+        unique_num = set()
+        for num in arr:
+            counter[num] += 1
+            unique_num.add(num)
+        
+        min_heap = []
+        heapq.heapify(min_heap)
+        for num, occur in counter.items():
+            heapq.heappush(min_heap, (occur, num))
+        while k != 0 and min_heap:
+            curr_occur, curr_num = heapq.heappop(min_heap)
+
+            if k >= curr_occur:
+                k -= curr_occur
+                unique_num.remove(curr_num)
+            else:
+                return len(unique_num)
+        
+        return len(unique_num)
