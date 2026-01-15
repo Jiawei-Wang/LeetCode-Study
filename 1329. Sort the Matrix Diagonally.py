@@ -70,3 +70,17 @@ class Solution:
                 A[i][j] = d[i - j].pop()
 
         return A
+
+
+# 2026
+class Solution:
+    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
+        row, col = len(mat), len(mat[0])
+        hashmap = defaultdict(list)
+        for i in range(row):
+            for j in range(col):
+                heappush(hashmap[i - j], mat[i][j])
+        for i in range(row):
+            for j in range(col):
+                mat[i][j] = heappop(hashmap[i - j])
+        return mat
