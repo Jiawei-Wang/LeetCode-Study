@@ -1,13 +1,11 @@
-# For nums with length n, the possible result is in the range of
-# [1 : n + 1], we want to know the smallest integer in the range 
-# of [1 : n] that is not in nums, if [1 : n] are all in nums,
-# the result is n + 1
-
 # solution 1: use a set 
 # time n space n
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         target = set(x for x in range(1, len(nums)+2))
+        # for example len(nums) = 3
+        # then the missing positive number can be between 1 and 4
+        # (4 when nums = [1, 2 ,3])
         for num in nums:
             if num in target:
                 target.remove(num)
