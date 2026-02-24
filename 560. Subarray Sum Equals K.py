@@ -48,3 +48,23 @@ class Solution:
                 answer += prefix_sum[target]
             prefix_sum[current] += 1
         return answer
+
+
+# prefix sum
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        prefix_sum = defaultdict(int)
+        prefix_sum[0] += 1 # 1 way to get 0: empty prefix
+        total = 0 # current prefix sum
+        answer = 0
+        
+        for index, num in enumerate(nums):
+            total += num
+            target = total - k
+            answer += prefix_sum[target]
+            prefix_sum[total] += 1
+        
+        return answer
+
+
+        
