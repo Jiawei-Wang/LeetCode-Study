@@ -46,3 +46,39 @@ class Solution:
         for n in nums:
             operations += abs(n - median) // x
         return operations
+
+
+
+# quickselect: O(n)
+import random
+class Solution:
+    def minOperations(self, grid: list[list[int]], x: int) -> int:
+        # 1. Flatten the grid
+        nums = [val for row in grid for val in row]
+        n = len(nums)
+        
+        # 2. Check if a solution is possible
+        rem = nums[0] % x
+        for num in nums:
+            if num % x != rem:
+                return -1
+        
+        # 3. Quickselect to find the median element
+        def quickselect(arr, k):
+            pivot = random.choice(arr)
+            left = [v for v in arr if v < pivot]
+            mid = [v for v in arr if v == pivot]
+            right = [v for v in arr if v > pivot]
+            
+            # Is the k-th element in left, mid, or right?
+            if k < len(left):
+                return quickselect(left, k)
+            elif k < len(left) + len(mid):
+                return mid[0]
+            else:
+                return quickselect(right, k - len(left) - len(mid))
+        
+        median = quickselect(nums, n // 2)
+        
+        # 4. Calculate total operations
+        return sum(abs(num - median) // x for num in nums)
