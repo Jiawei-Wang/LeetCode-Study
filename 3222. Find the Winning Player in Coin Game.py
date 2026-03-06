@@ -10,3 +10,12 @@ class Solution:
             return "Alice"
         else:
             return "Bob"
+
+
+class Solution:
+    def winningPlayer(self, x: int, y: int) -> str:
+        move = min(x, y//4)
+        if move % 2:
+            return "Alice"
+        else:
+            return "Bob"
