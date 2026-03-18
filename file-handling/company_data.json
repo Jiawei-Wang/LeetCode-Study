@@ -1,0 +1,33 @@
+{
+    "company_name": "TechNova Solutions",
+    "is_active": true,
+    "founding_year": 2022,
+    "office_location": {
+        "city": "San Francisco",
+        "state": "CA",
+        "address": "500 Innovation Way"
+    },
+    "employees": [
+        {
+            "id": 1,
+            "name": "Alice Chen",
+            "role": "Lead Engineer",
+            "skills": [
+                "Python",
+                "AWS",
+                "Docker"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Marcus Wright",
+            "role": "UX Designer",
+            "skills": [
+                "Figma",
+                "React",
+                "CSS"
+            ]
+        }
+    ],
+    "budget_allocation": null
+}
