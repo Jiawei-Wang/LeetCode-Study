@@ -42,3 +42,10 @@ class ConsensusEngine:
             return "WARNING", contributing_models
         else:
             return "NORMAL", contributing_models
+
+
+# test directly in the file
+if __name__ == "__main__":
+    example = ConsensusEngine()
+    result = asyncio.run(example.get_consensus())
+    print(result)
