@@ -1,0 +1,1 @@
+All practice questions in this repository are original mocks created for educational purposes; they are not sourced from, nor affiliated with, Rivian’s actual interview process.
