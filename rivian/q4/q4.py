@@ -62,3 +62,8 @@ aggressive_braking_events = df_with_lag.withColumn(
     "speed_drop", F.col("prev_velocity") - F.col("velocity")
 ).filter("speed_drop > 20")
 aggressive_braking_events.select("vin", "ts").show()
+
+
+# read and write
+spark.read.parquet("s3://bucket/raw_data/")
+df.write.partitionBy("date").parquet("s3://bucket/gold_data/")
