@@ -1,0 +1,3 @@
+Day 1: Started learning Python
+Day 3: Built my first Python script
+Day 5: Completed a Python project
