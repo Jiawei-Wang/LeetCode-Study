@@ -17,11 +17,20 @@
 #                 index += 1
 #         return global_longest
 
+"""
+above answer fails 1 test case out of 212:
+sequence = "aaabaaaabaaabaaaabaaaabaaaabaaaaba"
+word = "aaaba"
+Output 4
+Expected 5
+"""
 
-        """
-        above answer fails 1 test case out of 212:
-        sequence = "aaabaaaabaaabaaaabaaaabaaaabaaaaba"
-        word = "aaaba"
-        Output 4
-        Expected 5
-        """
+
+class Solution:
+    def maxRepeating(self, sequence: str, word: str) -> int:
+        k = 0
+        # Keep checking if 'word' repeated (k + 1) times is in the sequence
+        while (word * (k + 1)) in sequence:
+            k += 1
+            
+        return k
