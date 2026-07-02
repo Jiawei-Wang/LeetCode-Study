@@ -163,3 +163,80 @@ nums = [1,3,-1,-3,5,3,6,7], k = 3
 7. for 6: pop everything, put 6: [6], append to res: [3, 3, 5, 5, 6]
 8. for 7: pop everything, put 7: [7], append to res: [3, 3, 5, 5, 6, 7] 
 """ 
+
+
+
+
+# 2026
+# brute force: just go through everything again when window moves n*k
+# heap: query is 1 and insertion is logk however deletion will be k so still n*k
+# lazy deletion heap: 
+# instead of deleting once per step to keep the heap always at size k 
+# we keep adding and only delete when max element is out of window
+import heapq
+
+class Solution:
+    def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
+        # Python's heapq is a min-heap, so we store negative values 
+        # to simulate a max-heap.
+        # Elements in the heap will look like: (-value, index)
+        heap = []
+        result = []
+        
+        # 1. Initialize the heap with the first window (first k elements)
+        for i in range(k):
+            heapq.heappush(heap, (-nums[i], i))
+            
+        # The top of the heap is the maximum of the first window
+        result.append(-heap[0][0])
+        
+        # 2. Slide the window across the rest of the array
+        for i in range(k, len(nums)):
+            # Push the new element entering the window
+            heapq.heappush(heap, (-nums[i], i))
+            
+            # LAZY DELETION: Look at the top of the heap. If its index 
+            # is less than (i - k + 1), it belongs to an old window.
+            while heap[0][1] < i - k + 1:
+                heapq.heappop(heap)
+                
+            # The top of the heap is now guaranteed to be within the valid window
+            result.append(-heap[0][0])
+            
+        return result
+    
+    """
+    for example [1, 3, 5, -3, -1, 0], k = 3
+    1. add first three elements and heap = [(1, 0), (3, 1), (5, 2)], top is (5, 2)
+    2. add (-3, 3) and remove nothing, top is (5, 2)
+    3. add (-1, 4) and remove nothing, we get (5, 2)
+    4. add (0, 5) and remove (5, 2), then remove (3, 1), then remove (1, 0), top is (0, 5)
+    result = 5, 5, 5, 0
+    """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
