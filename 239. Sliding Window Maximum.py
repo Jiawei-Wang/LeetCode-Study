@@ -214,7 +214,38 @@ class Solution:
     result = 5, 5, 5, 0
     """
 
+# monotonic decreasing deque
+from collections import deque
 
+class Solution:
+    def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
+        d = deque() # Stores indices of nums
+        result = []
+        
+        for i in range(len(nums)):
+            # --- 1. REMOVE OUT-OF-BOUNDS ELEMENTS ---
+            # If the index at the front of the deque is outside the current
+            # window boundary (i - k + 1), it can no longer be the maximum.
+            if d and d[0] < i - k + 1:
+                d.popleft()
+                
+            # --- 2. MAINTAIN MONOTONIC DECREASING ORDER ---
+            # Before adding the current index `i`, remove all indices from the
+            # back whose values are smaller than or equal to nums[i].
+            # (these older, smaller ones will never be used as the current window maximum)
+            while d and nums[d[-1]] <= nums[i]:
+                d.pop()
+                
+            # Add the current index to the candidate pool
+            d.append(i)
+            
+            # --- 3. RECORD THE RESULT ---
+            # The window only becomes valid once we have processed at least `k` elements.
+            # Since the deque is decreasing, d[0] always points to the max element.
+            if i >= k - 1:
+                result.append(nums[d[0]])
+                
+        return result
 
 
 
