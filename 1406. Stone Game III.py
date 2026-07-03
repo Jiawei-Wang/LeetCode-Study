@@ -44,3 +44,38 @@ class Solution:
             return "Bob"
         else:
             return "Tie"
+
+
+# turn decision tree into dp
+class Solution:
+    def stoneGameIII(self, stoneValue: List[int]) -> str:
+        n = len(stoneValue)
+        memo = {} # Cache to store results of index i
+        
+        def get_max_relative_score(i):
+            if i >= n:
+                return 0
+            if i in memo:
+                return memo[i]
+            
+            take_1 = stoneValue[i] - get_max_relative_score(i + 1)
+            
+            take_2 = float('-inf')
+            if i + 1 < n:
+                take_2 = stoneValue[i] + stoneValue[i+1] - get_max_relative_score(i + 2)
+                
+            take_3 = float('-inf')
+            if i + 2 < n:
+                take_3 = stoneValue[i] + stoneValue[i+1] + stoneValue[i+2] - get_max_relative_score(i + 3)
+                
+            memo[i] = max(take_1, take_2, take_3)
+            return memo[i]
+        
+        alice_net_score = get_max_relative_score(0)
+        
+        if alice_net_score > 0:
+            return "Alice"
+        elif alice_net_score < 0:
+            return "Bob"
+        else:
+            return "Tie"
