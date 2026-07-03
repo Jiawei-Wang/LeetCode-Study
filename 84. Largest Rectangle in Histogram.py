@@ -91,3 +91,50 @@ class Solution:
         5. for 5, we know maxArea = 5 * 1
         6. for 1, we know maxArea = 1 * 3
         """
+
+
+# 2026
+"""
+brute force: n^2 
+for each index i, we assume the bar nums[i] is the shortest bar used to form the rectangle
+1. look left until we find a bar shorter than nums[i]
+2. look right until we find a bar shorter than nums[i]
+3. width = right - left - 1
+4. area = nums[i] * width
+5. repeat
+
+to make this process faster, we need to pre compute left and right for each index
+use a monotonic increasing stack to store such information
+for example the stack is holding the first three bars [1, 4, 6], and next bar is 2
+1) 6 is trapped because 2 < 6, so the right boundary ends right there
+left boundary is 4, right in front of it, because the stack is strictly increasing
+now we know left and right and can calculate rectangle with bar of height 6
+2) 4 also follows same logic
+3) 2 > 1 so 1 is still there and can keep expanding 
+"""
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        # Append a dummy bar of height 0 to flush out the stack at the end
+        heights.append(0)
+        stack = [] # monotonic increasing stack that stores indices
+        max_area = 0
+        
+        for i in range(len(heights)):
+            # While the current bar is shorter than the bar at the top of the stack
+            while stack and heights[i] < heights[stack[-1]]:
+                # Pop the height that is now trapped
+                height_idx = stack.pop()
+                h = heights[height_idx]
+                
+                # Determine the left boundary: 
+                # If stack is empty, it means this bar was the shortest so far, 
+                # so it can expand all the way back to index 0.
+                w = i if not stack else i - stack[-1] - 1
+                
+                # Calculate area and update maximum
+                max_area = max(max_area, h * w)
+                
+            # Push the current index onto the stack
+            stack.append(i)
+            
+        return max_area
